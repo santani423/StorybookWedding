@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/NavBar";
-import Bg from "@/assets/bg2.png";
+import Fiture from "@/components/layout/Fiture";
+
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       <div
         className="relative flex w-full h-full md:max-w-112.5 md:h-[90dvh] items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
         style={{
-          backgroundImage: `url(${Bg.src})`,
+          backgroundImage: `url(/bg2.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -24,7 +25,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/60 pointer-events-none" />
 
         {/* Konten Utama */}
-         
+         <Fiture />
 
         {/* Simulasi Home Bar (Hanya muncul di mobile) */}
         <div className="absolute bottom-2 w-32 h-1 bg-white/30 rounded-full md:hidden" />
