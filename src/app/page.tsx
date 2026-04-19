@@ -14,9 +14,9 @@ export default function Home() {
         - md:rounded-3xl: Memberikan sudut melengkung hanya di tampilan desktop
       */}
       <div
-        className="relative flex w-full h-full md:max-w-112.5 md:h-[90dvh] items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
+        className="relative flex w-full h-full md:max-w-128 md2:max-w-[550px] md3:max-w-[600px] tb:max-w-[650px] lg:max-w-[700px] xl:max-w-[350px] md:h-[90dvh] lg:h-[100dvh] xl:h-[100dvh] items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
         style={{
-          backgroundImage: `url(/bg2.png)`,
+          backgroundImage: `url(/background.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -30,7 +30,7 @@ export default function Home() {
         {/* Simulasi Home Bar (Hanya muncul di mobile) */}
         <div className="absolute bottom-2 w-32 h-1 bg-white/30 rounded-full md:hidden" />
       </div>
-      <Navbar />
+      {/* <Navbar /> */}
     </main>
   );
 }

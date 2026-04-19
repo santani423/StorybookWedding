@@ -121,10 +121,25 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
+}
+
+@theme inline {
+  /* existing token kamu... */
+
+  --breakpoint-xxs: 360px;
+  --breakpoint-xs: 375px;
+  --breakpoint-s: 390px;
+  --breakpoint-iphone: 412px;
+  --breakpoint-md: 768px;
+  --breakpoint-md2: 810px;
+  --breakpoint-md3: 850px;
+  --breakpoint-tb: 900px;
 }
