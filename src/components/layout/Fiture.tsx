@@ -16,44 +16,44 @@ export default function Fiture() {
           className="w-26 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-      <div className="absolute left-3">
+      <div className="absolute left-3 xxs:left-12">
         <Image
           src="/assets/rsvp.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-26 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-20 xxs:min-w-16 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-      <div className="absolute">
+      <div className="absolute xxs:bottom-72 xxs:right-24">
         <Image
           src="/assets/couple.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="min-w-40 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="min-w-40 xxs:min-w-36 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-       <div className="absolute bottom-80 -right-2">
+       <div className="absolute bottom-80 xxs:bottom-64 right-1 xxs:-right-6">
         <Image
           src="/assets/love-story.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-36 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-36 xxs:w-36 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-       <div className="absolute bottom-56 right-0">
+       <div className="absolute bottom-56 xxs:bottom-44 right-0 xxs:right-4">
         <Image
           src="/assets/gift.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-32 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-32 xxs:w-24 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
 
