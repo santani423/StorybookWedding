@@ -6,6 +6,16 @@ export default function Fiture() {
     <div className="p-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center">
       
       {/* Gambar utama */}
+      <div className="absolute top-72 xxs:top-52 xs:top-44 s:top-64 md:top-80 right-1 md:right-3">
+        <Image
+          src="/assets/dres-code.png"
+          alt="Fitur 1"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-32 sm:w-32 md:w-40 lg:w-52 h-auto"
+        />
+      </div>
       <div className="absolute top-0 right-7">
         <Image
           src="/assets/alamat.png"
@@ -16,44 +26,44 @@ export default function Fiture() {
           className="w-26 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-      <div className="absolute left-3 xxs:left-12">
+      <div className="absolute left-3 xxs:left-12 md:left-20">
         <Image
           src="/assets/rsvp.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-20 xxs:min-w-16 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-24 xxs:min-w-16 s:w-28 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
-      <div className="absolute xxs:bottom-72 xxs:right-24">
+      <div className="absolute xxs:bottom-72 xs:bottom-60 s:bottom-80 md:bottom-80 md2:top-110 xxs:right-20 xs:right-28 iphone:bottom-96 iphone:right-24  md:right-32">
         <Image
           src="/assets/couple.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="min-w-40 xxs:min-w-36 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="min-w-40 xxs:min-w-36 s:min-w-44 sm:w-32 md:w-48 lg:w-52 md2:60 h-auto"
         />
       </div>
-       <div className="absolute bottom-80 xxs:bottom-64 right-1 xxs:-right-6">
+       <div className="absolute bottom-80 xxs:bottom-64 xs:bottom-56 s:bottom-72 iphone:bottom-92 md:bottom-80 -right-8 xxs:-right-8 xs:-right-4 s:-right-12 iphone:-right-14 md:right-1">
         <Image
           src="/assets/love-story.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-36 xxs:w-36 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-40 xxs:w-36 s:w-44 iphone:w-48 sm:w-32 md:w-48 md2:w-96 lg:w-52 h-auto"
         />
       </div>
-       <div className="absolute bottom-56 xxs:bottom-44 right-0 xxs:right-4">
+       <div className="absolute bottom-56 xxs:bottom-44 xs:bottom-36 iphone:bottom-60 s:bottom-52 md:bottom-48 right-0 xxs:right-4 s:right-6 iphone:right-3 md:right-5">
         <Image
           src="/assets/gift.png"
           alt="Fitur 1"
           width={0}
           height={0}
           sizes="100vw"
-          className="w-32 xxs:w-24 sm:w-32 md:w-40 lg:w-52 h-auto"
+          className="w-28 xxs:w-24 s:w-28 iphone:w-32 sm:w-32 md:w-40 lg:w-52 h-auto"
         />
       </div>
 
