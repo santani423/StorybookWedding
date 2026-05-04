@@ -40,6 +40,12 @@ export default function NavBar() {
         <h5 className="text-white">L</h5>
       </div>
       <div className={iconClass}>
+        <h5 className="text-white">W</h5>
+      </div>
+      <div className={iconClass}>
+        <h5 className="text-white">H</h5>
+      </div>
+      <div className={iconClass}>
         <button
           type="button"
           className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition cursor-pointer"
