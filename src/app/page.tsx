@@ -30,7 +30,7 @@ export default function Home() {
         {/* Simulasi Home Bar (Hanya muncul di mobile) */}
         <div className="absolute bottom-2 w-32 h-1 bg-white/30 rounded-full md:hidden" />
       </div>
-      {/* <Navbar /> */}
+      <Navbar />
     </main>
   );
 }
