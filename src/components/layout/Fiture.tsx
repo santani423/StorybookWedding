@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { increment, setItemEdit } from "@/redux/slices/counterSlice";
 import Image from "next/image";
 import {
   Select,
@@ -11,51 +12,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Fiture() {
-  const sizes = [
-    "default",
-    "xxs",
-    "xs",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "14",
-    "16",
-    "20",
-    "24",
-    "28",
-    "32",
-    "36",
-    "40",
-    "44",
-    "48",
-    "52",
-    "56",
-    "60",
-    "64",
-    "72",
-    "80",
-    "96",
-    "100",
-    "110",
-    "120",
-    "130",
-  ];
+  const dispatch = useDispatch();
+  const assets = useAppSelector((state) => state.counter.assets);
+
   const [selectedSize, setSelectedSize] = useState("default");
   return (
     <div className="p-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center">
       {/* Gambar utama */}
-      <div className="absolute top-72 xxs:top-52 xs:top-44 s:top-64 md:top-80 md2:top-100 right-1 md:right-3">
+      {/* <div className="absolute top-72 xxs:top-52 xs:top-44 s:top-64 md:top-80 md2:top-100 right-1 md:right-3">
         <Image
           src="/assets/dres-code.png"
           alt="Fitur 1"
@@ -63,6 +31,7 @@ export default function Fiture() {
           height={0}
           sizes="100vw"
           className="w-32 sm:w-32 md:w-40 lg:w-52 h-auto"
+          onClick={() => dispatch(setItemEdit("dres-code"))}
         />
       </div>
       <div className="absolute top-0 right-7">
@@ -73,6 +42,7 @@ export default function Fiture() {
           height={0}
           sizes="100vw"
           className="w-26 sm:w-32 md:w-40 lg:w-52 h-auto"
+          onClick={() => dispatch(setItemEdit("alamat"))}
         />
       </div>
       <div className="absolute left-3 xxs:left-12 md:left-20">
@@ -116,7 +86,7 @@ export default function Fiture() {
         />
       </div>
 
-      {/* Gallery */}
+      
       <div className="absolute top-40 xxs:top-32 iphone:top-44 xs:top-20 s:top-40 md:top-32 md2:top-40 md3:top-44 tb:top-48 lg:top-56 xl:top-26  left-6 xxs:left-10 iphone:left-12 xs:left-12 s:left-12 md:left-16 lg:left-20 xl:left-12">
         <Image
           src="/assets/gallery.png"
@@ -126,37 +96,32 @@ export default function Fiture() {
           sizes="100vw"
           className="w-32 iphone:w-36 md:w-40 lg:w-60 md2:w-48 md3:w-56 xl:w-28   h-auto"
         />
-      </div>
-      <div className="absolute top-10 left-10 w-7 h-7 bg-black z-50">
-        <Select value={selectedSize} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Select size" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {sizes.map((item) => (
-                <SelectItem key={item} value={item}>
-                  {item}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="w-12 h-12 bg-red-500 text-white items-center">
-          <h3 className="block xxs:hidden">default</h3>
-          <h3 className="hidden xxs:block xs:hidden">xxs</h3>
-          <h3 className="hidden xs:block s:hidden">xs</h3>
-          <h3 className="hidden s:block iphone:hidden">s</h3>
-          <h3 className="hidden iphone:block md:hidden">iphone</h3>
-          <h3 className="hidden md:block md2:hidden">md</h3>
-          <h3 className="hidden md2:block md3:hidden">md2</h3>
-          <h3 className="hidden md3:block tb:hidden">md3</h3>
-          <h3 className="hidden tb:block lg:hidden">tb</h3>
-          <h3 className="hidden lg:block xl:hidden">lg</h3>
-          <h3 className="hidden xl:block '2xl':hidden">xl</h3>
-          <h3 className="hidden '2xl':block">2xl</h3>
-        </div>
-      </div>
+      </div>  */}
+
+      {assets.map((asset) => {
+        const pc = asset?.style?.position || "";
+        const sc = asset?.style?.size || "";
+        const xMedia = asset?.style?.xMedia || [];
+
+        return (
+          // <div key={asset.name} className={`absolute ${pc}-40 xxs:${pc}-32 iphone:${pc}-44 xs:${pc}-20 s:${pc}-40 md:${pc}-32 md2:${pc}-40 md3:${pc}-44 tb:${pc}-48 lg:${pc}-56 xl:${pc}-26  ${sc}-6 xxs:${sc}-10 iphone:${sc}-12 xs:${sc}-12 s:${sc}-12 md:${sc}-16 lg:${sc}-20 xl:${sc}-12`}>
+          <div
+            key={asset.name}
+            className={`absolute ${xMedia.map((item) => {
+              return `${item.device}:${pc}-${item.py}`;
+            })}  ${sc}-6 xxs:${sc}-10 iphone:${sc}-12 xs:${sc}-12 s:${sc}-12 md:${sc}-16 lg:${sc}-20 xl:${sc}-12`}
+          >
+            <Image
+              src={asset.src}
+              alt={asset.name}
+              width={300}
+              height={300}
+              sizes="(max-width: 768px) 128px, (max-width: 1024px) 160px, 240px"
+              className={`h-auto w-32 iphone:w-36 md:w-40 lg:w-60 md2:w-48 md3:w-56 xl:w-28`}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
