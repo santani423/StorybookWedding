@@ -14,7 +14,22 @@ export default function Home() {
         - md:rounded-3xl: Memberikan sudut melengkung hanya di tampilan desktop
       */}
       <div
-        className="relative flex w-full h-full md:max-w-128 md2:max-w-[550px] md3:max-w-[600px] tb:max-w-[650px] lg:max-w-[700px] xl:max-w-[350px] md:h-[90dvh] lg:h-[100dvh] xl:h-[100dvh] items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
+        className="relative flex w-full h-full 
+        iphone:max-w-130
+        mobile:max-w-86
+        md:max-w-128 
+        md2:max-w-[550px] 
+        md3:max-w-[600px] 
+        tb:max-w-[650px] 
+        lg:max-w-[700px] 
+        xl:max-w-[350px]
+        2xl:max-w-[400px] 
+
+        md:h-[90dvh] 
+        lg:h-[100dvh] 
+        xl:h-[100dvh]
+
+        items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
         style={{
           backgroundImage: `url(/background.png)`,
           backgroundSize: "cover",

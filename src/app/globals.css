@@ -134,12 +134,19 @@
 @theme inline {
   /* existing token kamu... */
 
+  --breakpoint-xxxs: 340px;
   --breakpoint-xxs: 360px;
   --breakpoint-xs: 375px;
   --breakpoint-s: 390px;
   --breakpoint-iphone: 412px;
+  --breakpoint-mobile: 540px;
+  --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-md2: 810px;
   --breakpoint-md3: 850px;
   --breakpoint-tb: 900px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1281px;
+  --breakpoint-3xl: 1536px;
 }
