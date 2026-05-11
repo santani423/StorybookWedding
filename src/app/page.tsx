@@ -20,10 +20,14 @@ export default function Home() {
         md:max-w-128 
         md2:max-w-[550px] 
         md3:max-w-[600px] 
-        tb:max-w-[650px] 
-        lg:max-w-[700px] 
+        tb:max-w-180 
+        lg:max-w-[650px]  
+        lg2:max-w-80 
+        lg3:max-w-70 
+        sm:max-w-120 
         xl:max-w-[350px]
         2xl:max-w-[400px] 
+        5xl:max-w-140 
 
         md:h-[90dvh] 
         lg:h-[100dvh] 
@@ -41,10 +45,8 @@ export default function Home() {
 
         {/* Konten Utama */}
          <Fiture />
-
-        {/* Simulasi Home Bar (Hanya muncul di mobile) */}
-        <div className="absolute bottom-2 w-32 h-1 bg-white/30 rounded-full md:hidden" />
-      </div>
+ 
+      </div> 
       <Navbar />
     </main>
   );
