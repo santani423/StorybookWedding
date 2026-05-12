@@ -1,8 +1,10 @@
 "use client";
 
-import { Headphones, HeadphoneOff, Power, PowerOff } from "lucide-react";
+import { Headphones, HeadphoneOff, Power, PowerOff, Plus, Minus } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { getTema, updateTema } from "@/services/api";
+import {setEditSize} from "@/redux/slices/counterSlice"
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -140,39 +142,71 @@ export default function NavBar() {
         <BrachPoint />
       </button> */}
       <button className={` ${iconClass}`}>
-         <h3 className="block xxs:hidden text-white">default</h3>
+        <h3 className="block xxs:hidden text-white">default</h3>
 
-      <h3 className="hidden xxs:block xs:hidden text-white">xxs</h3>
+        <h3 className="hidden xxs:block xs:hidden text-white">xxs</h3>
 
-      <h3 className="hidden xs:block s:hidden text-white">xs</h3>
+        <h3 className="hidden xs:block s:hidden text-white">xs</h3>
 
-      <h3 className="hidden s:block s2:hidden text-white">s</h3>
-      <h3 className="hidden s2:block iphone:hidden text-white">s2</h3>
+        <h3 className="hidden s:block s2:hidden text-white">s</h3>
+        <h3 className="hidden s2:block iphone:hidden text-white">s2</h3>
 
-      <h3 className="hidden iphone:block mobile:hidden text-white">iphone</h3>
-      <h3 className="hidden mobile:block sm:hidden text-white">mobile</h3>
-      <h3 className="hidden sm:block md:hidden text-white">sm</h3>
+        <h3 className="hidden iphone:block mobile:hidden text-white">iphone</h3>
+        <h3 className="hidden mobile:block sm:hidden text-white">mobile</h3>
+        <h3 className="hidden sm:block md:hidden text-white">sm</h3>
 
-      <h3 className="hidden md:block md2:hidden text-white">md</h3>
+        <h3 className="hidden md:block md2:hidden text-white">md</h3>
 
-      <h3 className="hidden md2:block md3:hidden text-white">md2</h3>
+        <h3 className="hidden md2:block md3:hidden text-white">md2</h3>
 
-      <h3 className="hidden md3:block tb:hidden text-white">md3</h3>
+        <h3 className="hidden md3:block tb:hidden text-white">md3</h3>
 
-      <h3 className="hidden tb:block lg:hidden text-white">tb</h3>
+        <h3 className="hidden tb:block lg:hidden text-white">tb</h3>
 
-      <h3 className="hidden lg:block lg2:hidden text-white">lg</h3>
-      <h3 className="hidden lg2:block lg3:hidden text-white">lg2</h3>
-      <h3 className="hidden lg3:block xl:hidden text-white">lg3</h3>
+        <h3 className="hidden lg:block lg2:hidden text-white">lg</h3>
+        <h3 className="hidden lg2:block lg3:hidden text-white">lg2</h3>
+        <h3 className="hidden lg3:block xl:hidden text-white">lg3</h3>
 
-      <h3 className="hidden xl:block 2xl:hidden  text-white">xl</h3>
+        <h3 className="hidden xl:block 2xl:hidden  text-white">xl</h3>
 
-      <h3 className="hidden 2xl:block 3xl:hidden  text-white">2xl</h3>
-      <h3 className="hidden  3xl:block 4xl:hidden  text-white">3xl</h3>
-      <h3 className="hidden  4xl:block 5xl:hidden  text-white">4xl</h3>
-      <h3 className="hidden  5xl:block 4xl:hidden  text-white">5xl</h3>
+        <h3 className="hidden 2xl:block 3xl:hidden  text-white">2xl</h3>
+        <h3 className="hidden  3xl:block 4xl:hidden  text-white">3xl</h3>
+        <h3 className="hidden  4xl:block 5xl:hidden  text-white">4xl</h3>
+        <h3 className="hidden  5xl:block 4xl:hidden  text-white">5xl</h3>
       </button>
-      
+
+      <div
+        className={iconClass}
+        onClick={async () => {
+          const data = await updateTema({
+            asset_id: 1,
+            breakpoint: "xl",
+            plesMinus: "+",
+          }); 
+          console.log("data",data);
+          
+          dispatch(setEditSize(data?.status))
+          
+        }}
+      >
+        <Plus className="text-white" />
+      </div>
+      <div
+        className={iconClass}
+        onClick={async () => {
+          const data = await updateTema({
+            asset_id: 1,
+            breakpoint: "xl",
+            plesMinus: "-",
+          }); 
+          console.log("data",data);
+          
+          dispatch(setEditSize(data?.status))
+          
+        }}
+      >
+        <Minus className="text-white" />
+      </div>
     </div>
   );
 }

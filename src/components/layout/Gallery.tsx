@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
   Dialog,
@@ -20,63 +20,128 @@ const galleryImages = [
   "https://images.unsplash.com/photo-1507504031003-b417219a0fde?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1507504031003-b417219a0fde?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop",
 ];
 
-export default function GalleryDialog() {
-  const [selectedImage, setSelectedImage] = React.useState<string | null>(
-    null
-  );
+export default function GalleryDialog({
+  style = "",
+  styleImg = "",
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  // gunakan number bukan string
+  const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
+
+  // touch swipe
+  const touchStartX = React.useRef(0);
+  const touchEndX = React.useRef(0);
+
+  // ambil image aktif
+  const selectedImage =
+    selectedIndex >= 0 ? galleryImages[selectedIndex] : null;
+
+  /* =========================
+     NEXT
+  ========================= */
+  const nextImage = React.useCallback(() => {
+    setSelectedIndex((prev) => {
+      if (prev === -1) return prev;
+
+      return prev === galleryImages.length - 1 ? 0 : prev + 1;
+    });
+  }, []);
+
+  /* =========================
+     PREV
+  ========================= */
+  const prevImage = React.useCallback(() => {
+    setSelectedIndex((prev) => {
+      if (prev === -1) return prev;
+
+      return prev === 0 ? galleryImages.length - 1 : prev - 1;
+    });
+  }, []);
+
+  /* =========================
+     CLOSE PREVIEW
+  ========================= */
+  const closePreview = React.useCallback(() => {
+    setSelectedIndex(-1);
+  }, []);
+
+  /* =========================
+     KEYBOARD
+  ========================= */
+  React.useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedIndex === -1) return;
+
+      if (e.key === "ArrowRight") {
+        nextImage();
+      }
+
+      if (e.key === "ArrowLeft") {
+        prevImage();
+      }
+
+      if (e.key === "Escape") {
+        closePreview();
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [selectedIndex, nextImage, prevImage, closePreview]);
+
+  /* =========================
+     SWIPE
+  ========================= */
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+
+    // swipe kiri
+    if (distance > 50) {
+      nextImage();
+    }
+
+    // swipe kanan
+    if (distance < -50) {
+      prevImage();
+    }
+  };
 
   return (
     <>
-      {/* BUTTON OPEN */}
-      <Dialog>
+      {/* DIALOG */}
+      <Dialog
+        open={open}
+        onOpenChange={(value) => {
+          setOpen(value);
+
+          // reset preview saat dialog close
+          if (!value) {
+            setSelectedIndex(-1);
+          }
+        }}
+      >
+        {/* BUTTON OPEN */}
         <DialogTrigger asChild>
           <div
-            className={`absolute top-40 
-            xxs:top-32 
-            iphone:top-44 
-            mobile:top-32
-            xs:top-20 
-            s:top-40 
-            s2:top-28 
-            sm:top-42 
-            md:top-32 
-            md2:top-44 
-            md3:top-44 
-            tb:top-36 
-            lg:top-62 
-            lg2:top-20 
-            lg3:top-30 
-            xl:top-26
-            3xl:top-36
-            5xl:top-58
-
-            left-6 
-            xxs:left-10 
-            iphone:left-12 
-            mobile:left-8
-            xs:left-12 
-            s:left-12 
-            sm:left-14 
-            md:left-16 
-            tb:left-26 
-            lg:left-20 
-            lg2:left-10 
-            lg3:left-6 
-            xl:left-10
-            3xl:left-10
-            5xl:left-22
-
-            animate-[floatButton_3s_ease-in-out_infinite]
-            cursor-pointer
-          `}
+            className={`
+              ${style}
+              cursor-pointer
+              animate-[floatButton_3s_ease-in-out_infinite]
+            `}
           >
             <Image
               src="/assets/gallery.png"
@@ -84,78 +149,55 @@ export default function GalleryDialog() {
               width={0}
               height={0}
               sizes="100vw"
-              className="
-                w-32 
-                iphone:w-36 
-                mobile:w-32
-                sm:w-42 
-                md:w-40 
-                lg:w-56 
-                lg2:w-26 
-                md2:w-48 
-                md3:w-56 
-                xl:w-30
-                3xl:w-36
-                5xl:w-42
-                h-auto
-
-                drop-shadow-[0_0_25px_rgba(255,255,255,0.9)]
-                hover:drop-shadow-[0_0_40px_rgba(255,255,255,1)]
-
-                transition-all
-                duration-500
-                hover:scale-110
-              "
+              className={styleImg}
             />
           </div>
         </DialogTrigger>
 
-        {/* DIALOG */}
+        {/* CONTENT */}
         <DialogContent
+          onInteractOutside={(e) => {
+            // cegah dialog close saat preview aktif
+            if (selectedIndex !== -1) {
+              e.preventDefault();
+            }
+          }}
           className="
             w-[95vw]
+            md:w-[45vw]
             sm:max-w-6xl
+
             p-0
             overflow-hidden
+
             border-none
             rounded-3xl
-            bg-white
+
+            bg-[#FCDDA6]
             shadow-2xl
           "
         >
           {/* HEADER */}
-          <DialogHeader className="px-6 pt-6 pb-4 border-b bg-neutral-50">
-            <DialogTitle className="text-2xl font-bold text-gray-900">
+          <DialogHeader className="px-6 pt-6 pb-4 border-b bg-[#9F6326] text-center">
+            <DialogTitle className="text-2xl font-bold text-white">
               Wedding Gallery
             </DialogTitle>
 
-            <DialogDescription className="text-sm text-gray-500">
+            <DialogDescription className="text-sm text-white">
               Kumpulan momen indah perjalanan cinta kami.
             </DialogDescription>
           </DialogHeader>
 
-          {/* CONTENT */}
-          <div
-            className="
-              max-h-[80vh]
-              overflow-y-auto
-              p-5
-            "
-          >
-            <div
-              className="
-                grid
-                grid-cols-2
-                md:grid-cols-3
-                gap-5
-              "
-            >
+          {/* BODY */}
+          <div className="max-h-[80vh] overflow-y-auto p-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
               {galleryImages.map((img, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedImage(img)}
-                  style={{
-                    animationDelay: `${index * 0.2}s`,
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex(index);
                   }}
                   className="
                     relative
@@ -163,21 +205,16 @@ export default function GalleryDialog() {
                     overflow-hidden
                     rounded-3xl
                     group
-                    cursor-pointer
 
                     shadow-[0_10px_30px_rgba(0,0,0,0.25)]
-                    hover:shadow-[0_25px_60px_rgba(255,192,203,0.45)]
 
                     transition-all
-                    duration-700
+                    duration-500
 
-                    hover:-translate-y-4
-                    hover:scale-[1.04]
-
-                    animate-[float_4s_ease-in-out_infinite]
+                    hover:-translate-y-2
+                    hover:scale-[1.03]
                   "
                 >
-                  {/* IMAGE */}
                   <Image
                     src={img}
                     alt={`Gallery ${index + 1}`}
@@ -187,11 +224,11 @@ export default function GalleryDialog() {
                       object-cover
                       transition-transform
                       duration-700
-                      group-hover:scale-125
+                      group-hover:scale-110
                     "
                   />
 
-                  {/* OVERLAY */}
+                  {/* overlay */}
                   <div
                     className="
                       absolute inset-0
@@ -201,21 +238,7 @@ export default function GalleryDialog() {
                     "
                   />
 
-                  {/* GLOW BORDER */}
-                  <div
-                    className="
-                      absolute inset-0
-                      rounded-3xl
-                      border border-white/10
-
-                      group-hover:border-pink-300/70
-                      group-hover:shadow-[0_0_40px_rgba(255,192,203,0.8)]
-
-                      transition-all duration-500
-                    "
-                  />
-
-                  {/* TEXT */}
+                  {/* text */}
                   <div
                     className="
                       absolute inset-0
@@ -233,10 +256,9 @@ export default function GalleryDialog() {
                         text-lg
                         font-semibold
                         tracking-widest
-                        drop-shadow-lg
                       "
                     >
-                      VIEW PHOTO
+                      VIEW
                     </span>
                   </div>
                 </button>
@@ -250,19 +272,21 @@ export default function GalleryDialog() {
       {selectedImage && (
         <div
           className="
-            fixed inset-0 z-[999]
-            bg-black/90
-            backdrop-blur-sm
+            fixed inset-0 z-[9999]
+            bg-black/95
+            backdrop-blur-md
 
             flex items-center justify-center
-            p-4
+            overflow-hidden
           "
-          onClick={() => setSelectedImage(null)}
         >
           {/* CLOSE */}
           <button
+            type="button"
+            onClick={closePreview}
             className="
-              absolute top-5 right-5
+              absolute top-5 right-5 z-[10000]
+
               w-12 h-12
               rounded-full
 
@@ -274,36 +298,119 @@ export default function GalleryDialog() {
               text-white
 
               transition-all duration-300
-              hover:rotate-90
             "
           >
             <X className="w-6 h-6" />
           </button>
 
-          {/* IMAGE */}
+          {/* PREV */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevImage();
+            }}
+            className="
+              absolute left-2 md:left-6 z-[10000]
+
+              w-12 h-12
+              rounded-full
+
+              bg-white/10
+              hover:bg-white/20
+
+              flex items-center justify-center
+
+              text-white
+
+              transition-all duration-300
+            "
+          >
+            <ChevronLeft className="w-7 h-7" />
+          </button>
+
+          {/* NEXT */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextImage();
+            }}
+            className="
+              absolute right-2 md:right-6 z-[10000]
+
+              w-12 h-12
+              rounded-full
+
+              bg-white/10
+              hover:bg-white/20
+
+              flex items-center justify-center
+
+              text-white
+
+              transition-all duration-300
+            "
+          >
+            <ChevronRight className="w-7 h-7" />
+          </button>
+
+          {/* IMAGE CONTAINER */}
           <div
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             className="
               relative
               w-full
-              max-w-5xl
-              h-[80vh]
+              h-full
 
-              animate-[zoomIn_0.4s_ease]
+              flex items-center justify-center
+              px-16
             "
-            onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              src={selectedImage}
-              alt="Preview"
-              fill
-              unoptimized
+            <div
               className="
-                object-contain
-                rounded-3xl
-
-                shadow-[0_0_50px_rgba(255,255,255,0.25)]
+                relative
+                w-full
+                max-w-6xl
+                h-[80vh]
               "
-            />
+            >
+              <Image
+                key={selectedImage}
+                src={selectedImage}
+                alt="Preview"
+                fill
+                priority
+                unoptimized
+                className="
+                  object-contain
+                  select-none
+                  pointer-events-none
+
+                  animate-[fadeIn_0.3s_ease]
+                "
+              />
+            </div>
+          </div>
+
+          {/* COUNTER */}
+          <div
+            className="
+              absolute bottom-6 left-1/2
+              -translate-x-1/2
+
+              px-4 py-2
+              rounded-full
+
+              bg-white/10
+              text-white
+              text-sm
+              backdrop-blur-md
+            "
+          >
+            {selectedIndex + 1} / {galleryImages.length}
           </div>
         </div>
       )}

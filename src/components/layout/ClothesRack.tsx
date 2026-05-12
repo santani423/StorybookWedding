@@ -40,39 +40,15 @@ const dressCodes = [
   },
 ];
 
-export default function ClothesRack() {
+export default function ClothesRack({style="",styleImg=""}) {
   return (
     <>
       {/* BUTTON OPEN */}
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className="
-              absolute 
-              top-68 
-              xxs:top-46 
-              xs:top-30 
-              s:top-52 
-              s2:top-42 
-              iphone:top-60
-              mobile:top-42
-              sm:top-66
-              md:top-44 
-              md2:top-64 
-              md3:top-60
-              tb:top-72
-              lg:top-88
-              lg2:top-34
-              lg3:top-40
-              xl:top-44
-              3xl:top-58
-              5xl:top-82
-              right-1 
-              md:right-3
-              xl:-right-2
-              animate-[floatButton_3s_ease-in-out_infinite]
-              cursor-pointer
-            "
+            className={` ${style} animate-[floatButton_3s_ease-in-out_infinite]
+              cursor-pointer`}
           >
             <Image
               src="/assets/clothes-rack.png"
@@ -80,53 +56,37 @@ export default function ClothesRack() {
               width={0}
               height={0}
               sizes="100vw"
-              className="
-                w-32
-                xs:w-38
-                iphone:w-40
-                mobile:w-34
-                sm:w-42
-                md:w-50
-                md2:w-50
-                md3:w-60
-                lg:w-60
-                lg2:w-28
-                xl:w-30
-                3xl:w-40
-                tb:w-60
-                5xl:w-50
-                h-auto
-              "
+              className={styleImg}
             />
           </div>
         </DialogTrigger>
 
         {/* DIALOG */}
         <DialogContent
-          className="
+         className="
             w-[95vw]
-            sm:max-w-6xl
+            sm:max-w-3xl
             p-0
             overflow-hidden
             border-none
             rounded-3xl
-            bg-white
+            bg-[#FCDDA6]
             shadow-2xl
           "
         >
           {/* HEADER */}
-          <DialogHeader className="px-6 pt-6 pb-5 border-b bg-neutral-50">
+           <DialogHeader className="px-6 pt-6 pb-5 border-b bg-[#9F6326] text-center">
             <div className="flex items-center gap-3">
               <div className="bg-black text-white p-3 rounded-2xl">
                 <Shirt className="w-5 h-5" />
               </div>
 
               <div>
-                <DialogTitle className="text-2xl font-semibold text-neutral-900">
+                <DialogTitle className="text-2xl font-semibold text-white">
                   Dress Code
                 </DialogTitle>
 
-                <DialogDescription className="text-neutral-500 mt-1">
+                <DialogDescription className="text-white mt-1">
                   Kami mengundang tamu untuk mengenakan pakaian formal dengan
                   nuansa warna lembut dan elegan.
                 </DialogDescription>
@@ -190,7 +150,7 @@ export default function ClothesRack() {
                     overflow-hidden
                     rounded-3xl
                     border
-                    bg-white
+                    bg-[#9F6326]
                     shadow-sm
                     hover:shadow-xl
                     transition-all
@@ -215,11 +175,11 @@ export default function ClothesRack() {
                   </div>
 
                   <div className="p-5">
-                    <h3 className="text-xl font-semibold text-neutral-900">
+                    <h3 className="text-xl font-semibold text-white">
                       {item.title}
                     </h3>
 
-                    <p className="text-sm text-neutral-500 leading-relaxed mt-2">
+                    <p className="text-sm text-white leading-relaxed mt-2">
                       {item.desc}
                     </p>
                   </div>
@@ -232,15 +192,15 @@ export default function ClothesRack() {
               className="
                 mt-8
                 rounded-3xl
-                bg-neutral-100
+                bg-[#9F6326]
                 p-5
                 text-center
               "
             >
-              <p className="text-sm text-neutral-600 leading-relaxed">
+              <p className="text-sm text-white leading-relaxed">
                 Kehadiran dan kenyamanan Anda adalah yang utama.  
                 Dress code ini dibuat untuk menciptakan suasana pernikahan yang
-                hangat, harmonis, dan elegan ✨
+                hangat, harmonis, dan elegan  
               </p>
             </div>
           </div>

@@ -292,6 +292,8 @@ const initialState = {
       },
     ],
   },
+  styleGallery:'',
+  editSize:true
 };
 
 const counterSlice = createSlice({
@@ -341,9 +343,18 @@ const counterSlice = createSlice({
         media.size = size;
       }
     },
+    
+    setStyleGallery: (state, action) => {
+      state.styleGallery = action.payload;
+    },
+    setEditSize: (state, action) => {
+      console.log("payload",action.payload);
+      
+      state.editSize = action.payload;
+    },
   },
 });
 
-export const { increment, decrement, setItemEdit, setDevice, setStyle } =
+export const { increment, decrement, setItemEdit, setDevice, setStyle ,setStyleGallery,setEditSize} =
   counterSlice.actions;
 export default counterSlice.reducer;

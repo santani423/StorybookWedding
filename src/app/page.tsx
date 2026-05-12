@@ -1,18 +1,73 @@
+"use client";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
-
+import { getTema, getBrackPoin } from "@/services/api";
+import { log } from "node:console";
+import {setEditSize} from "@/redux/slices/counterSlice"
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const [tema, setTema] = useState<any[]>([]);
+  const [brackPoin, setBrackPoin] = useState<any[]>([]);
+  const { device, indexPy, editSize } = useAppSelector(
+    (state) => state.counter,
+  );
+  useEffect(() => {
+    console.log("editSize",editSize);
+    
+    if (!editSize) return;
+
+    const fetchTema = async () => {
+      try {
+        const data = await getTema();
+        const brackPoin = await getBrackPoin();
+
+        console.log(data);
+
+        data?.data?.forEach((item: any) => {
+          console.log("itemitem", item);
+
+          item?.assets?.forEach((asset: any) => {
+            console.log("asset", asset);
+          });
+        });
+
+        setTema(data?.data?.[0]?.assets || []);
+        setBrackPoin(brackPoin?.data || []);
+        dispatch(setEditSize(false));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTema();
+  }, [editSize]);
+
+  useEffect(() => {
+    let style = "absolute ";
+    console.log("brackPoin", brackPoin);
+    console.log("brackPoin tema", tema);
+    tema?.map((it: any, index: number) => {
+      if (it?.type == "item") {
+        console.log("brackPoin asset_sizes", it?.asset_sizes);
+        it?.asset_sizes.map((as: any, ias: number) => {
+          brackPoin.map((itm: any, i: number) => {
+            as?.breakpoint?.name == itm?.name
+              ? (style += itm?.name + ":" + as?.size_tema?.value + " ")
+              : "";
+          });
+        });
+      }
+    });
+
+    console.log("brackPoin style", style);
+  }, [tema, brackPoin]);
+
   return (
-    /* - overflow-hidden: Mencegah scroll yang tidak diinginkan di level root
-       - h-screen & h-[100dvh]: Memastikan background memenuhi layar penuh
-    */
     <main className="flex h-dvh w-full items-center justify-center bg-black overflow-hidden">
-      {/* - w-full h-full: Memenuhi seluruh area layar di mobile
-        - md:max-w-[450px] md:h-[90dvh]: Di desktop, dia tetap terlihat seperti frame HP (opsional)
-        - md:rounded-3xl: Memberikan sudut melengkung hanya di tampilan desktop
-      */}
       <div
         className="relative flex w-full h-full 
         iphone:max-w-130
@@ -44,9 +99,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/60 pointer-events-none" />
 
         {/* Konten Utama */}
-         <Fiture />
- 
-      </div> 
+        <Fiture />
+      </div>
       <Navbar />
     </main>
   );

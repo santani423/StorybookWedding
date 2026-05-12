@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-export default function Addres({ style = `` }) {
+export default function Addres({ style = ``,styleImg=``  }) {
   return (
     <>
       {/* BUTTON OPEN */}
@@ -34,18 +34,7 @@ export default function Addres({ style = `` }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="
-                w-26 
-                sm:w-32 
-                md:w-36  
-                lg:w-52 
-                lg2:w-20
-                tb:w-40
-                xl:w-22
-                3xl:w-26 
-                5xl:w-40 
-                h-auto
-              "
+              className={styleImg}
             />
           </div>
         </DialogTrigger>
@@ -59,17 +48,17 @@ export default function Addres({ style = `` }) {
             overflow-hidden
             border-none
             rounded-3xl
-            bg-white
+            bg-[#FCDDA6]
             shadow-2xl
           "
         >
           {/* HEADER */}
-          <DialogHeader className="px-6 pt-6 pb-5 border-b bg-neutral-50 text-center">
-            <DialogTitle className="text-2xl font-serif text-neutral-800">
+          <DialogHeader className="px-6 pt-6 pb-5 border-b bg-[#9F6326] text-center">
+            <DialogTitle className="text-2xl font-serif text-white">
               Informasi Acara
             </DialogTitle>
 
-            <DialogDescription className="text-neutral-500">
+            <DialogDescription className="text-white">
               Dengan hormat kami mengundang Anda untuk hadir
             </DialogDescription>
           </DialogHeader>
@@ -97,20 +86,20 @@ export default function Addres({ style = `` }) {
             {/* CARD */}
             <div className="grid gap-5 md:grid-cols-2">
               {/* AKAD */}
-              <div className="rounded-3xl border border-neutral-200 p-5 bg-neutral-50">
-                <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+              <div className="rounded-3xl border border-neutral-200 p-5 bg-[#9F6326]">
+                <h2 className="text-xl font-semibold text-white mb-4">
                   Akad Nikah
                 </h2>
 
-                <div className="space-y-4 text-sm text-neutral-600">
+                <div className="space-y-4 text-sm text-white">
                   <div className="flex items-start gap-3">
                     <CalendarDays
                       size={18}
-                      className="mt-0.5 text-black"
+                      className="mt-0.5 text-white"
                     />
 
                     <div>
-                      <p className="font-medium text-neutral-800">
+                      <p className="font-medium text-white">
                         Minggu, 20 Oktober 2026
                       </p>
 
@@ -121,11 +110,11 @@ export default function Addres({ style = `` }) {
                   <div className="flex items-start gap-3">
                     <MapPin
                       size={18}
-                      className="mt-0.5 text-black"
+                      className="mt-0.5 text-white"
                     />
 
                     <div>
-                      <p className="font-medium text-neutral-800">
+                      <p className="font-medium text-white">
                         Gedung Serbaguna Bahagia
                       </p>
 
@@ -139,8 +128,8 @@ export default function Addres({ style = `` }) {
               </div>
 
               {/* RESEPSI */}
-              <div className="rounded-3xl border border-neutral-200 p-5 bg-neutral-50">
-                <h2 className="text-xl font-semibold text-neutral-800 mb-4">
+              <div className="rounded-3xl border border-neutral-200 p-5 bg-[#9F6326]">
+                <h2 className="text-xl font-semibold text-white mb-4">
                   Resepsi
                 </h2>
 
@@ -148,11 +137,11 @@ export default function Addres({ style = `` }) {
                   <div className="flex items-start gap-3">
                     <Clock
                       size={18}
-                      className="mt-0.5 text-black"
+                      className="mt-0.5 text-white"
                     />
 
                     <div>
-                      <p className="font-medium text-neutral-800">
+                      <p className="font-medium text-white">
                         Minggu, 20 Oktober 2026
                       </p>
 
@@ -163,11 +152,11 @@ export default function Addres({ style = `` }) {
                   <div className="flex items-start gap-3">
                     <MapPin
                       size={18}
-                      className="mt-0.5 text-black"
+                      className="mt-0.5 text-white"
                     />
 
                     <div>
-                      <p className="font-medium text-neutral-800">
+                      <p className="font-medium text-white">
                         Ballroom Grand Wedding
                       </p>
 
@@ -192,9 +181,9 @@ export default function Addres({ style = `` }) {
                   w-full
                   h-12
                   rounded-2xl
-                  bg-black
+                  bg-[#9F6326]
                   text-white
-                  hover:bg-neutral-800
+                  hover:bg-[#9F6326]
                 "
               >
                 Buka Google Maps

@@ -48,52 +48,16 @@ const loveStories = [
   },
 ];
 
-export default function LoveStory() {
+export default function LoveStory({ style = "", styleImg = "" }) {
   return (
     <>
       {/* BUTTON OPEN */}
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className="
-              absolute 
-              bottom-80 
-              xxs:bottom-64 
-              xs:bottom-56 
-              s:bottom-74 
-              s2:bottom-58 
-              iphone:bottom-78 
-              mobile:bottom-62
-              sm:bottom-80 
-              md:bottom-70 
-              md2:bottom-90
-              tb:bottom-90
-              lg:bottom-116 
-              lg2:bottom-42
-              lg3:bottom-52
-              xl:bottom-56
-              3xl:bottom-70  
-              5xl:bottom-100  
-              
-              -right-8 
-              xxs:-right-4 
-              xs:-right-4 
-              s:-right-2 
-              s2:right-2 
-              iphone:-right-5 
-              mobile:-right-2
-              sm:-right-0
-              md:-right-3
-              md2:-right-6
-              tb:-right-8
-              lg:-right-6
-              lg2:-right-1
-              xl:right-0
-              3xl:-right-1
-              z-12
+            className={` ${style} z-12
               animate-[floatButton_3s_ease-in-out_infinite]
-              cursor-pointer
-            "
+              cursor-pointer`}
           >
             <Image
               src="/assets/love-story.png"
@@ -101,53 +65,35 @@ export default function LoveStory() {
               width={0}
               height={0}
               sizes="100vw"
-              className="
-                w-40
-                xxs:w-36
-                s:w-38
-                s2:w-36
-                iphone:w-44
-                mobile:w-34
-                sm:w-42
-                md:w-50 
-                md2:w-58
-                tb:w-78
-                lg:w-66
-                lg2:w-30
-                lg3:w-26
-                xl:w-32
-                3xl:w-40
-                5xl:w-54
-                h-auto
-              "
+              className={styleImg}
             />
           </div>
         </DialogTrigger>
 
         {/* DIALOG */}
         <DialogContent
-          className="
-            w-[95vw]
-            sm:max-w-5xl
+          className=" 
+             w-[95vw]
+            sm:max-w-3xl
             p-0
             overflow-hidden
             border-none
             rounded-3xl
-            bg-white
+            bg-[#FCDDA6]
             shadow-2xl
           "
         >
           {/* HEADER */}
-          <DialogHeader className="px-6 py-6 border-b bg-neutral-50 text-center">
+          <DialogHeader className="px-6 py-6 border-b bg-[#9F6326] text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
 
-              <DialogTitle className="text-2xl md:text-3xl font-semibold text-neutral-800">
+              <DialogTitle className="text-2xl md:text-3xl font-semibold text-white">
                 Our Love Story
               </DialogTitle>
             </div>
 
-            <DialogDescription className="text-sm md:text-base text-neutral-500 max-w-2xl mx-auto">
+            <DialogDescription className="text-sm md:text-base text-white max-w-2xl mx-auto">
               Setiap perjalanan cinta memiliki cerita yang indah. Berikut adalah
               sebagian kecil perjalanan kami hingga menuju hari bahagia.
             </DialogDescription>
@@ -220,11 +166,7 @@ export default function LoveStory() {
                     <div
                       className={`
                         pl-12 md:pl-0
-                        ${
-                          index % 2 === 0
-                            ? "md:col-start-2"
-                            : "md:row-start-1"
-                        }
+                        ${index % 2 === 0 ? "md:col-start-2" : "md:row-start-1"}
                       `}
                     >
                       <div
