@@ -30,7 +30,7 @@ export default function Couple({ style = "",styleImg="" }) {
               cursor-pointer`}
           >
             <Image
-              src="/assets/couple.png"
+              src="/assets/couple.webp"
               alt="Couple"
               width={420}
               height={420}
@@ -48,9 +48,9 @@ export default function Couple({ style = "",styleImg="" }) {
               The Bride & Groom
             </DialogTitle>
 
-            <DialogDescription className="text-neutral-500">
+            {/* <DialogDescription className="text-neutral-500">
               Dengan penuh cinta kami memperkenalkan mempelai
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
 
           {/* CONTENT */}

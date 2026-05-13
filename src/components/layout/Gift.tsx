@@ -112,7 +112,7 @@ export default function Gift({
             </DialogTitle>
           </div>
 
-          <DialogDescription
+          {/* <DialogDescription
             className="
               text-sm
               md:text-base
@@ -125,7 +125,7 @@ export default function Gift({
             Kehadiran dan doa restu Anda sudah menjadi hadiah terbaik
             bagi kami. Namun jika ingin memberikan tanda kasih, dapat
             melalui informasi berikut.
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
 
         {/* CONTENT */}

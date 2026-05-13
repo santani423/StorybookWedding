@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-export default function Addres({ style = ``,styleImg=``  }) {
+export default function Wp1({ style = ``,styleImg=``  }) {
   return (
     <>
       {/* BUTTON OPEN */}
@@ -29,12 +29,21 @@ export default function Addres({ style = ``,styleImg=``  }) {
             `}
           >
             <Image
-              src="/assets/alamat.webp"
+              src="/assets/welcome.webp"
               alt="Alamat"
               width={0}
               height={0}
               sizes="100vw"
-              className={styleImg}
+              className=" w-26 
+                             sm:w-32 
+                             md:w-36  
+                             lg:w-52 
+                             lg2:w-20
+                             tb:w-40
+                             xl:w-22
+                             3xl:w-46 
+                             5xl:w-40 
+                             h-auto"
             />
           </div>
         </DialogTrigger>

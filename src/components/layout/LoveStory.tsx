@@ -60,7 +60,7 @@ export default function LoveStory({ style = "", styleImg = "" }) {
               cursor-pointer`}
           >
             <Image
-              src="/assets/love-story.png"
+              src="/assets/love-story.webp"
               alt="Love Story"
               width={0}
               height={0}
@@ -93,10 +93,10 @@ export default function LoveStory({ style = "", styleImg = "" }) {
               </DialogTitle>
             </div>
 
-            <DialogDescription className="text-sm md:text-base text-white max-w-2xl mx-auto">
+            {/* <DialogDescription className="text-sm md:text-base text-white max-w-2xl mx-auto">
               Setiap perjalanan cinta memiliki cerita yang indah. Berikut adalah
               sebagian kecil perjalanan kami hingga menuju hari bahagia.
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
 
           {/* CONTENT */}

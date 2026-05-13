@@ -1,23 +1,30 @@
 "use client";
+
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+
 import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
+
 import { getTema, getBrackPoin } from "@/services/api";
-import { log } from "node:console";
-import {setEditSize} from "@/redux/slices/counterSlice"
+import { setEditSize } from "@/redux/slices/counterSlice";
+
+import Image from "next/image";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+
   const [tema, setTema] = useState<any[]>([]);
   const [brackPoin, setBrackPoin] = useState<any[]>([]);
-  const { device, indexPy, editSize } = useAppSelector(
-    (state) => state.counter,
-  );
+
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  const { editSize } = useAppSelector((state) => state.counter);
+
+  /* =========================================
+     FETCH DATA
+  ========================================= */
   useEffect(() => {
-    console.log("editSize",editSize);
-    
     if (!editSize) return;
 
     const fetchTema = async () => {
@@ -25,18 +32,9 @@ export default function Home() {
         const data = await getTema();
         const brackPoin = await getBrackPoin();
 
-        console.log(data);
-
-        data?.data?.forEach((item: any) => {
-          console.log("itemitem", item);
-
-          item?.assets?.forEach((asset: any) => {
-            console.log("asset", asset);
-          });
-        });
-
         setTema(data?.data?.[0]?.assets || []);
         setBrackPoin(brackPoin?.data || []);
+
         dispatch(setEditSize(false));
       } catch (error) {
         console.error(error);
@@ -44,17 +42,18 @@ export default function Home() {
     };
 
     fetchTema();
-  }, [editSize]);
+  }, [editSize, dispatch]);
 
+  /* =========================================
+     GENERATE STYLE
+  ========================================= */
   useEffect(() => {
     let style = "absolute ";
-    console.log("brackPoin", brackPoin);
-    console.log("brackPoin tema", tema);
-    tema?.map((it: any, index: number) => {
+
+    tema?.map((it: any) => {
       if (it?.type == "item") {
-        console.log("brackPoin asset_sizes", it?.asset_sizes);
-        it?.asset_sizes.map((as: any, ias: number) => {
-          brackPoin.map((itm: any, i: number) => {
+        it?.asset_sizes.map((as: any) => {
+          brackPoin.map((itm: any) => {
             as?.breakpoint?.name == itm?.name
               ? (style += itm?.name + ":" + as?.size_tema?.value + " ")
               : "";
@@ -63,45 +62,426 @@ export default function Home() {
       }
     });
 
-    console.log("brackPoin style", style);
+    console.log("generated style", style);
   }, [tema, brackPoin]);
 
+  /* =========================================
+     MAIN STYLE
+  ========================================= */
+  const style = `
+    relative flex w-full h-full
+
+    iphone:max-w-130
+    mobile:max-w-86
+    sm:max-w-120
+
+    md:max-w-128
+    md2:max-w-[550px]
+    md3:max-w-[600px]
+
+    tb:max-w-180
+
+    lg:max-w-[650px]
+    lg2:max-w-80
+    lg3:max-w-70
+
+    xl:max-w-[350px]
+    2xl:max-w-[400px]
+    3xl:max-w-[500px]
+    5xl:max-w-[560px]
+
+    md:h-[90dvh]
+    lg:h-[100dvh]
+    xl:h-[100dvh]
+
+    items-center
+    justify-center
+
+    md:shadow-2xl
+    md:rounded-[3rem]
+
+    transition-all
+    duration-500
+    overflow-hidden
+  `;
+
   return (
-    <main className="flex h-dvh w-full items-center justify-center bg-black overflow-hidden">
+    <main className="flex justify-center items-center h-dvh w-full bg-black overflow-hidden">
+      {/* =========================================
+          MAIN CONTAINER
+      ========================================= */}
       <div
-        className="relative flex w-full h-full 
-        iphone:max-w-130
-        mobile:max-w-86
-        md:max-w-128 
-        md2:max-w-[550px] 
-        md3:max-w-[600px] 
-        tb:max-w-180 
-        lg:max-w-[650px]  
-        lg2:max-w-80 
-        lg3:max-w-70 
-        sm:max-w-120 
-        xl:max-w-[350px]
-        2xl:max-w-[400px] 
-        5xl:max-w-140 
-
-        md:h-[90dvh] 
-        lg:h-[100dvh] 
-        xl:h-[100dvh]
-
-        items-center justify-center md:shadow-2xl md:rounded-[3rem] transition-all duration-500 overflow-hidden"
+        className={style}
         style={{
-          backgroundImage: `url(/background.png)`,
+          backgroundImage: `url(/background.webp)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        {/* Overlay Cinematic (Opsional, agar mirip prompt Storytelling Room Anda) */}
-        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/60 pointer-events-none" />
+        {/* =========================================
+            DARK OVERLAY
+        ========================================= */}
+        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/60 pointer-events-none z-0" />
 
-        {/* Konten Utama */}
-        <Fiture />
+        {/* =========================================
+            WELCOME LAYER
+        ========================================= */}
+        <div
+          className={`
+            absolute inset-0 z-30
+            overflow-hidden
+
+            transition-all duration-1000 ease-in-out
+
+            ${
+              showWelcome
+                ? "opacity-100 visible scale-100"
+                : "opacity-0 invisible scale-110"
+            }
+          `}
+          style={{
+            backgroundImage: `url(/welcome2.webp)`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* overlay */}
+          <div className="absolute inset-0 bg-black/20" />
+
+          {/* =========================================
+              IMAGE WELCOME
+          ========================================= */}
+          <div
+            className="
+              absolute
+              top-0
+              left-1/2
+              -translate-x-1/2
+
+              flex
+              justify-center
+
+              animate-[floatButton_3s_ease-in-out_infinite]
+
+              z-20
+            "
+          >
+            <Image
+              src="/assets/welcome.webp"
+              alt="Welcome"
+              width={0}
+              height={0}
+              sizes="100vw"
+              priority
+              className="
+                w-24
+
+                xxs:w-28
+                xs:w-30
+                s:w-32
+                iphone:w-36
+                mobile:w-40
+
+                sm:w-44
+                md:w-[180px]
+                md2:w-[200px]
+                md3:w-[220px]
+
+                tb:w-[240px]
+
+                lg:w-[260px]
+                lg2:w-[180px]
+                lg3:w-[200px]
+
+                xl:w-[220px]
+                2xl:w-[240px]
+                3xl:w-[280px]
+                5xl:w-[320px]
+
+                h-auto
+              "
+            />
+          </div>
+
+          {/* =========================================
+              CONTENT
+          ========================================= */}
+          <div
+            className="
+              relative z-10
+              w-full h-full
+
+              flex flex-col
+              items-center
+              justify-center
+
+              px-4
+            "
+          >
+            {/* =========================================
+                INFO
+            ========================================= */}
+            <div
+              className="
+                flex
+                flex-col
+                items-center
+
+                text-center
+
+                mt-28
+                sm:mt-32
+                md:mt-36
+
+                px-3
+              "
+            >
+              {/* NAMA */}
+              <h1
+                className="
+                  text-[#4a2d16]
+
+                  font-serif
+                  font-semibold
+
+                  leading-none
+
+                  text-2xl
+                  sm:text-3xl
+                  md:text-4xl
+                  lg:text-3xl
+                "
+              >
+                Raka
+              </h1>
+
+              <p
+                className="
+                  my-1
+
+                  text-[#c79b57]
+
+                  font-serif
+
+                  text-lg
+                  sm:text-xl
+                "
+              >
+                &
+              </p>
+
+              <h1
+                className="
+                  text-[#4a2d16]
+
+                  font-serif
+                  font-semibold
+
+                  leading-none
+
+                  text-2xl
+                  sm:text-3xl
+                  md:text-4xl
+                  lg:text-3xl
+                "
+              >
+                Sinta
+              </h1>
+
+              {/* LINE */}
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+
+                  mt-2
+                "
+              >
+                <div className="w-8 h-[1px] bg-[#d8b98d]" />
+                <div className="text-[#c79b57] text-xs">♥</div>
+                <div className="w-8 h-[1px] bg-[#d8b98d]" />
+              </div>
+
+              {/* TAMU */}
+              <div className="mt-2 text-center">
+                <p
+                  className="
+                    text-[#5a4330]
+
+                    text-[10px]
+                    sm:text-xs
+                  "
+                >
+                  Kepada Yth.
+                </p>
+
+                <h2
+                  className="
+                    mt-1
+
+                    text-[#b07a3f]
+
+                    font-serif
+                    italic
+
+                    text-base
+                    sm:text-lg
+                    md:text-xl
+                  "
+                >
+                  Bapak/Ibu Andi Pratama
+                </h2>
+
+                <p
+                  className="
+                    mt-1
+
+                    text-[#5a4330]
+
+                    text-[9px]
+                    sm:text-[10px]
+
+                    max-w-[220px]
+                  "
+                >
+                  Terima kasih telah menjadi bagian dari hari bahagia kami.
+                </p>
+              </div>
+
+              {/* =========================================
+                  QR CARD
+              ========================================= */}
+              <div
+                className="
+                  mt-3
+
+                  bg-[#f8f1e7]/80
+                  backdrop-blur-md
+
+                  border
+                  border-[#d8b98d]
+
+                  rounded-[1.2rem]
+
+                  px-3
+                  py-2.5
+
+                  shadow-lg
+                "
+              >
+                <p
+                  className="
+                    uppercase
+                    tracking-[0.15em]
+
+                    text-[#8b6b3f]
+
+                    text-[8px]
+                  "
+                >
+                  Akses Masuk
+                </p>
+
+                {/* QR */}
+                <div
+                  className="
+                    mt-2
+
+                    bg-white
+
+                    rounded-lg
+
+                    p-1.5
+                  "
+                >
+                  <Image
+                    src="/assets/qr.png"
+                    alt="QR Code"
+                    width={220}
+                    height={220}
+                    className="
+                      w-16
+                      sm:w-20
+                      md:w-24
+
+                      h-auto
+                    "
+                  />
+                </div>
+
+                <p
+                  className="
+                    mt-1.5
+
+                    text-[#5a4330]
+
+                    text-[8px]
+                    sm:text-[9px]
+
+                    leading-relaxed
+                  "
+                >
+                  Scan QR code
+                  <br />
+                  untuk membuka undangan
+                </p>
+              </div>
+
+              {/* =========================================
+                  BUTTON
+              ========================================= */}
+              <button
+                onClick={() => setShowWelcome(false)}
+                className="
+                  mt-3
+
+                  flex
+                  items-center
+                  gap-1.5
+
+                  px-4
+                  py-2
+
+                  rounded-full
+
+                  bg-[#8b4513]
+
+                  text-white
+
+                  text-[10px]
+                  sm:text-xs
+
+                  shadow-lg
+
+                  hover:scale-105
+                  active:scale-95
+
+                  transition-all
+                  duration-300
+                "
+              >
+                <span className="text-xs">✉</span>
+                Buka Undangan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================
+            MAIN CONTENT
+        ========================================= */}
+        <div className="relative z-10 w-full h-full">
+          <Fiture />
+        </div>
       </div>
-      <Navbar />
+
+      {/* =========================================
+          NAVBAR
+      ========================================= */}
+
+      {!showWelcome ? <Navbar /> : ''}
+      
     </main>
   );
 }

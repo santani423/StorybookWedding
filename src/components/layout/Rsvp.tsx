@@ -50,7 +50,7 @@ export default function Rsvp({style="",styleImg=""}) {
               cursor-pointer`}
           >
             <Image
-              src="/assets/rsvp.png"
+              src="/assets/rsvp.webp"
               alt="RSVP"
               width={0}
               height={0}
@@ -68,9 +68,9 @@ export default function Rsvp({style="",styleImg=""}) {
               RSVP Wedding
             </DialogTitle>
 
-            <DialogDescription className="text-white">
+            {/* <DialogDescription className="text-white">
               Konfirmasi kehadiran dan kirim doa terbaik Anda ✨
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
 
           {/* CONTENT */}

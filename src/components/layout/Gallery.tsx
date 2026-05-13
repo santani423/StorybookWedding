@@ -144,7 +144,7 @@ export default function GalleryDialog({
             `}
           >
             <Image
-              src="/assets/gallery.png"
+              src="/assets/gallery.webp"
               alt="Gallery"
               width={0}
               height={0}
@@ -183,9 +183,9 @@ export default function GalleryDialog({
               Wedding Gallery
             </DialogTitle>
 
-            <DialogDescription className="text-sm text-white">
+            {/* <DialogDescription className="text-sm text-white">
               Kumpulan momen indah perjalanan cinta kami.
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
 
           {/* BODY */}

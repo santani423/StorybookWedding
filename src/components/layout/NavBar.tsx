@@ -141,7 +141,7 @@ export default function NavBar() {
       {/* <button className={iconClass}>
         <BrachPoint />
       </button> */}
-      <button className={` ${iconClass}`}>
+      <button className={` hidden ${iconClass}`}>
         <h3 className="block xxs:hidden text-white">default</h3>
 
         <h3 className="hidden xxs:block xs:hidden text-white">xxs</h3>
@@ -175,7 +175,7 @@ export default function NavBar() {
         <h3 className="hidden  5xl:block 4xl:hidden  text-white">5xl</h3>
       </button>
 
-      <div
+      {/* <div
         className={iconClass}
         onClick={async () => {
           const data = await updateTema({
@@ -206,7 +206,7 @@ export default function NavBar() {
         }}
       >
         <Minus className="text-white" />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -51,7 +51,7 @@ export default function ClothesRack({style="",styleImg=""}) {
               cursor-pointer`}
           >
             <Image
-              src="/assets/clothes-rack.png"
+              src="/assets/clothes-rack.webp"
               alt="Dress Code"
               width={0}
               height={0}
@@ -86,10 +86,10 @@ export default function ClothesRack({style="",styleImg=""}) {
                   Dress Code
                 </DialogTitle>
 
-                <DialogDescription className="text-white mt-1">
+                {/* <DialogDescription className="text-white mt-1">
                   Kami mengundang tamu untuk mengenakan pakaian formal dengan
                   nuansa warna lembut dan elegan.
-                </DialogDescription>
+                </DialogDescription> */}
               </div>
             </div>
           </DialogHeader>
