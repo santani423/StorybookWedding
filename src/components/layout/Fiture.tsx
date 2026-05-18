@@ -146,7 +146,7 @@ export default function Fiture() {
                     lg2:right-28
                     lg3:right-18
                     xl:right-30
-                    3xl:right-30
+                    3xl:right-50
                     5xl:right-46"
         styleImg="h-auto
                 max-w-none
@@ -222,7 +222,7 @@ export default function Fiture() {
                 5xl:w-54
                 h-auto"
       />
-      <Gift style=" absolute 
+      <Gift style="absolute 
                     bottom-56 
                     xxs:bottom-44 
                     xs:bottom-36 
@@ -237,7 +237,7 @@ export default function Fiture() {
                     lg2:bottom-28
                     lg3:bottom-40
                     xl:bottom-38
-                    3xl:bottom-53
+                    3xl:bottom-40
                     5xl:bottom-74
                     
                     right-0 
@@ -265,7 +265,7 @@ export default function Fiture() {
                 lg:w-40 
                 lg2:w-16 
                 xl:w-20
-                3xl:w-24
+                3xl:w-28
                 5xl:w-32
                 h-auto"/>
 
@@ -286,7 +286,7 @@ export default function Fiture() {
                   lg2:top-20 
                   lg3:top-30 
                   xl:top-26
-                  3xl:top-36
+                  3xl:top-26
                   5xl:top-58
       
                   left-6 
@@ -302,9 +302,9 @@ export default function Fiture() {
                   lg2:left-10 
                   lg3:left-6 
                   xl:left-10
-                  3xl:left-10
+                  3xl:left-20
                   5xl:left-22"
-        styleImg="  w-32 
+        styleImg="w-32 
                 iphone:w-36 
                 mobile:w-32
                 sm:w-42 

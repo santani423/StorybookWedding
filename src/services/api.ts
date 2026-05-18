@@ -54,3 +54,14 @@ export const updateTema = async (payload: UpdateTemaPayload) => {
 
   return res.json();
 };
+
+export const getOrder = async () => {
+  const res = await fetch("https://bancendundesia.undesia.com/api/domains/farhan");
+  
+  if (!res.ok) {
+    // TanStack Query butuh error dilempar agar state isError jadi true
+    throw new Error("Gagal memuat data template");
+  }
+  
+  return res.json();
+};

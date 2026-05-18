@@ -35,6 +35,7 @@ export default function NavBar() {
 
   const [musicStatus, setMusicStatus] = useState(true);
   const [powerStatus, setPowerStatus] = useState(true);
+  const [branchPointStatus, setBranchPointStatus] = useState(true);
 
   const iconClass = `
     w-11 h-11
@@ -141,7 +142,7 @@ export default function NavBar() {
       {/* <button className={iconClass}>
         <BrachPoint />
       </button> */}
-      <button className={` hidden ${iconClass}`}>
+      <button className={` ${branchPointStatus ? 'block' : 'hidden'} ${iconClass}`}>
         <h3 className="block xxs:hidden text-white">default</h3>
 
         <h3 className="hidden xxs:block xs:hidden text-white">xxs</h3>

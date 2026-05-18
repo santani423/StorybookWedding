@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
 
-import { getTema, getBrackPoin } from "@/services/api";
+import { getTema, getBrackPoin,getOrder } from "@/services/api";
 import { setEditSize } from "@/redux/slices/counterSlice";
+
+ 
 
 import Image from "next/image";
 
@@ -31,6 +33,10 @@ export default function Home() {
       try {
         const data = await getTema();
         const brackPoin = await getBrackPoin();
+        const order = await getOrder();
+
+        console.log(order);
+        
 
         setTema(data?.data?.[0]?.assets || []);
         setBrackPoin(brackPoin?.data || []);
@@ -471,17 +477,20 @@ export default function Home() {
         {/* =========================================
             MAIN CONTENT
         ========================================= */}
-        <div className="relative z-10 w-full h-full">
-          <Fiture />
-        </div>
+        {!showWelcome ? (
+          <div className="relative z-10 w-full h-full">
+            <Fiture />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
 
       {/* =========================================
           NAVBAR
       ========================================= */}
 
-      {!showWelcome ? <Navbar /> : ''}
-      
+      {!showWelcome ? <Navbar /> : ""}
     </main>
   );
 }
