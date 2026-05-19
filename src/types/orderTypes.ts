@@ -1,3 +1,8 @@
+// types/orderTypes.ts
+
+/**
+ * Data Utama Kedua Mempelai beserta Orang Tua
+ */
 export interface Mempelai {
   id: number;
   id_user: number;
@@ -9,17 +14,23 @@ export interface Mempelai {
   nama_panggilan_wanita: string;
   nama_ibu_wanita: string;
   nama_ayah_wanita: string;
-  posisi_mempelai: string;
+  posisi_mempelai:   string; // Menggunakan string literal union jika nilainya sudah pasti
   created_at: string;
   updated_at: string;
 }
 
+/**
+ * Data Media Foto/Galeri Album Undangan
+ */
 export interface Album {
   id: number;
   id_user: number;
-  album: string;
+  album: string; // Menyimpan nama file gambar atau URL gambar
 }
 
+/**
+ * Data Cerita / Kisah Perjalanan Cinta (Love Journey)
+ */
 export interface Cerita {
   id: number;
   id_user: number;
@@ -30,6 +41,9 @@ export interface Cerita {
   updated_at: string;
 }
 
+/**
+ * Kutipan / Ucapan Mutiara Pernikahan
+ */
 export interface Quote {
   id_quote: number;
   isi_quote: string;
@@ -37,6 +51,9 @@ export interface Quote {
   id_user: number;
 }
 
+/**
+ * Data Tambahan Undangan (Aset foto fisik, maps, konfigurasi WhatsApp, dll)
+ */
 export interface AdditionalData {
   id: number;
   id_user: number;
@@ -53,6 +70,9 @@ export interface AdditionalData {
   updated_at: string;
 }
 
+/**
+ * Detail Informasi Acara (Akad, Resepsi, Ngunduh Mantu, dll)
+ */
 export interface Acara {
   id_acara: number;
   nama_acara: string;
@@ -66,6 +86,9 @@ export interface Acara {
   id_user: number;
 }
 
+/**
+ * Data Rekening untuk Fitur Gift / Amplop Digital
+ */
 export interface Rekening {
   id: number;
   id_user: number;
@@ -75,6 +98,9 @@ export interface Rekening {
   qrcode_bank: string;
 }
 
+/**
+ * Objek User Pemilik Undangan yang Membungkus Semua Relasi Data Pernikahan
+ */
 export interface User {
   id: number;
   hp: string;
@@ -93,6 +119,9 @@ export interface User {
   rekening: Rekening[];
 }
 
+/**
+ * Informasi Detail Domain dan Tema yang Digunakan oleh Undangan
+ */
 export interface DomainData {
   id: number;
   id_user: number;
@@ -102,9 +131,12 @@ export interface DomainData {
   status: number;
   created_at: string;
   updated_at: string;
-  user: User;
+  user: User; // Relasi ke objek User di atas
 }
 
+/**
+ * Struktur Utama Respons API Saat Melakukan Fetch Detail Domain Undangan
+ */
 export interface DomainDetailsResponse {
   message: string;
   data: DomainData;

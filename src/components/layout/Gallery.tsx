@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import ReactDOM from "react-dom";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -12,24 +13,33 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect } from "react";
 
-const galleryImages = [
-  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1507504031003-b417219a0fde?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200&auto=format&fit=crop",
-];
-
-export default function GalleryDialog({
-  style = "",
-  styleImg = "",
-}) {
+ 
+export default function GalleryDialog({ style = "", styleImg = "" }) {
   const [open, setOpen] = React.useState(false);
 
   // gunakan number bukan string
   const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
+  const { key, mempelai, posisiMempelai, album } = useAppSelector(
+    (state) => state.order,
+  );
+
+  const [galleryImages, setGalleryImages] = React.useState<string[]>([]);
+
+  console.log("album gallery", album);
+  useEffect(() => {
+    if (album && Array.isArray(album)) {
+      setGalleryImages(
+        album?.map((item) => {
+          const baseUrl =
+            process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
+          return `${baseUrl}/assets/users/${key}/${item.album}.png`;
+        }),
+      );
+    }
+  }, [album]);
 
   // touch swipe
   const touchStartX = React.useRef(0);
@@ -66,6 +76,7 @@ export default function GalleryDialog({
   ========================= */
   const closePreview = React.useCallback(() => {
     setSelectedIndex(-1);
+    setOpen(true);
   }, []);
 
   /* =========================
@@ -197,6 +208,7 @@ export default function GalleryDialog({
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
+                    setOpen(false);
                     setSelectedIndex(index);
                   }}
                   className="
@@ -269,7 +281,7 @@ export default function GalleryDialog({
       </Dialog>
 
       {/* PREVIEW */}
-      {selectedImage && (
+      {selectedImage && ReactDOM.createPortal(
         <div
           className="
             fixed inset-0 z-[9999]
@@ -412,7 +424,8 @@ export default function GalleryDialog({
           >
             {selectedIndex + 1} / {galleryImages.length}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
