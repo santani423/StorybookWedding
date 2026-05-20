@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { MapPin, CalendarDays, Clock } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
 
 import {
   Dialog,
@@ -16,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Wp1({ style = ``,styleImg=``  }) {
+  const { animationEnabled } = useAppSelector((state) => state.counter);
   return (
     <>
       {/* BUTTON OPEN */}
@@ -24,7 +26,7 @@ export default function Wp1({ style = ``,styleImg=``  }) {
           <div
             className={`
               ${style}
-              animate-[floatButton_3s_ease-in-out_infinite]
+              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
               cursor-pointer
             `}
           >

@@ -35,6 +35,7 @@ export default function Gift({
   const { rekening, key } = useAppSelector(
     (state: any) => state.order
   );
+  const { animationEnabled } = useAppSelector((state: any) => state.counter);
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -62,7 +63,7 @@ export default function Gift({
           type="button"
           className={`
             ${style}
-            animate-[floatButton_3s_ease-in-out_infinite]
+            ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
             cursor-pointer
             outline-none
           `}

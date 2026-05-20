@@ -35,6 +35,7 @@ function extractMapsUrl(embedHtml?: string): string {
 export default function Addres({ style = ``, styleImg = `` }) {
   const { key, mempelai, posisiMempelai, acara, additionalData } =
     useAppSelector((state) => state.order);
+  const { animationEnabled } = useAppSelector((state) => state.counter);
   const mapsUrl = extractMapsUrl(additionalData?.maps);
   return (
     <>
@@ -44,7 +45,7 @@ export default function Addres({ style = ``, styleImg = `` }) {
           <div
             className={`
               ${style}
-              animate-[floatButton_3s_ease-in-out_infinite]
+              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
               cursor-pointer
             `}
           >

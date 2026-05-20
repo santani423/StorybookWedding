@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
+import { useAppSelector } from "@/redux/hooks";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 export default function Rsvp({style="",styleImg=""}) {
+  const { animationEnabled } = useAppSelector((state) => state.counter);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -46,7 +48,7 @@ export default function Rsvp({style="",styleImg=""}) {
           <div
             className={`
               ${style}
-              animate-[floatButton_3s_ease-in-out_infinite]
+              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
               cursor-pointer`}
           >
             <Image
