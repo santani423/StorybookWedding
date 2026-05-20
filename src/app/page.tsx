@@ -8,7 +8,15 @@ import Fiture from "@/components/layout/Fiture";
 
 import { getTema, getBrackPoin, getOrder } from "@/services/api";
 import { setEditSize } from "@/redux/slices/counterSlice";
-import { setKey, setMempelai,setPosisiMempelai,setAlbum } from "@/redux/slices/orderSlice";
+import {
+  setKey,
+  setMempelai,
+  setPosisiMempelai,
+  setAlbum,
+  setCerita,
+  setAdditionalData,
+  setAcara,
+} from "@/redux/slices/orderSlice";
 // 1. Impor interface Response dari types jika diperlukan untuk typing data API
 import { DomainDetailsResponse } from "@/types/orderTypes";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,7 +34,9 @@ export default function Home() {
 
   const { editSize } = useAppSelector((state) => state.counter);
   // Redux sekarang sudah mengenali bahwa 'mempelai' tipenya adalah Mempelai | null
-  const { key, mempelai, posisiMempelai } = useAppSelector((state) => state.order);
+  const { key, mempelai, posisiMempelai } = useAppSelector(
+    (state) => state.order,
+  );
 
   /* =========================================
       FETCH DATA
@@ -45,7 +55,10 @@ export default function Home() {
 
         console.log("Order:", order?.data);
         console.log("Order kunci:", order?.data?.user?.data?.kunci);
-        console.log("Order mempelai:", order?.data?.user?.mempelai?.posisi_mempelai);
+        console.log(
+          "Order mempelai:",
+          order?.data?.user?.mempelai?.posisi_mempelai,
+        );
 
         if (order?.data?.user) {
           dispatch(setKey(order.data.user.data.kunci));
@@ -53,6 +66,9 @@ export default function Home() {
           dispatch(setMempelai(order.data.user.mempelai));
           dispatch(setPosisiMempelai(order.data.user.mempelai.posisi_mempelai));
           dispatch(setAlbum(order.data.user.album || []));
+          dispatch(setCerita(order.data.user.cerita || []));
+          dispatch(setAdditionalData(order.data.user.data || []));
+          dispatch(setAcara(order.data.user.acara || []));
         }
 
         setTema(data?.data?.[0]?.assets || []);
@@ -161,7 +177,9 @@ export default function Home() {
                 <Skeleton className="w-32 h-6 mb-2" />
               ) : (
                 <h1 className="text-[#4a2d16] font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
-                  {posisiMempelai === "0" ? mempelai?.nama_pria : mempelai?.nama_wanita || " "}
+                  {posisiMempelai === "0"
+                    ? mempelai?.nama_pria
+                    : mempelai?.nama_wanita || " "}
                 </h1>
               )}
 
@@ -174,7 +192,9 @@ export default function Home() {
                 <Skeleton className="w-32 h-6 mb-2" />
               ) : (
                 <h1 className="text-[#4a2d16] font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
-                  { posisiMempelai === "0" ? mempelai?.nama_wanita : mempelai?.nama_pria || " "}
+                  {posisiMempelai === "0"
+                    ? mempelai?.nama_wanita
+                    : mempelai?.nama_pria || " "}
                 </h1>
               )}
 

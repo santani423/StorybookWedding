@@ -12,43 +12,35 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect } from "react";
+import { Album, Cerita } from "@/types/orderTypes";
 
-const loveStories = [
-  {
-    date: "Januari 2021",
-    title: "Pertama Bertemu",
-    description:
-      "Tidak ada yang kebetulan di dunia ini. Kami pertama kali dipertemukan dalam sebuah momen sederhana yang kemudian menjadi awal perjalanan panjang penuh cerita.",
-    image:
-      "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    date: "Agustus 2022",
-    title: "Menjalin Hubungan",
-    description:
-      "Seiring berjalannya waktu, kami semakin mengenal satu sama lain. Banyak tawa, cerita, dan dukungan yang membuat hubungan ini tumbuh semakin erat.",
-    image:
-      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    date: "Desember 2024",
-    title: "Lamaran",
-    description:
-      "Dengan restu keluarga dan penuh rasa syukur, kami memutuskan untuk melangkah ke tahap yang lebih serius dalam hubungan ini.",
-    image:
-      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1200&auto=format&fit=crop",
-  },
-  {
-    date: "Mei 2026",
-    title: "Menuju Hari Bahagia",
-    description:
-      "Kini kami bersiap menyambut hari istimewa untuk memulai perjalanan baru sebagai pasangan suami dan istri.",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
-  },
+const defaultImages = [
+  "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
 ];
 
 export default function LoveStory({ style = "", styleImg = "" }) {
+  const [loveStories, setLoveStories] = React.useState<Cerita[]>([]);
+
+  // Ambil data cerita dari Redux state order
+
+  const { key, mempelai, posisiMempelai, album, cerita } = useAppSelector(
+    (state) => state.order,
+  );
+
+  useEffect(() => {
+    console.log("Cerita dari Redux:", cerita);
+    if (cerita && cerita.length > 0) {
+      setLoveStories(cerita);
+    } else {
+      setLoveStories([]);
+    }
+  }, [cerita]);
+
   return (
     <>
       {/* BUTTON OPEN */}
@@ -150,15 +142,15 @@ export default function LoveStory({ style = "", styleImg = "" }) {
                       `}
                     >
                       <p className="text-sm text-rose-500 font-medium mb-2">
-                        {story.date}
+                        {story.tanggal_cerita}
                       </p>
 
                       <h3 className="text-2xl font-semibold text-neutral-800 mb-3">
-                        {story.title}
+                        {story.judul_cerita}
                       </h3>
 
                       <p className="text-neutral-600 leading-relaxed">
-                        {story.description}
+                        {story.isi_cerita}
                       </p>
                     </div>
 
@@ -179,8 +171,8 @@ export default function LoveStory({ style = "", styleImg = "" }) {
                         "
                       >
                         <Image
-                          src={story.image}
-                          alt={story.title}
+                          src={defaultImages[index % defaultImages.length]}
+                          alt={story.judul_cerita}
                           width={1200}
                           height={800}
                           className="

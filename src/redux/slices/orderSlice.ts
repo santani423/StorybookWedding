@@ -1,7 +1,14 @@
 // src/redux/slices/orderSlice.js (atau ubah ekstensi ke .ts jika menggunakan TypeScript murni)
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Album, Mempelai } from "@/types/orderTypes";
+import {
+  Album,
+  Mempelai,
+  Cerita,
+  DomainData,
+  AdditionalData,
+  Acara,
+} from "@/types/orderTypes";
 import { clear } from "console";
 
 export interface OrderState {
@@ -10,6 +17,10 @@ export interface OrderState {
   key: string;
   mempelai: Mempelai; // Mendefinisikan sebagai Array dari objek Mempelai
   album: Album[];
+  cerita: Cerita[];
+  data?: DomainData;
+  additionalData?: AdditionalData;
+  acara?: Acara[];
 }
 
 // Initial state yang sudah sinkron dengan interface (menggunakan array kosong [])
@@ -19,6 +30,10 @@ const initialState: OrderState = {
   key: "",
   mempelai: {} as Mempelai, // Inisialisasi sebagai objek kosong yang di-cast ke tipe Mempelai
   album: [],
+  cerita: [],
+  data: undefined,
+  additionalData: {} as AdditionalData,
+  acara: [],
 };
 
 const orderSlice = createSlice({
@@ -55,23 +70,46 @@ const orderSlice = createSlice({
     setAlbum: (state, action: PayloadAction<Album[]>) => {
       state.album = action.payload;
     },
+    setCerita: (state, action: PayloadAction<Cerita[]>) => {
+      state.cerita = action.payload;
+    },
     clearAlbum: (state) => {
       state.album = [];
-    }
-
+    },
+    clearCerita: (state) => {
+      state.cerita = [];
+    },
+    setData: (state, action: PayloadAction<DomainData>) => {
+      state.data = action.payload;
+    },
+    setAdditionalData: (state, action: PayloadAction<AdditionalData>) => {
+      state.additionalData = action.payload;
+    },
+    setAcara: (state, action: PayloadAction<Acara[]>) => {
+      state.acara = action.payload;
+    },
+    clearAcara: (state) => {
+      state.acara = [];
+    },
   },
 });
 
-export const { 
+export const {
   increment,
-  decrement, 
-  setIndexPy, 
-  setKey, 
-  setMempelai, 
-  clearMempelai, 
-  setPosisiMempelai, 
-  setAlbum, 
-  clearAlbum } =
-  orderSlice.actions;
+  decrement,
+  setIndexPy,
+  setKey,
+  setMempelai,
+  clearMempelai,
+  setPosisiMempelai,
+  setAlbum,
+  setCerita,
+  clearAlbum,
+  clearCerita,
+  setData,
+  setAdditionalData,
+  setAcara,
+  clearAcara,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;
