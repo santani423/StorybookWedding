@@ -26,8 +26,11 @@ export default function Fiture() {
   const dispatch = useDispatch();
   const assets = useAppSelector((state) => state.counter.assets);
   const { device, indexPy, valuepy } = useAppSelector((state) => state.counter);
+  const { rolus } = useAppSelector((state) => state.order);
 
   const [selectedSize, setSelectedSize] = useState("default");
+  console.log("rolusrolus",rolus);
+  
   return (
     <div className="p-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center">
       {/* Gambar utama */}
@@ -72,7 +75,7 @@ export default function Fiture() {
                 h-auto"
       />
       <Addres
-        style={`absolute 
+        style={` ${rolus?.lokasi ? "absolute" : "hidden"} 
                 top-0 
                 right-7
                 xl:right-3 
@@ -222,7 +225,9 @@ export default function Fiture() {
                 5xl:w-54
                 h-auto"
       />
-      <Gift style="absolute 
+      {rolus?.hadiah == 1 ? (
+        <Gift
+          style="absolute 
                     bottom-56 
                     xxs:bottom-44 
                     xs:bottom-36 
@@ -250,9 +255,8 @@ export default function Fiture() {
                     lg2:right-6
                     3xl:right-8
                     5xl:right-10
-                    z-12" 
-                    
-                    styleImg=" w-28 
+                    z-12"
+          styleImg=" w-28 
                 xxs:w-24 
                 s:w-24 
                 iphone:w-30 
@@ -267,7 +271,9 @@ export default function Fiture() {
                 xl:w-20
                 3xl:w-28
                 5xl:w-32
-                h-auto"/>
+                h-auto"
+        />
+      ) : <><p>{rolus?.hadiah}</p></>}
 
       <Gallery
         style="absolute top-40 

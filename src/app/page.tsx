@@ -16,6 +16,10 @@ import {
   setCerita,
   setAdditionalData,
   setAcara,
+  clearAcara,
+  setRekening,
+  clearRekening,
+  setRolus,
 } from "@/redux/slices/orderSlice";
 // 1. Impor interface Response dari types jika diperlukan untuk typing data API
 import { DomainDetailsResponse } from "@/types/orderTypes";
@@ -69,6 +73,8 @@ export default function Home() {
           dispatch(setCerita(order.data.user.cerita || []));
           dispatch(setAdditionalData(order.data.user.data || []));
           dispatch(setAcara(order.data.user.acara || []));
+          dispatch(setRekening(order.data.user.rekening || []));
+          dispatch(setRolus(order.data.user.rules || []));
         }
 
         setTema(data?.data?.[0]?.assets || []);

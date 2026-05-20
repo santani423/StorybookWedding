@@ -1,11 +1,12 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { useAppSelector } from "@/redux/hooks";
+
 import {
   Gift as GiftIcon,
   Copy,
-  QrCode,
   WalletCards,
   Check,
 } from "lucide-react";
@@ -13,7 +14,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -30,7 +30,11 @@ export default function Gift({
   style = "",
   styleImg = "",
 }: GiftProps) {
-  const [copied, setCopied] = React.useState<string | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const { rekening, key } = useAppSelector(
+    (state: any) => state.order
+  );
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -46,18 +50,9 @@ export default function Gift({
     }
   };
 
-  const bankAccounts = [
-    {
-      bank: "Bank BCA",
-      name: "Nama Mempelai",
-      number: "1234567890",
-    },
-    {
-      bank: "Bank Mandiri",
-      name: "Nama Mempelai",
-      number: "9876543210",
-    },
-  ];
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://undangan.undesia.com";
 
   return (
     <Dialog>
@@ -86,7 +81,7 @@ export default function Gift({
       {/* DIALOG */}
       <DialogContent
         className="
-          sm:max-w-4xl
+          sm:max-w-3xl
           rounded-3xl
           border-0
           bg-[#FCDDA6]
@@ -112,7 +107,7 @@ export default function Gift({
             </DialogTitle>
           </div>
 
-          {/* <DialogDescription
+          <p
             className="
               text-sm
               md:text-base
@@ -123,9 +118,9 @@ export default function Gift({
             "
           >
             Kehadiran dan doa restu Anda sudah menjadi hadiah terbaik
-            bagi kami. Namun jika ingin memberikan tanda kasih, dapat
-            melalui informasi berikut.
-          </DialogDescription> */}
+            bagi kami. Namun jika ingin memberikan tanda kasih,
+            dapat melalui informasi berikut.
+          </p>
         </DialogHeader>
 
         {/* CONTENT */}
@@ -137,145 +132,157 @@ export default function Gift({
             md:p-6
           "
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* QR CODE */}
+          {!rekening || rekening.length === 0 ? (
             <div
               className="
-                bg-neutral-50
+                bg-white
                 rounded-3xl
-                border
-                p-6
-                flex
-                flex-col
-                items-center
-                justify-center
+                p-8
                 text-center
+                shadow-sm
               "
             >
-              <div
-                className="
-                  w-52
-                  h-52
-                  md:w-60
-                  md:h-60
-                  rounded-3xl
-                  border-2
-                  border-dashed
-                  border-neutral-300
-                  flex
-                  items-center
-                  justify-center
-                  bg-white
-                  mb-5
-                  overflow-hidden
-                "
-              >
-                {/* GANTI DENGAN QR ASLI */}
-                {/* 
-                  <Image
-                    src="/assets/qr-code.png"
-                    alt="QR Code"
-                    width={240}
-                    height={240}
-                    className="object-contain"
-                  /> 
-                */}
-
-                <QrCode className="w-24 h-24 text-neutral-400" />
-              </div>
-
-              <h3 className="text-xl font-semibold text-neutral-800 mb-2">
-                Scan QR Code
-              </h3>
-
-              <p className="text-sm text-neutral-500 leading-relaxed">
-                Silakan scan QR Code untuk mengirim hadiah digital
-                kepada mempelai.
+              <p className="text-neutral-500">
+                Belum ada data rekening.
               </p>
             </div>
-
-            {/* BANK INFO */}
+          ) : (
             <div className="space-y-5">
-              {bankAccounts.map((item) => (
-                <div
-                  key={item.number}
-                  className="
-                    rounded-3xl
-                    border
-                    p-5
-                    bg-white
-                    shadow-sm
-                  "
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="
-                        w-12
-                        h-12
-                        rounded-2xl
-                        bg-rose-100
-                        flex
-                        items-center
-                        justify-center
-                        shrink-0
-                      "
-                    >
-                      <WalletCards className="w-6 h-6 text-rose-500" />
-                    </div>
+              {rekening.map((item: any) => {
+                const qr = key
+                  ? `${baseUrl}/assets/users/${key}/rekening/${item.qrcode_bank}`
+                  : "";
 
-                    <div>
-                      <h3 className="font-semibold text-neutral-800">
-                        {item.bank}
-                      </h3>
-
-                      <p className="text-sm text-neutral-500">
-                        a.n. {item.name}
-                      </p>
-                    </div>
-                  </div>
-
+                return (
                   <div
+                    key={item.id}
                     className="
-                      flex
-                      items-center
-                      justify-between
-                      gap-3
-                      bg-neutral-50
-                      rounded-2xl
-                      px-4
-                      py-3
+                      rounded-3xl
+                      border
+                      p-5
+                      bg-white
+                      shadow-sm
                     "
                   >
-                    <p
+                    {/* HEADER CARD */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="
+                          w-12
+                          h-12
+                          rounded-2xl
+                          bg-rose-100
+                          flex
+                          items-center
+                          justify-center
+                          shrink-0
+                        "
+                      >
+                        <WalletCards className="w-6 h-6 text-rose-500" />
+                      </div>
+
+                      <div>
+                        <h3 className="font-semibold text-neutral-800">
+                          {item.nama_bank}
+                        </h3>
+
+                        <p className="text-sm text-neutral-500">
+                          a.n. {item.nama_pemilik}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* NOMOR REKENING */}
+                    <div
                       className="
-                        font-medium
-                        tracking-wider
-                        text-neutral-700
-                        text-sm
-                        md:text-base
+                        flex
+                        items-center
+                        justify-between
+                        gap-3
+                        bg-neutral-50
+                        rounded-2xl
+                        px-4
+                        py-3
                       "
                     >
-                      {item.number}
-                    </p>
+                      <p
+                        className="
+                          font-medium
+                          tracking-wider
+                          text-neutral-700
+                          text-sm
+                          md:text-base
+                          break-all
+                        "
+                      >
+                        {item.no_rekening}
+                      </p>
 
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="ghost"
-                      className="shrink-0"
-                      onClick={() =>
-                        copyToClipboard(item.number)
-                      }
-                    >
-                      {copied === item.number ? (
-                        <Check className="w-4 h-4 text-green-600" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </Button>
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        className="shrink-0"
+                        onClick={() =>
+                          copyToClipboard(item.no_rekening)
+                        }
+                      >
+                        {copied === item.no_rekening ? (
+                          <Check className="w-4 h-4 text-green-600" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+
+                    {/* QR CODE */}
+                    {item.qrcode_bank && (
+                      <div
+                        className="
+                          mt-5
+                          flex
+                          flex-col
+                          items-center
+                          justify-center
+                          rounded-3xl
+                          bg-neutral-50
+                          border
+                          border-dashed
+                          border-neutral-200
+                          p-5
+                        "
+                      >
+                        <div
+                          className="
+                            w-[180px]
+                            h-[180px]
+                            rounded-2xl
+                            bg-white
+                            border
+                            shadow-sm
+                            flex
+                            items-center
+                            justify-center
+                            overflow-hidden
+                          "
+                        >
+                          <Image
+                            src={qr}
+                            alt="QR Code"
+                            width={160}
+                            height={160}
+                            className="object-contain"
+                          />
+                        </div>
+
+                        <p className="text-sm text-neutral-500 mt-3 text-center">
+                          Scan QR Code untuk transfer  
+                        </p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {/* FOOTNOTE */}
               <div
@@ -294,7 +301,7 @@ export default function Gift({
                 </p>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

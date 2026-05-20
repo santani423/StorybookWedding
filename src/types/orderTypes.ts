@@ -14,7 +14,7 @@ export interface Mempelai {
   nama_panggilan_wanita: string;
   nama_ibu_wanita: string;
   nama_ayah_wanita: string;
-  posisi_mempelai:   string; // Menggunakan string literal union jika nilainya sudah pasti
+  posisi_mempelai: string; // Menggunakan string literal union jika nilainya sudah pasti
   created_at: string;
   updated_at: string;
 }
@@ -117,6 +117,7 @@ export interface User {
   data: AdditionalData;
   acara: Acara[];
   rekening: Rekening[];
+  rules: Rolus;
 }
 
 /**
@@ -132,6 +133,27 @@ export interface DomainData {
   created_at: string;
   updated_at: string;
   user: User; // Relasi ke objek User di atas
+}
+
+/**
+ * Rolus menentukn settingan tema dan domain yang digunakan untuk menampilkan data di halaman undangan
+ */
+export interface Rolus {
+  id: number;
+  id_user: number;
+  sampul: number; 
+  mempelai: number; 
+  acara: number; 
+  komen: number; 
+  gallery: number; 
+  cerita: number; 
+  lokasi: number; 
+  prokes: number; 
+  qrcode: number; 
+  hadiah: number; 
+  quote: number; 
+  created_at: string;
+  updated_at: string;
 }
 
 /**
