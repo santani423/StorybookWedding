@@ -2,9 +2,9 @@
 
 import { Headphones, HeadphoneOff, Power, PowerOff, Plus, Minus } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTema, updateTema } from "@/services/api";
-import {setEditSize} from "@/redux/slices/counterSlice"
+import {setAnimationEnabled} from "@/redux/slices/counterSlice"
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
@@ -36,6 +36,20 @@ export default function NavBar() {
   const [musicStatus, setMusicStatus] = useState(true);
   const [powerStatus, setPowerStatus] = useState(true);
   const [branchPointStatus, setBranchPointStatus] = useState(true);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("https://undesia.com/assets/users/5fe34263026b4ea9b2a6ba1cc5dcb60b/musik.mp3");
+      audioRef.current.loop = true;
+    }
+    if (musicStatus) {
+      audioRef.current.play().catch(() => {});
+    } else {
+      audioRef.current.pause();
+    }
+  }, [musicStatus]);
 
   const iconClass = `
     w-11 h-11
@@ -131,7 +145,11 @@ export default function NavBar() {
       <button
         type="button"
         className={iconClass}
-        onClick={() => setPowerStatus((prev) => !prev)}
+        onClick={() => {
+          const next = !powerStatus;
+          setPowerStatus(next);
+          dispatch(setAnimationEnabled(next));
+        }}
       >
         {powerStatus ? (
           <Power className="h-5 w-5 text-white" />

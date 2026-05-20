@@ -24,6 +24,7 @@ export default function Couple({ style = "", styleImg = "" }: CoupleProps) {
   const { key, mempelai, posisiMempelai } = useAppSelector(
     (state) => state.order,
   );
+  const { animationEnabled } = useAppSelector((state) => state.counter);
   const baseUrl =
     process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
 
@@ -37,7 +38,7 @@ export default function Couple({ style = "", styleImg = "" }: CoupleProps) {
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className={`absolute ${style} z-10 animate-[floatButton_3s_ease-in-out_infinite] cursor-pointer`}
+            className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} cursor-pointer`}
           >
             <Image
               src="/assets/couple.webp"

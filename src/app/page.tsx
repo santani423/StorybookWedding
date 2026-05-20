@@ -2,6 +2,7 @@
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
@@ -26,6 +27,7 @@ import { DomainDetailsResponse } from "@/types/orderTypes";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import Image from "next/image";
+import QRCodeWithLogo from "@/components/ui/QRCodeWithLogo";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -36,7 +38,9 @@ export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  const { editSize } = useAppSelector((state) => state.counter);
+  const searchParams = useSearchParams();
+
+  const { editSize, animationEnabled } = useAppSelector((state) => state.counter);
   // Redux sekarang sudah mengenali bahwa 'mempelai' tipenya adalah Mempelai | null
   const { key, mempelai, posisiMempelai } = useAppSelector(
     (state) => state.order,
@@ -54,8 +58,18 @@ export default function Home() {
         const data = await getTema();
         const brackPoin = await getBrackPoin();
 
+        const name = searchParams.get("name");
+        console.log("name",name);
+        
+        const slug = searchParams.get("slug");
+
+        if (!name) {
+          setLoading(false);
+          return;
+        }
+
         // 2. Berikan opsi type-assertion (atau sesuaikan dengan return type getOrder)
-        const order = (await getOrder()) as DomainDetailsResponse | undefined;
+        const order = (await getOrder(name, slug ? slug : undefined)) as DomainDetailsResponse | undefined;
 
         console.log("Order:", order?.data);
         console.log("Order kunci:", order?.data?.user?.data?.kunci);
@@ -89,7 +103,7 @@ export default function Home() {
     };
 
     fetchTema();
-  }, [editSize, dispatch]);
+  }, [editSize, dispatch, searchParams]);
 
   /* =========================================
       GENERATE STYLE
@@ -163,7 +177,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/20" />
 
           {/* IMAGE WELCOME */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 flex justify-center animate-[floatButton_3s_ease-in-out_infinite] z-20">
+          <div className={`absolute top-0 left-1/2 -translate-x-1/2 flex justify-center ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} z-20`}>
             <Image
               src="/assets/welcome.webp"
               alt="Welcome"
@@ -228,13 +242,11 @@ export default function Home() {
                 <p className="uppercase tracking-[0.15em] text-[#8b6b3f] text-[8px]">
                   Akses Masuk
                 </p>
-                <div className="mt-2 bg-white rounded-lg p-1.5">
-                  <Image
-                    src="/assets/qr.png"
-                    alt="QR Code"
-                    width={220}
-                    height={220}
-                    className="w-16 sm:w-20 md:w-24 h-auto"
+                <div className="mt-2 bg-white rounded-lg p-1.5 flex justify-center">
+                  <QRCodeWithLogo
+                    text={"6399f9cfb28b9347cc03407dc67d2c00"}
+                    size={96}
+                    className="w-16 sm:w-20 md:w-24"
                   />
                 </div>
                 <p className="mt-1.5 text-[#5a4330] text-[8px] sm:text-[9px] leading-relaxed">

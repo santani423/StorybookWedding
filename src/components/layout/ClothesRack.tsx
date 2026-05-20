@@ -3,6 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { Shirt, X } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
 
 import {
   Dialog,
@@ -41,13 +42,14 @@ const dressCodes = [
 ];
 
 export default function ClothesRack({style="",styleImg=""}) {
+  const { animationEnabled } = useAppSelector((state) => state.counter);
   return (
     <>
       {/* BUTTON OPEN */}
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className={` ${style} animate-[floatButton_3s_ease-in-out_infinite]
+            className={` ${style} ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
               cursor-pointer`}
           >
             <Image

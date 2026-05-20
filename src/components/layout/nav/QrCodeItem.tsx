@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import QRCodeWithLogo from "@/components/ui/QRCodeWithLogo";
 
 import {
   Dialog,
@@ -32,7 +33,7 @@ export default function QrCodeItem() {
         <div className="flex max-h-[60vh] justify-center overflow-y-auto py-4">
           {/* Ganti src dengan QR asli */}
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
-            <QrCode className="h-80 w-80 text-black" />
+            <QRCodeWithLogo text="https://undesia.com" />
           </div>
         </div>
 

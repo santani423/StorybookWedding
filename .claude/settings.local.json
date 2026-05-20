@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(findstr -i qr)",
+      "Bash(npm install *)"
+    ]
+  }
+}

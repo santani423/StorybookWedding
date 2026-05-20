@@ -293,7 +293,8 @@ const initialState = {
     ],
   },
   styleGallery:'',
-  editSize:true
+  editSize:true,
+  animationEnabled:true
 };
 
 const counterSlice = createSlice({
@@ -349,12 +350,15 @@ const counterSlice = createSlice({
     },
     setEditSize: (state, action) => {
       console.log("payload",action.payload);
-      
+
       state.editSize = action.payload;
+    },
+    setAnimationEnabled: (state, action) => {
+      state.animationEnabled = action.payload;
     },
   },
 });
 
-export const { increment, decrement, setItemEdit, setDevice, setStyle ,setStyleGallery,setEditSize} =
+export const { increment, decrement, setItemEdit, setDevice, setStyle ,setStyleGallery,setEditSize,setAnimationEnabled} =
   counterSlice.actions;
 export default counterSlice.reducer;

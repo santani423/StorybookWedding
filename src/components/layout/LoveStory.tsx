@@ -31,6 +31,7 @@ export default function LoveStory({ style = "", styleImg = "" }) {
   const { key, mempelai, posisiMempelai, album, cerita } = useAppSelector(
     (state) => state.order,
   );
+  const { animationEnabled } = useAppSelector((state) => state.counter);
 
   useEffect(() => {
     console.log("Cerita dari Redux:", cerita);
@@ -48,7 +49,7 @@ export default function LoveStory({ style = "", styleImg = "" }) {
         <DialogTrigger asChild>
           <div
             className={` ${style} z-12
-              animate-[floatButton_3s_ease-in-out_infinite]
+              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
               cursor-pointer`}
           >
             <Image

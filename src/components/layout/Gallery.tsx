@@ -25,6 +25,7 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
   const { key, mempelai, posisiMempelai, album } = useAppSelector(
     (state) => state.order,
   );
+  const { animationEnabled } = useAppSelector((state) => state.counter);
 
   const [galleryImages, setGalleryImages] = React.useState<string[]>([]);
 
@@ -151,7 +152,7 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
             className={`
               ${style}
               cursor-pointer
-              animate-[floatButton_3s_ease-in-out_infinite]
+              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
             `}
           >
             <Image

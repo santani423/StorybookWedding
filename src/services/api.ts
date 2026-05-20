@@ -55,8 +55,8 @@ export const updateTema = async (payload: UpdateTemaPayload) => {
   return res.json();
 };
 
-export const getOrder = async () => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/domains/farhan?slug=agus");
+export const getOrder = async (name: string, slug?: string) => {
+  const res = await fetch(`https://bancendundesia.undesia.com/api/domains/${name}${slug ? `?slug=${slug}` : ''}`);
   
   if (!res.ok) {
     // TanStack Query butuh error dilempar agar state isError jadi true
