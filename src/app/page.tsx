@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import HomeClient from "./HomeClient";
 
 type Props = {
@@ -51,5 +52,9 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default function Home() {
-  return <HomeClient />;
+  return (
+    <Suspense fallback={null}>
+      <HomeClient />
+    </Suspense>
+  );
 }
