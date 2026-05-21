@@ -55,34 +55,33 @@ const infoItems = [
 
 function Content() {
   return (
-    <div className="max-h-[450px] overflow-y-auto p-4 space-y-4">
+    <div className="max-h-[450px] overflow-y-auto p-4 space-y-3">
       {infoItems.map((item, index) => (
         <div
           key={index}
           className="
             flex items-start gap-4
             rounded-2xl
-            bg-white
+            bg-[#9F6326]
             p-3
             shadow-sm
-            border
           "
         >
-          <div className="relative w-14 h-14 shrink-0">
+          <div className="relative w-14 h-14 shrink-0 bg-[#FCDDA6] rounded-xl p-1">
             <Image
               src={item.img}
               alt={item.title}
               fill
-              className="object-contain"
+              className="object-contain p-1"
             />
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-gray-900">
+            <h3 className="text-sm font-semibold text-[#FCDDA6]">
               {item.title}
             </h3>
 
-            <p className="text-xs text-gray-600 leading-relaxed">
+            <p className="text-xs text-white/80 leading-relaxed">
               {item.description}
             </p>
           </div>
@@ -123,16 +122,16 @@ export default function InfoSection() {
           overflow-hidden
           border-none
           rounded-3xl
-          bg-white
+          bg-[#FCDDA6]
           shadow-2xl
         "
       >
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-neutral-50">
-          <DialogTitle className="text-lg font-semibold text-gray-900">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#9F6326]/30 bg-[#9F6326]">
+          <DialogTitle className="text-lg font-serif text-white">
             Informasi Undangan
           </DialogTitle>
 
-          <DialogDescription className="text-sm text-gray-500">
+          <DialogDescription className="text-sm text-white/80">
             Berikut beberapa fitur dan informasi penting pada undangan digital.
           </DialogDescription>
         </DialogHeader>

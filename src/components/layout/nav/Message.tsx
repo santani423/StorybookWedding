@@ -60,16 +60,16 @@ export default function Massage() {
           overflow-hidden
           border-none
           rounded-3xl
-          bg-white
+          bg-[#FCDDA6]
           shadow-2xl
         "
       >
         {/* Header */}
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-neutral-50">
-          <DialogTitle className="text-lg font-semibold text-gray-900">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#9F6326]/30 bg-[#9F6326]">
+          <DialogTitle className="text-lg font-serif text-white">
             Ucapan & Doa
           </DialogTitle>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white/80">
             Sampaikan doa dan ucapan terbaik untuk kedua mempelai.
           </p>
         </DialogHeader>
@@ -79,14 +79,14 @@ export default function Massage() {
           {mockMessages.map((item, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 rounded-2xl bg-neutral-50 border p-3"
+              className="flex items-start gap-3 rounded-2xl bg-[#9F6326] p-3"
             >
               <div className="w-8 h-8 rounded-full bg-[#FCDDA6] flex items-center justify-center shrink-0">
                 <User className="w-4 h-4 text-[#9F6326]" />
               </div>
               <div className="space-y-0.5">
-                <p className="text-sm font-semibold text-gray-900">{item.name}</p>
-                <p className="text-xs text-gray-600 leading-relaxed">{item.message}</p>
+                <p className="text-sm font-semibold text-[#FCDDA6]">{item.name}</p>
+                <p className="text-xs text-white/80 leading-relaxed">{item.message}</p>
               </div>
             </div>
           ))}
@@ -95,7 +95,7 @@ export default function Massage() {
         {/* Form kirim pesan */}
         <form
           onSubmit={handleSubmit}
-          className="px-4 pb-5 pt-3 border-t space-y-3 bg-white"
+          className="px-4 pb-5 pt-3 border-t border-[#9F6326]/30 space-y-3 bg-[#FCDDA6]"
         >
           <div
             className={`overflow-hidden transition-all duration-500 ease-in-out ${
@@ -111,7 +111,7 @@ export default function Massage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={showName}
-                className="pl-9 rounded-xl border-neutral-200 focus:border-[#FCDDA6] focus:ring-[#FCDDA6] text-sm"
+                className="pl-9 rounded-xl border-[#9F6326]/40 bg-white/70 focus:border-[#9F6326] focus:ring-[#9F6326] text-sm"
               />
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function Massage() {
               onChange={(e) => setMessage(e.target.value)}
               required
               rows={2}
-              className="resize-none rounded-xl border-neutral-200 focus:border-[#FCDDA6] focus:ring-[#FCDDA6] text-sm flex-1"
+              className="resize-none rounded-xl border-[#9F6326]/40 bg-white/70 focus:border-[#9F6326] focus:ring-[#9F6326] text-sm flex-1"
             />
             <button
               type="submit"

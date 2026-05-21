@@ -135,23 +135,37 @@ export interface DomainData {
   user: User; // Relasi ke objek User di atas
 }
 
+export interface Komentar {
+  id: number;
+  id_user: number;
+  nama_komentar: string;
+  isi_komentar: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GetKomentarResponse {
+  message: string;
+  data: Komentar[];
+}
+
 /**
  * Rolus menentukn settingan tema dan domain yang digunakan untuk menampilkan data di halaman undangan
  */
 export interface Rolus {
   id: number;
   id_user: number;
-  sampul: number; 
-  mempelai: number; 
-  acara: number; 
-  komen: number; 
-  gallery: number; 
-  cerita: number; 
-  lokasi: number; 
-  prokes: number; 
-  qrcode: number; 
-  hadiah: number; 
-  quote: number; 
+  sampul: number;
+  mempelai: number;
+  acara: number;
+  komen: number;
+  gallery: number;
+  cerita: number;
+  lokasi: number;
+  prokes: number;
+  qrcode: number;
+  hadiah: number;
+  quote: number;
   created_at: string;
   updated_at: string;
 }
