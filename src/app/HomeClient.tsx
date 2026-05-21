@@ -21,6 +21,7 @@ import {
   setRekening,
   clearRekening,
   setRolus,
+  setTamu,
 } from "@/redux/slices/orderSlice";
 import { DomainDetailsResponse } from "@/types/orderTypes";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -40,8 +41,10 @@ export default function HomeClient() {
 
   const searchParams = useSearchParams();
 
-  const { editSize, animationEnabled } = useAppSelector((state) => state.counter);
-  const { key, mempelai, posisiMempelai } = useAppSelector(
+  const { editSize, animationEnabled } = useAppSelector(
+    (state) => state.counter,
+  );
+  const { key, mempelai, posisiMempelai, tamu } = useAppSelector(
     (state) => state.order,
   );
 
@@ -58,7 +61,7 @@ export default function HomeClient() {
         const brackPoin = await getBrackPoin();
 
         const name = searchParams.get("name");
-        console.log("name",name);
+        console.log("name", name);
 
         const slug = searchParams.get("slug");
 
@@ -67,7 +70,9 @@ export default function HomeClient() {
           return;
         }
 
-        const order = (await getOrder(name, slug ? slug : undefined)) as DomainDetailsResponse | undefined;
+        const order = (await getOrder(name, slug ? slug : undefined)) as
+          | DomainDetailsResponse
+          | undefined;
 
         console.log("Order:", order?.data);
         console.log("Order kunci:", order?.data?.user?.data?.kunci);
@@ -86,6 +91,7 @@ export default function HomeClient() {
           dispatch(setAcara(order.data.user.acara || []));
           dispatch(setRekening(order.data.user.rekening || []));
           dispatch(setRolus(order.data.user.rules || []));
+          dispatch(setTamu(order.tamu || ({} as any)));
         }
 
         setTema(data?.data?.[0]?.assets || []);
@@ -126,7 +132,8 @@ export default function HomeClient() {
   useEffect(() => {
     console.log("Redux key:", key);
     console.log("Redux mempelai:", mempelai);
-  }, [key, mempelai]);
+    console.log("Redux tamu:", tamu);
+  }, [key, mempelai, tamu]);
 
   /* =========================================
       MAIN STYLE
@@ -174,7 +181,9 @@ export default function HomeClient() {
           <div className="absolute inset-0 bg-black/20" />
 
           {/* IMAGE WELCOME */}
-          <div className={`absolute top-0 left-1/2 -translate-x-1/2 flex justify-center ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} z-20`}>
+          <div
+            className={`absolute top-0 left-1/2 -translate-x-1/2 flex justify-center ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} z-20`}
+          >
             <Image
               src="/assets/welcome.webp"
               alt="Welcome"
@@ -225,7 +234,7 @@ export default function HomeClient() {
                   Kepada Yth.
                 </p>
                 <h2 className="mt-1 text-[#b07a3f] font-serif italic text-base sm:text-lg md:text-xl">
-                  Bapak/Ibu Andi Pratama
+                  {tamu?.nama_tamu || "Bapak/Ibu/Saudara/i"}
                 </h2>
                 <p className="mt-1 text-[#5a4330] text-[9px] sm:text-[10px] max-w-[220px]">
                   Terima kasih telah menjadi bagian dari hari bahagia kami.
@@ -233,25 +242,35 @@ export default function HomeClient() {
               </div>
 
               {/* QR CARD */}
-              <div className="mt-3 bg-[#f8f1e7]/80 backdrop-blur-md border border-[#d8b98d] rounded-[1.2rem] px-3 py-2.5 shadow-lg">
-                <p className="uppercase tracking-[0.15em] text-[#8b6b3f] text-[8px]">
-                  Akses Masuk
-                </p>
-                <div className="mt-2 bg-white rounded-lg p-1.5 flex justify-center">
-                  <QRCodeWithLogo
-                    text={"6399f9cfb28b9347cc03407dc67d2c00"}
-                    size={96}
-                    className="w-16 sm:w-20 md:w-24"
-                  />
-                </div>
-                <p className="mt-1.5 text-[#5a4330] text-[8px] sm:text-[9px] leading-relaxed">
-                  Scan QR code <br /> untuk membuka undangan
-                </p>
-              </div>
+              {loading ? (
+                <Skeleton className="w-20 h-20 mt-3" />
+              ) : (
+                tamu?.qrcode ? (
+                  <div className="mt-3 bg-[#f8f1e7]/80 backdrop-blur-md border border-[#d8b98d] rounded-[1.2rem] px-3 py-2.5 shadow-lg">
+                    <p className="uppercase tracking-[0.15em] text-[#8b6b3f] text-[8px]">
+                      Akses Masuk
+                    </p>
+                    <div className="mt-2 bg-white rounded-lg p-1.5 flex justify-center">
+                      <QRCodeWithLogo
+                        text={tamu?.qrcode}
+                        size={96}
+                        className="w-16 sm:w-20 md:w-24"
+                      />
+                    </div>
+                    <p className="mt-1.5 text-[#5a4330] text-[8px] sm:text-[9px] leading-relaxed">
+                      Scan QR code <br /> untuk membuka undangan
+                    </p>
+                  </div>
+                ): null
+              )}
 
               {/* BUTTON */}
               <button
-                onClick={() => { setShowWelcome(false); setShowHint(true); setTimeout(() => setShowHint(false), 5000); }}
+                onClick={() => {
+                  setShowWelcome(false);
+                  setShowHint(true);
+                  setTimeout(() => setShowHint(false), 5000);
+                }}
                 className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#8b4513] text-white text-[10px] sm:text-xs shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 <span className="text-xs">✉</span>
@@ -286,9 +305,13 @@ export default function HomeClient() {
           ${showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
         `}
       >
-        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">✦</span>
+        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">
+          ✦
+        </span>
         <span>Ketuk gambar yang bergerak untuk membukanya</span>
-        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">✦</span>
+        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">
+          ✦
+        </span>
       </div>
     </main>
   );

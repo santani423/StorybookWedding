@@ -10,6 +10,7 @@ import {
   Acara,
   Rekening,
   Rolus,
+  Tamu,
 } from "@/types/orderTypes";
 import { clear } from "console";
 
@@ -25,6 +26,7 @@ export interface OrderState {
   acara?: Acara[];
   rekening?: Rekening[];
   rolus?: Rolus;
+  tamu?: Tamu;
 }
 
 // Initial state yang sudah sinkron dengan interface (menggunakan array kosong [])
@@ -39,6 +41,8 @@ const initialState: OrderState = {
   additionalData: {} as AdditionalData,
   acara: [],
   rekening: [],
+  rolus: {} as Rolus,
+  tamu: {} as Tamu,
 };
 
 const orderSlice = createSlice({
@@ -106,6 +110,10 @@ const orderSlice = createSlice({
     setRolus: (state, action: PayloadAction<Rolus>) => {
       state.rolus = action.payload;
     },
+    setTamu: (state, action: PayloadAction<Tamu>) => {
+      state.tamu = action.payload;
+    },
+
   },
 });
 
@@ -128,6 +136,7 @@ export const {
   setRekening,
   clearRekening,
   setRolus,
+  setTamu,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

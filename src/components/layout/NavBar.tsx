@@ -36,8 +36,13 @@ export default function NavBar() {
   const [musicStatus, setMusicStatus] = useState(true);
   const [powerStatus, setPowerStatus] = useState(true);
   const [branchPointStatus, setBranchPointStatus] = useState(false);
+  
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { key, mempelai, posisiMempelai, tamu } = useAppSelector(
+    (state) => state.order,
+  );
+
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -124,7 +129,7 @@ export default function NavBar() {
       <Massage />
 
       {/* QR */}
-      <div className={iconClass}>
+      <div className={`${tamu?.qrcode ? 'block' : 'hidden' } ${iconClass}`}>
         <QrCode />
       </div>
 

@@ -171,10 +171,26 @@ export interface Rolus {
   updated_at: string;
 }
 
+export interface Tamu {
+  id_tamu: number;
+  nama_tamu: string;
+  nama_slug: string;
+  alamat_tamu: string;
+  alamat_slug: string;
+  no_wa: string;
+  qrcode: string;
+  id_user: number;
+  tgl_kirim: string;
+  status_kirim: string;
+  status: string | null;
+  waktu_hadir: string | null;
+}
+
 /**
  * Struktur Utama Respons API Saat Melakukan Fetch Detail Domain Undangan
  */
 export interface DomainDetailsResponse {
   message: string;
   data: DomainData;
+  tamu: Tamu;
 }
