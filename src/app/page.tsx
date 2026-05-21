@@ -13,7 +13,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   if (name) {
     try {
       const query = slug ? "?slug=" + slug : "";
-      const url = `https://bancendundesia.undesia.com/api/domains/${name}${query}`;
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/domains/${name}${query}`;
       const res = await fetch(url, { next: { revalidate: 60 } });
       if (res.ok) {
         const json = await res.json();
