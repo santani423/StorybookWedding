@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,28 +8,81 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MessageSquareText, Send, User } from "lucide-react";
+import { MessageSquareText, Send, User, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { getKomentar, postKomentar } from "@/services/api";
 
-const mockMessages = [
-  { name: "Budi Santoso", message: "Selamat menempuh hidup baru, semoga langgeng dan bahagia selalu! 🎉" },
-  { name: "Siti Rahayu", message: "Barakallah, semoga menjadi keluarga yang sakinah mawaddah warahmah." },
-  { name: "Andi Wijaya", message: "Congrats! Semoga pernikahan kalian menjadi awal dari kebahagiaan yang tak terhingga." },
-  { name: "Dewi Lestari", message: "Turut berbahagia atas pernikahan kalian. Semoga selalu diberkahi." },
-  { name: "Rizky Pratama", message: "Selamat dan bahagia! Semoga rumah tangga kalian penuh cinta dan kebahagiaan." },
-];
+function formatWaktu(created_at: string): string {
+  const now = new Date();
+  const created = new Date(created_at);
+  const diffMs = now.getTime() - created.getTime();
+  const diffMenit = Math.floor(diffMs / 60000);
+  const diffJam = Math.floor(diffMs / 3600000);
+  const diffHari = Math.floor(diffMs / 86400000);
+
+  if (diffMenit < 1) return "Baru saja";
+  if (diffMenit < 60) return `${diffMenit} menit yang lalu`;
+  if (diffJam < 24) return `${diffJam} jam yang lalu`;
+  if (diffHari < 7) return `${diffHari} hari yang lalu`;
+
+  return created.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+const ID_USER = 310;
+
+interface Komentar {
+  id: number;
+  id_user: number;
+  nama_komentar: string;
+  isi_komentar: string;
+  created_at: string;
+  updated_at: string;
+}
 
 export default function Massage() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [comments, setComments] = useState<Komentar[]>([]);
+  const [sending, setSending] = useState(false);
+  const listRef = useRef<HTMLDivElement>(null);
   const showName = message.length > 0;
 
-  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+  const fetchComments = () => {
+    getKomentar(ID_USER)
+      .then((json) => setComments(json.data ?? []))
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchComments();
+    const interval = setInterval(fetchComments, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: kirim data ke API
-    setName("");
-    setMessage("");
+    if (!name.trim() || !message.trim()) return;
+    setSending(true);
+    try {
+      const json = await postKomentar({ id_user: ID_USER, nama: name, komen: message });
+      if (json.data) {
+        setComments((prev) => [...prev, json.data]);
+        setTimeout(() => {
+          listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+        }, 50);
+      }
+      setName("");
+      setMessage("");
+    } catch {
+      // gagal kirim, biarkan user coba lagi
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -75,18 +128,19 @@ export default function Massage() {
         </DialogHeader>
 
         {/* Daftar pesan */}
-        <div className="max-h-[38vh] overflow-y-auto px-4 py-3 space-y-3 no-scrollbar">
-          {mockMessages.map((item, index) => (
+        <div ref={listRef} className="max-h-[38vh] overflow-y-auto px-4 py-3 space-y-3 no-scrollbar">
+          {comments.map((item) => (
             <div
-              key={index}
+              key={item.id}
               className="flex items-start gap-3 rounded-2xl bg-[#9F6326] p-3"
             >
               <div className="w-8 h-8 rounded-full bg-[#FCDDA6] flex items-center justify-center shrink-0">
                 <User className="w-4 h-4 text-[#9F6326]" />
               </div>
               <div className="space-y-0.5">
-                <p className="text-sm font-semibold text-[#FCDDA6]">{item.name}</p>
-                <p className="text-xs text-white/80 leading-relaxed">{item.message}</p>
+                <p className="text-sm font-semibold text-[#FCDDA6]">{item.nama_komentar}</p>
+                <p className="text-xs text-white/80 leading-relaxed">{item.isi_komentar}</p>
+                <p className="text-[10px] text-white/50 mt-0.5">{formatWaktu(item.created_at)}</p>
               </div>
             </div>
           ))}
@@ -140,9 +194,12 @@ export default function Massage() {
                 shadow-md
                 disabled:opacity-40
               "
-              disabled={!message.trim()}
+              disabled={!message.trim() || sending}
             >
-              <Send className="w-4 h-4 text-white" />
+              {sending
+                ? <Loader2 className="w-4 h-4 text-white animate-spin" />
+                : <Send className="w-4 h-4 text-white" />
+              }
             </button>
           </div>
         </form>

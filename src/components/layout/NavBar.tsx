@@ -35,7 +35,7 @@ export default function NavBar() {
 
   const [musicStatus, setMusicStatus] = useState(true);
   const [powerStatus, setPowerStatus] = useState(true);
-  const [branchPointStatus, setBranchPointStatus] = useState(true);
+  const [branchPointStatus, setBranchPointStatus] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 

@@ -55,6 +55,36 @@ export const updateTema = async (payload: UpdateTemaPayload) => {
   return res.json();
 };
 
+export const getKomentar = async (id_user: number) => {
+  const res = await fetch(`https://bancendundesia.undesia.com/api/komentar?id_user=${id_user}`);
+
+  if (!res.ok) {
+    throw new Error("Gagal memuat data komentar");
+  }
+
+  return res.json();
+};
+
+type PostKomentarPayload = {
+  id_user: number;
+  nama: string;
+  komen: string;
+};
+
+export const postKomentar = async (payload: PostKomentarPayload) => {
+  const res = await fetch("https://bancendundesia.undesia.com/api/komentar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Gagal mengirim komentar");
+  }
+
+  return res.json();
+};
+
 export const getOrder = async (name: string, slug?: string) => {
   const res = await fetch(`https://bancendundesia.undesia.com/api/domains/${name}${slug ? `?slug=${slug}` : ''}`);
   

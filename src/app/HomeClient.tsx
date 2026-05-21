@@ -36,6 +36,7 @@ export default function HomeClient() {
 
   const [showWelcome, setShowWelcome] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [showHint, setShowHint] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -250,7 +251,7 @@ export default function HomeClient() {
 
               {/* BUTTON */}
               <button
-                onClick={() => setShowWelcome(false)}
+                onClick={() => { setShowWelcome(false); setShowHint(true); setTimeout(() => setShowHint(false), 5000); }}
                 className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#8b4513] text-white text-[10px] sm:text-xs shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 <span className="text-xs">✉</span>
@@ -269,6 +270,26 @@ export default function HomeClient() {
       </div>
 
       {!showWelcome ? <Navbar /> : null}
+
+      {/* HINT TOAST */}
+      <div
+        className={`
+          fixed bottom-24 left-1/2 -translate-x-1/2 z-50
+          flex items-center gap-2.5
+          px-4 py-2.5 rounded-full
+          bg-[#f8f1e7]/90 backdrop-blur-md
+          border border-[#d8b98d]
+          shadow-lg shadow-[#c79b57]/20
+          text-[#5a4330] text-[11px] sm:text-xs
+          whitespace-nowrap
+          transition-all duration-700 ease-in-out
+          ${showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
+        `}
+      >
+        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">✦</span>
+        <span>Ketuk gambar yang bergerak untuk membukanya</span>
+        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">✦</span>
+      </div>
     </main>
   );
 }

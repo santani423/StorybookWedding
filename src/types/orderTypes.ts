@@ -146,6 +146,7 @@ export interface Komentar {
 
 export interface GetKomentarResponse {
   message: string;
+  total: number;
   data: Komentar[];
 }
 

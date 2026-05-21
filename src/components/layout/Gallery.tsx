@@ -134,6 +134,14 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
 
   return (
     <>
+      {/* PRELOAD: semua gambar di-cache browser sebelum dialog dibuka */}
+      <div className="hidden" aria-hidden="true">
+        {galleryImages.map((img, index) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={index} src={img} alt="" loading="eager" />
+        ))}
+      </div>
+
       {/* DIALOG */}
       <Dialog
         open={open}
@@ -233,6 +241,7 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
                     alt={`Gallery ${index + 1}`}
                     fill
                     unoptimized
+                    loading="eager"
                     className="
                       object-cover
                       transition-transform
