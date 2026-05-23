@@ -41,7 +41,23 @@ const dressCodes = [
   },
 ];
 
-export default function ClothesRack({style="",styleImg=""}) {
+import type { CSSProperties } from "react";
+
+export default function ClothesRack({
+  style = "",
+  styleImg = "",
+  positionStyle,
+  imgStyle,
+  isSelected,
+  onSelect,
+}: {
+  style?: string;
+  styleImg?: string;
+  positionStyle?: CSSProperties;
+  imgStyle?: CSSProperties;
+  isSelected?: boolean;
+  onSelect?: () => void;
+}) {
   const { animationEnabled } = useAppSelector((state) => state.counter);
   return (
     <>
@@ -50,7 +66,9 @@ export default function ClothesRack({style="",styleImg=""}) {
         <DialogTrigger asChild>
           <div
             className={` ${style} ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-              cursor-pointer`}
+              cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
+            style={positionStyle}
+            onClick={onSelect}
           >
             <Image
               src="/assets/clothes-rack.webp"
@@ -59,6 +77,7 @@ export default function ClothesRack({style="",styleImg=""}) {
               height={0}
               sizes="100vw"
               className={styleImg}
+              style={imgStyle}
             />
           </div>
         </DialogTrigger>

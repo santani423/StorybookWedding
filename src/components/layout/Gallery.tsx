@@ -17,7 +17,23 @@ import { useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
 
  
-export default function GalleryDialog({ style = "", styleImg = "" }) {
+import type { CSSProperties } from "react";
+
+export default function GalleryDialog({
+  style = "",
+  styleImg = "",
+  positionStyle,
+  imgStyle,
+  isSelected,
+  onSelect,
+}: {
+  style?: string;
+  styleImg?: string;
+  positionStyle?: CSSProperties;
+  imgStyle?: CSSProperties;
+  isSelected?: boolean;
+  onSelect?: () => void;
+}) {
   const [open, setOpen] = React.useState(false);
 
   // gunakan number bukan string
@@ -161,7 +177,10 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
               ${style}
               cursor-pointer
               ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
+              ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}
             `}
+            style={positionStyle}
+            onClick={onSelect}
           >
             <Image
               src="/assets/gallery.webp"
@@ -170,6 +189,7 @@ export default function GalleryDialog({ style = "", styleImg = "" }) {
               height={0}
               sizes="100vw"
               className={styleImg}
+              style={imgStyle}
             />
           </div>
         </DialogTrigger>

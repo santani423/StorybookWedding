@@ -1,4 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import componentStylesData from "@/data/componentStyles.json";
+
+// Ekstrak hanya data breakpoints dari setiap komponen
+const componentStyles = Object.fromEntries(
+  Object.entries(componentStylesData.components).map(([key, val]) => [key, val.breakpoints])
+);
 
 const initialState = {
   indexPy: 0,
@@ -294,7 +300,12 @@ const initialState = {
   },
   styleGallery:'',
   editSize:true,
-  animationEnabled:true
+  animationEnabled:true,
+
+  // ─── Component position/size editor ────────────────────────────────
+  selectedComponent: null,
+  controlTarget: 'top',
+  componentStyles,
 };
 
 const counterSlice = createSlice({
@@ -356,9 +367,51 @@ const counterSlice = createSlice({
     setAnimationEnabled: (state, action) => {
       state.animationEnabled = action.payload;
     },
+
+    setSelectedComponent: (state, action) => {
+      state.selectedComponent = action.payload;
+    },
+
+    setControlTarget: (state, action) => {
+      state.controlTarget = action.payload;
+    },
+
+    adjustComponentStyle: (state, action) => {
+      const { delta } = action.payload;
+      const component = state.selectedComponent;
+      const bp = state.device;
+      const target = state.controlTarget;
+
+      if (!component || !bp || !target) return;
+
+      const compStyles = state.componentStyles?.[component];
+      if (!compStyles) return;
+
+      const order = [
+        'default','xxxs','xxs','xs','s','s2','iphone','mobile','sm',
+        'md','md2','md3','tb','lg','lg2','lg3','xl','2xl','3xl','4xl','5xl',
+      ];
+      const idx = order.indexOf(bp);
+      if (idx === -1) return;
+
+      // Cascade to find the current resolved value
+      let currentValue = 0;
+      for (let i = 0; i <= idx; i++) {
+        const bpData = compStyles[order[i]];
+        if (bpData && bpData[target] !== undefined) {
+          currentValue = bpData[target];
+        }
+      }
+
+      if (!compStyles[bp]) compStyles[bp] = {};
+      compStyles[bp][target] = currentValue + delta;
+    },
   },
 });
 
-export const { increment, decrement, setItemEdit, setDevice, setStyle ,setStyleGallery,setEditSize,setAnimationEnabled} =
-  counterSlice.actions;
+export const {
+  increment, decrement, setItemEdit, setDevice, setStyle,
+  setStyleGallery, setEditSize, setAnimationEnabled,
+  setSelectedComponent, setControlTarget, adjustComponentStyle,
+} = counterSlice.actions;
 export default counterSlice.reducer;

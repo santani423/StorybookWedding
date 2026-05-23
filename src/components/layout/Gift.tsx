@@ -26,10 +26,21 @@ interface GiftProps {
   styleImg?: string;
 }
 
+import type { CSSProperties } from "react";
+
 export default function Gift({
   style = "",
   styleImg = "",
-}: GiftProps) {
+  positionStyle,
+  imgStyle,
+  isSelected,
+  onSelect,
+}: GiftProps & {
+  positionStyle?: CSSProperties;
+  imgStyle?: CSSProperties;
+  isSelected?: boolean;
+  onSelect?: () => void;
+}) {
   const [copied, setCopied] = useState<string | null>(null);
 
   const { rekening, key } = useAppSelector(
@@ -64,9 +75,11 @@ export default function Gift({
           className={`
             ${style}
             ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-            cursor-pointer
-            outline-none
+            cursor-pointer outline-none
+            ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}
           `}
+          style={positionStyle}
+          onClick={onSelect}
         >
           <Image
             src="/assets/gift.png"
@@ -75,6 +88,7 @@ export default function Gift({
             height={300}
             priority
             className={styleImg}
+            style={imgStyle}
           />
         </button>
       </DialogTrigger>

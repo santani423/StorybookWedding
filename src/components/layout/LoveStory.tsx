@@ -23,7 +23,23 @@ const defaultImages = [
   "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
 ];
 
-export default function LoveStory({ style = "", styleImg = "" }) {
+import type { CSSProperties } from "react";
+
+export default function LoveStory({
+  style = "",
+  styleImg = "",
+  positionStyle,
+  imgStyle,
+  isSelected,
+  onSelect,
+}: {
+  style?: string;
+  styleImg?: string;
+  positionStyle?: CSSProperties;
+  imgStyle?: CSSProperties;
+  isSelected?: boolean;
+  onSelect?: () => void;
+}) {
   const [loveStories, setLoveStories] = React.useState<Cerita[]>([]);
 
   // Ambil data cerita dari Redux state order
@@ -50,7 +66,9 @@ export default function LoveStory({ style = "", styleImg = "" }) {
           <div
             className={` ${style} z-12
               ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-              cursor-pointer`}
+              cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
+            style={positionStyle}
+            onClick={onSelect}
           >
             <Image
               src="/assets/love-story.webp"
@@ -59,6 +77,7 @@ export default function LoveStory({ style = "", styleImg = "" }) {
               height={0}
               sizes="100vw"
               className={styleImg}
+              style={imgStyle}
             />
           </div>
         </DialogTrigger>

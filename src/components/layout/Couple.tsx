@@ -14,12 +14,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import type { CSSProperties } from "react";
+
 interface CoupleProps {
   style?: string;
   styleImg?: string;
+  positionStyle?: CSSProperties;
+  imgStyle?: CSSProperties;
+  isSelected?: boolean;
+  onSelect?: () => void;
 }
 
-export default function Couple({ style = "", styleImg = "" }: CoupleProps) {
+export default function Couple({
+  style = "",
+  styleImg = "",
+  positionStyle,
+  imgStyle,
+  isSelected,
+  onSelect,
+}: CoupleProps) {
   // Ambil key dari Redux state order
   const { key, mempelai, posisiMempelai } = useAppSelector(
     (state) => state.order,
@@ -38,7 +51,9 @@ export default function Couple({ style = "", styleImg = "" }: CoupleProps) {
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} cursor-pointer`}
+            className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
+            style={positionStyle}
+            onClick={onSelect}
           >
             <Image
               src="/assets/couple.webp"
@@ -47,7 +62,8 @@ export default function Couple({ style = "", styleImg = "" }: CoupleProps) {
               height={420}
               sizes="100vw"
               className={styleImg}
-              priority // Mengoptimalkan LCP karena ini tombol utama di halaman depan
+              style={imgStyle}
+              priority
             />
           </div>
         </DialogTrigger>

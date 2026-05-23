@@ -8,7 +8,8 @@ import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
 
 import { getTema, getBrackPoin, getOrder } from "@/services/api";
-import { setEditSize } from "@/redux/slices/counterSlice";
+import { setEditSize, setDevice } from "@/redux/slices/counterSlice";
+import { getCurrentBreakpoint } from "@/utils/breakpoint";
 import {
   setKey,
   setMempelai,
@@ -39,6 +40,11 @@ export default function HomeClient() {
   const [loading, setLoading] = useState(true);
   const [showHint, setShowHint] = useState(false);
 
+  const [isOnline, setIsOnline] = useState(
+    typeof navigator !== "undefined" ? navigator.onLine : true,
+  );
+  const [networkAlert, setNetworkAlert] = useState<"offline" | "online" | null>(null);
+
   const searchParams = useSearchParams();
 
   const { editSize, animationEnabled } = useAppSelector(
@@ -47,6 +53,44 @@ export default function HomeClient() {
   const { key, mempelai, posisiMempelai, tamu } = useAppSelector(
     (state) => state.order,
   );
+
+  /* =========================================
+      BREAKPOINT DETECTION
+  ========================================= */
+  useEffect(() => {
+    const update = () =>
+      dispatch(setDevice(getCurrentBreakpoint(window.innerWidth)));
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [dispatch]);
+
+  /* =========================================
+      NETWORK STATUS
+  ========================================= */
+  useEffect(() => {
+    let onlineTimer: ReturnType<typeof setTimeout>;
+
+    const handleOffline = () => {
+      setIsOnline(false);
+      setNetworkAlert("offline");
+    };
+
+    const handleOnline = () => {
+      setIsOnline(true);
+      setNetworkAlert("online");
+      onlineTimer = setTimeout(() => setNetworkAlert(null), 4000);
+    };
+
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+      clearTimeout(onlineTimer);
+    };
+  }, []);
 
   /* =========================================
       FETCH DATA
@@ -289,6 +333,37 @@ export default function HomeClient() {
       </div>
 
       {!showWelcome ? <Navbar /> : null}
+
+      {/* NETWORK ALERT */}
+      <div
+        className={`
+          fixed top-5 left-1/2 -translate-x-1/2 z-[100]
+          flex items-center gap-2.5
+          px-4 py-2.5 rounded-full
+          backdrop-blur-md border shadow-lg
+          text-[11px] sm:text-xs whitespace-nowrap
+          transition-all duration-700 ease-in-out
+          ${networkAlert === "offline"
+            ? "bg-[#3b1a0a]/90 border-[#8b4513] shadow-[#8b4513]/30 text-[#f8d9b0]"
+            : "bg-[#f8f1e7]/90 border-[#d8b98d] shadow-[#c79b57]/20 text-[#5a4330]"
+          }
+          ${networkAlert !== null ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
+        `}
+      >
+        {networkAlert === "offline" ? (
+          <>
+            <span className="text-[#c87941] text-sm">✦</span>
+            <span>Koneksi internet terputus</span>
+            <span className="text-[#c87941] text-sm">✦</span>
+          </>
+        ) : (
+          <>
+            <span className="text-[#c79b57] text-sm">✦</span>
+            <span>Koneksi internet tersambung</span>
+            <span className="text-[#c79b57] text-sm">✦</span>
+          </>
+        )}
+      </div>
 
       {/* HINT TOAST */}
       <div
