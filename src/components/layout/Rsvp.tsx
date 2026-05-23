@@ -8,15 +8,14 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
-import { useAppSelector } from "@/redux/hooks";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/redux/hooks";
 
 import type { CSSProperties } from "react";
 
@@ -27,30 +26,23 @@ export default function Rsvp({
   imgStyle,
   isSelected,
   onSelect,
-}: {
+}: Readonly<{
   style?: string;
   styleImg?: string;
   positionStyle?: CSSProperties;
   imgStyle?: CSSProperties;
   isSelected?: boolean;
   onSelect?: () => void;
-}) {
+}>) {
   const { animationEnabled } = useAppSelector((state) => state.counter);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log({
-      name,
-      attendance,
-      message,
-    });
-
+    console.log({ name, attendance, message });
     alert("RSVP berhasil dikirim ✨");
-
     setName("");
     setAttendance("");
     setMessage("");
@@ -68,6 +60,12 @@ export default function Rsvp({
               cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
             style={positionStyle}
             onClick={onSelect}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") onSelect?.();
+            }}
+            aria-pressed={isSelected}
           >
             <Image
               src="/assets/rsvp.webp"
@@ -88,23 +86,13 @@ export default function Rsvp({
             <DialogTitle className="text-2xl font-serif text-white">
               RSVP Wedding
             </DialogTitle>
-
-            {/* <DialogDescription className="text-white">
-              Konfirmasi kehadiran dan kirim doa terbaik Anda ✨
-            </DialogDescription> */}
           </DialogHeader>
 
           {/* CONTENT */}
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5 p-6"
-          >
+          <form onSubmit={handleSubmit} className="space-y-5 p-6">
             {/* NAME */}
             <div className="space-y-2">
-              <Label className="text-neutral-700">
-                Nama Lengkap
-              </Label>
-
+              <Label className="text-neutral-700">Nama Lengkap</Label>
               <Input
                 type="text"
                 placeholder="Masukkan nama Anda"
@@ -117,27 +105,11 @@ export default function Rsvp({
 
             {/* ATTENDANCE */}
             <div className="space-y-2">
-              <Label className="text-neutral-700">
-                Konfirmasi Kehadiran
-              </Label>
-
+              <Label className="text-neutral-700">Konfirmasi Kehadiran</Label>
               <select
                 value={attendance}
                 onChange={(e) => setAttendance(e.target.value)}
-                required
-                className="
-                  w-full
-                  h-11
-                  rounded-xl
-                  border
-                  border-neutral-200
-                  bg-white
-                  px-3
-                  text-sm
-                  outline-none
-                  focus:ring-2
-                  focus:ring-black
-                "
+                className="w-full h-11 rounded-xl border border-neutral-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-black"
               >
                 <option value="">Pilih Kehadiran</option>
                 <option value="hadir">Hadir</option>
@@ -147,33 +119,23 @@ export default function Rsvp({
 
             {/* MESSAGE */}
             <div className="space-y-2">
-              <Label className="text-neutral-700">
-                Ucapan & Doa
-              </Label>
-
+              <Label className="text-neutral-700">Ucapan &amp; Doa</Label>
               <Textarea
                 placeholder="Tulis ucapan terbaik..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="min-h-[120px] rounded-2xl border-neutral-200"
+                className="min-h-30 rounded-2xl border-neutral-200"
               />
             </div>
 
             {/* BUTTON */}
             <Button
               type="submit"
-              className="
-                w-full
-                h-11
-                rounded-xl
-                bg-[#9F6326]
-                text-white
-                hover:bg-[#9F6326]-800
-              "
+              className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800"
             >
               Kirim RSVP
             </Button>
-          </form> 
+          </form>
         </DialogContent>
       </Dialog>
     </>

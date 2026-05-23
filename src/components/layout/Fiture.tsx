@@ -10,6 +10,7 @@ import ClothesRack from "@/components/layout/ClothesRack";
 import Addres from "@/components/layout/Addres";
 import Gift from "@/components/layout/Gift";
 import { resolveStyle, toPositionCss, toImgCss } from "@/utils/breakpoint";
+import { useEffect } from "react";
 
 export default function Fiture() {
   const dispatch = useAppDispatch();
@@ -37,7 +38,9 @@ export default function Fiture() {
   function selectHandler(key: string) {
     return () => dispatch(setSelectedComponent(selectedComponent === key ? null : key));
   }
-
+  useEffect(()=>{
+    console.log("rolus", rolus);
+  },[rolus])
   return (
     <div
       className="p-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center"
