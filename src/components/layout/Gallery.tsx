@@ -245,8 +245,8 @@ export default function GalleryDialog({
           <div className="max-h-[80vh] overflow-y-auto p-5">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
               {galleryImages.map((img, index) => (
+                <div key={index} className="flex items-center justify-center">
                 <button
-                  key={index}
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -255,6 +255,7 @@ export default function GalleryDialog({
                   }}
                   className="
                     relative
+                    w-full
                     aspect-square
                     overflow-hidden
                     rounded-3xl
@@ -262,10 +263,9 @@ export default function GalleryDialog({
 
                     shadow-[0_10px_30px_rgba(0,0,0,0.25)]
 
-                    transition-all
+                    transition-transform
                     duration-500
 
-                    hover:-translate-y-2
                     hover:scale-[1.03]
                   "
                 >
@@ -276,10 +276,11 @@ export default function GalleryDialog({
                     unoptimized
                     loading="eager"
                     className="
-                      object-cover
+                      object-contain
+                      object-center
                       transition-transform
                       duration-700
-                      group-hover:scale-110
+                      group-hover:scale-105
                     "
                   />
 
@@ -317,6 +318,7 @@ export default function GalleryDialog({
                     </span>
                   </div>
                 </button>
+                </div>
               ))}
             </div>
           </div>

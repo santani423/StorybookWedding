@@ -62,7 +62,7 @@ export default function Couple({
       <Dialog>
         <DialogTrigger asChild>
           <div
-            className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
+            className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} cursor-pointer inline-flex items-center justify-center ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
             style={positionStyle}
             onClick={onSelect}
           >
@@ -73,8 +73,8 @@ export default function Couple({
                 width={420}
                 height={420}
                 sizes="100vw"
-                className={styleImg}
-                style={imgStyle}
+                className={`block ${styleImg}`}
+                style={{ display: "block", ...imgStyle }}
                 priority
               />
             ) : null}

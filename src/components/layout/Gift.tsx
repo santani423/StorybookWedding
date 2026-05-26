@@ -11,7 +11,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
@@ -37,6 +36,7 @@ export default function Gift({
   onSelect?: () => void;
 }) {
   const [copied, setCopied] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   const { rekening, key } = useAppSelector((state: any) => state.order);
   const { animationEnabled, apiAssets } = useAppSelector(
@@ -71,33 +71,43 @@ export default function Gift({
   }, [apiAssets]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       {/* BUTTON OPEN */}
-      <DialogTrigger asChild>
         <button
           type="button"
           className={`
             ${style}
             ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-            cursor-pointer outline-none
-            ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}
+             outline-none inline-flex items-center justify-center
           `}
           style={positionStyle}
-          onClick={onSelect}
         >
-          {src ? (
-            <Image
-              src={src}
-              alt="Gift"
-              width={300}
-              height={300}
-              priority
-              className={styleImg}
-              style={imgStyle}
-            />
-          ) : null}
+          <span
+            className={`
+              block
+              ring-2 ring-offset-2 rounded
+              ${isSelected ? "ring-white/90" : "ring-transparent ring-offset-transparent"}
+            `}
+          >
+            {src ? (
+              <Image
+                src={src}
+                onClick={() => { onSelect?.(); setOpen(true); }}
+                alt="Gift"
+                width={300}
+                height={300}
+                priority
+                className={`cursor-pointer ${styleImg}`}
+                style={imgStyle}
+              />
+            ) : (
+              <span
+                className={styleImg}
+                style={{ display: "block", ...imgStyle }}
+              />
+            )}
+          </span>
         </button>
-      </DialogTrigger>
 
       {/* DIALOG */}
       <DialogContent

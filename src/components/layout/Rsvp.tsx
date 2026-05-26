@@ -58,7 +58,7 @@ export default function Rsvp({
   }, [apiAssets]);
 
   return (
-    <>p
+    <>
       {/* BUTTON OPEN */}
       <Dialog>
         <DialogTrigger asChild>
@@ -66,7 +66,8 @@ export default function Rsvp({
             className={`
               ${style}
               ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-              cursor-pointer ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}`}
+              cursor-pointer ring-2 ring-offset-2 rounded
+              ${isSelected ? "ring-white/90" : "ring-transparent ring-offset-transparent"}`}
             style={positionStyle}
             onClick={onSelect}
             role="button"
@@ -77,15 +78,17 @@ export default function Rsvp({
             aria-pressed={isSelected}
           >
             {src && (
-              <Image
-                src={src}
-                alt="RSVP"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className={styleImg}
-                style={imgStyle}
-              />
+              <div className="flex items-center justify-center w-full h-full">
+                <Image
+                  src={src}
+                  alt="RSVP"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className={styleImg}
+                  style={imgStyle}
+                />
+              </div>
             )}
           </div>
         </DialogTrigger>
