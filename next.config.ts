@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         hostname: domainHostname, // Mengambil otomatis 'undangan.undesia.com' dari .env
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "bancendundesia.undesia.com",
+        pathname: "/**",
+      },
     ],
   },
 };

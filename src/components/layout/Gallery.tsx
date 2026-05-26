@@ -41,9 +41,11 @@ export default function GalleryDialog({
   const { key, mempelai, posisiMempelai, album } = useAppSelector(
     (state) => state.order,
   );
-  const { animationEnabled } = useAppSelector((state) => state.counter);
+  const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
 
   const [galleryImages, setGalleryImages] = React.useState<string[]>([]);
+ 
+  const [src, setSrc] = React.useState("");
 
   console.log("album gallery", album);
   useEffect(() => {
@@ -148,6 +150,15 @@ export default function GalleryDialog({
     }
   };
 
+  useEffect(() => {
+    const galleryAsset = apiAssets.find((asset) => asset.name === "gallery");
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
+    if (galleryAsset && galleryAsset.src) {
+      setSrc(`${baseUrl}${galleryAsset.src}`);
+    }
+  }, [apiAssets]);
+
   return (
     <>
       {/* PRELOAD: semua gambar di-cache browser sebelum dialog dibuka */}
@@ -182,15 +193,17 @@ export default function GalleryDialog({
             style={positionStyle}
             onClick={onSelect}
           >
-            <Image
-              src="/assets/gallery.webp"
-              alt="Gallery"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className={styleImg}
-              style={imgStyle}
-            />
+            {src && (
+              <Image
+                src={src}
+                alt="Gallery"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className={styleImg}
+                style={imgStyle}
+              />
+            )}
           </div>
         </DialogTrigger>
 

@@ -34,10 +34,11 @@ export default function Rsvp({
   isSelected?: boolean;
   onSelect?: () => void;
 }>) {
-  const { animationEnabled } = useAppSelector((state) => state.counter);
+  const { animationEnabled,apiAssets } = useAppSelector((state) => state.counter);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
+  const [src, setSrc] = React.useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,8 +49,16 @@ export default function Rsvp({
     setMessage("");
   };
 
+  React.useEffect(() => {
+    const rsvpAsset = apiAssets.find(asset => asset.name === "rsvp");
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
+    if (rsvpAsset && rsvpAsset.src) {
+      setSrc(`${baseUrl}${rsvpAsset.src}`);
+    }
+  }, [apiAssets]);
+
   return (
-    <>
+    <>p
       {/* BUTTON OPEN */}
       <Dialog>
         <DialogTrigger asChild>
@@ -67,15 +76,17 @@ export default function Rsvp({
             }}
             aria-pressed={isSelected}
           >
-            <Image
-              src="/assets/rsvp.webp"
-              alt="RSVP"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className={styleImg}
-              style={imgStyle}
-            />
+            {src && (
+              <Image
+                src={src}
+                alt="RSVP"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className={styleImg}
+                style={imgStyle}
+              />
+            )}
           </div>
         </DialogTrigger>
 

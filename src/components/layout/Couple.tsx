@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import * as React from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
@@ -37,14 +37,25 @@ export default function Couple({
   const { key, mempelai, posisiMempelai } = useAppSelector(
     (state) => state.order,
   );
-  const { animationEnabled } = useAppSelector((state) => state.counter);
+  const [src, setSrc] = useState("");
+  const { animationEnabled, apiAssets } = useAppSelector(
+    (state) => state.counter,
+  );
   const baseUrl =
     process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
+  const assetBaseUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
 
   // Gambar fallback atau kosong jika key dari Redux belum di-load
   const groomSrc = key ? `${baseUrl}/assets/users/${key}/groom.png` : "";
   const brideSrc = key ? `${baseUrl}/assets/users/${key}/bride.png` : "";
 
+  useEffect(() => {
+    const coupleAsset = apiAssets.find((asset) => asset.name === "couple");
+    if (coupleAsset && coupleAsset.src) {
+      setSrc(`${assetBaseUrl}${coupleAsset.src}`);
+    }
+  }, [apiAssets]);
   return (
     <>
       {/* BUTTON OPEN */}
@@ -55,16 +66,18 @@ export default function Couple({
             style={positionStyle}
             onClick={onSelect}
           >
-            <Image
-              src="/assets/couple.webp"
-              alt="Couple"
-              width={420}
-              height={420}
-              sizes="100vw"
-              className={styleImg}
-              style={imgStyle}
-              priority
-            />
+            {src ? (
+              <Image
+                src={src}
+                alt="Couple"
+                width={420}
+                height={420}
+                sizes="100vw"
+                className={styleImg}
+                style={imgStyle}
+                priority
+              />
+            ) : null}
           </div>
         </DialogTrigger>
 
@@ -89,7 +102,7 @@ export default function Couple({
             {/* GROOM */}
             <div className="rounded-3xl border border-neutral-200 bg-[#9F6326] p-5 shadow-sm">
               <div className="flex flex-col items-center text-center">
-                { groomSrc ? (
+                {groomSrc ? (
                   <Image
                     src={posisiMempelai === "0" ? groomSrc : brideSrc}
                     alt="Mempelai Pria"
