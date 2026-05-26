@@ -1,15 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useAppSelector } from "@/redux/hooks";
 
-import {
-  Gift as GiftIcon,
-  Copy,
-  WalletCards,
-  Check,
-} from "lucide-react";
+import { Gift as GiftIcon, Copy, WalletCards, Check } from "lucide-react";
 
 import {
   Dialog,
@@ -43,11 +38,11 @@ export default function Gift({
 }) {
   const [copied, setCopied] = useState<string | null>(null);
 
-  const { rekening, key } = useAppSelector(
-    (state: any) => state.order
+  const { rekening, key } = useAppSelector((state: any) => state.order);
+  const { animationEnabled, apiAssets } = useAppSelector(
+    (state: any) => state.counter,
   );
-  const { animationEnabled } = useAppSelector((state: any) => state.counter);
-
+  const [src, setSrc] = useState("");
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -63,8 +58,17 @@ export default function Gift({
   };
 
   const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://undangan.undesia.com";
+    process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
+
+  useEffect(() => {
+    const giftAsset = apiAssets.find((asset: any) => asset.name === "gift");
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL ||
+      "https://bancendundesia.undesia.com";
+    if (giftAsset && giftAsset.src) {
+      setSrc(`${baseUrl}${giftAsset.src}`);
+    }
+  }, [apiAssets]);
 
   return (
     <Dialog>
@@ -81,15 +85,17 @@ export default function Gift({
           style={positionStyle}
           onClick={onSelect}
         >
-          <Image
-            src="/assets/gift.png"
-            alt="Gift"
-            width={300}
-            height={300}
-            priority
-            className={styleImg}
-            style={imgStyle}
-          />
+          {src ? (
+            <Image
+              src={src}
+              alt="Gift"
+              width={300}
+              height={300}
+              priority
+              className={styleImg}
+              style={imgStyle}
+            />
+          ) : null}
         </button>
       </DialogTrigger>
 
@@ -132,9 +138,9 @@ export default function Gift({
               leading-relaxed
             "
           >
-            Kehadiran dan doa restu Anda sudah menjadi hadiah terbaik
-            bagi kami. Namun jika ingin memberikan tanda kasih,
-            dapat melalui informasi berikut.
+            Kehadiran dan doa restu Anda sudah menjadi hadiah terbaik bagi kami.
+            Namun jika ingin memberikan tanda kasih, dapat melalui informasi
+            berikut.
           </p>
         </DialogHeader>
 
@@ -157,9 +163,7 @@ export default function Gift({
                 shadow-sm
               "
             >
-              <p className="text-neutral-500">
-                Belum ada data rekening.
-              </p>
+              <p className="text-neutral-500">Belum ada data rekening.</p>
             </div>
           ) : (
             <div className="space-y-5">
@@ -238,9 +242,7 @@ export default function Gift({
                         size="icon"
                         variant="ghost"
                         className="shrink-0"
-                        onClick={() =>
-                          copyToClipboard(item.no_rekening)
-                        }
+                        onClick={() => copyToClipboard(item.no_rekening)}
                       >
                         {copied === item.no_rekening ? (
                           <Check className="w-4 h-4 text-green-600" />
@@ -291,7 +293,7 @@ export default function Gift({
                         </div>
 
                         <p className="text-sm text-neutral-500 mt-3 text-center">
-                          Scan QR Code untuk transfer  
+                          Scan QR Code untuk transfer
                         </p>
                       </div>
                     )}
@@ -310,9 +312,9 @@ export default function Gift({
                 "
               >
                 <p className="text-sm text-rose-700 leading-relaxed">
-                  Terima kasih atas doa, restu, dan hadiah yang
-                  diberikan. Semoga kebaikan Anda dibalas dengan
-                  kebahagiaan dan keberkahan.
+                  Terima kasih atas doa, restu, dan hadiah yang diberikan.
+                  Semoga kebaikan Anda dibalas dengan kebahagiaan dan
+                  keberkahan.
                 </p>
               </div>
             </div>
