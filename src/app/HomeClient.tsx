@@ -7,8 +7,9 @@ import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
 
-import { getTema, getBrackPoin, getOrder } from "@/services/api";
-import { setEditSize, setDevice } from "@/redux/slices/counterSlice";
+import { getOrder } from "@/services/api";
+import { useTemaDetail } from "@/services/queries";
+import { setEditSize, setDevice, setApiData } from "@/redux/slices/counterSlice";
 import { getCurrentBreakpoint } from "@/utils/breakpoint";
 import {
   setKey,
@@ -33,8 +34,7 @@ import QRCodeWithLogo from "@/components/ui/QRCodeWithLogo";
 export default function HomeClient() {
   const dispatch = useAppDispatch();
 
-  const [tema, setTema] = useState<any[]>([]);
-  const [brackPoin, setBrackPoin] = useState<any[]>([]);
+  const { data: temaData } = useTemaDetail("TEMA1");
 
   const [showWelcome, setShowWelcome] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -93,37 +93,34 @@ export default function HomeClient() {
   }, []);
 
   /* =========================================
-      FETCH DATA
+      TEMA DATA → REDUX
+  ========================================= */
+  useEffect(() => {
+    if (temaData?.data?.assets) {
+      dispatch(setApiData({ assets: temaData.data.assets }));
+    }
+  }, [temaData, dispatch]);
+
+  /* =========================================
+      FETCH ORDER DATA
   ========================================= */
   useEffect(() => {
     if (!editSize) return;
 
-    const fetchTema = async () => {
+    const fetchOrder = async () => {
       try {
         setLoading(true);
-        const data = await getTema();
-        const brackPoin = await getBrackPoin();
-
         const name = searchParams.get("name");
-        console.log("name", name);
-
-        const slug = searchParams.get("slug");
 
         if (!name) {
           setLoading(false);
           return;
         }
 
+        const slug = searchParams.get("slug");
         const order = (await getOrder(name, slug ? slug : undefined)) as
           | DomainDetailsResponse
           | undefined;
-
-        console.log("Order:", order?.data);
-        console.log("Order kunci:", order?.data?.user?.data?.kunci);
-        console.log(
-          "Order mempelai:",
-          order?.data?.user?.mempelai?.posisi_mempelai,
-        );
 
         if (order?.data?.user) {
           dispatch(setKey(order.data.user.data.kunci));
@@ -138,9 +135,6 @@ export default function HomeClient() {
           dispatch(setTamu(order.tamu || ({} as any)));
         }
 
-        setTema(data?.data?.[0]?.assets || []);
-        setBrackPoin(brackPoin?.data || []);
-
         dispatch(setEditSize(false));
         setLoading(false);
       } catch (error) {
@@ -149,29 +143,8 @@ export default function HomeClient() {
       }
     };
 
-    fetchTema();
+    fetchOrder();
   }, [editSize, dispatch, searchParams]);
-
-  /* =========================================
-      GENERATE STYLE
-  ========================================= */
-  useEffect(() => {
-    let style = "absolute ";
-
-    tema?.forEach((it: any) => {
-      if (it?.type === "item") {
-        it?.asset_sizes.forEach((as: any) => {
-          brackPoin.forEach((itm: any) => {
-            if (as?.breakpoint?.name === itm?.name) {
-              style += itm?.name + ":" + as?.size_tema?.value + " ";
-            }
-          });
-        });
-      }
-    });
-
-    console.log("generated style", style);
-  }, [tema, brackPoin]);
 
   useEffect(() => {
     console.log("Redux key:", key);

@@ -1,5 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import templateData from "@/data/template.json";
+import templateData from "@/data/template.json"; 
+
+type ApiAsset = {
+  id: number;
+  name: string;
+  src: string | null;
+  xMedia: Array<{ device: string; py: string | null; size: string }>;
+};
+
+function parseSizeString(size: string): { type: string; value: number } | null {
+  if (!size) return null;
+  const neg = size.startsWith("-");
+  const s = neg ? size.slice(1) : size;
+  const dash = s.indexOf("-");
+  if (dash === -1) return null;
+  const type = s.slice(0, dash);
+  const val = parseFloat(s.slice(dash + 1));
+  if (isNaN(val)) return null;
+  return { type, value: neg ? -val : val };
+}
+
+function buildComponentStyles(
+  assets: ApiAsset[]
+): Record<string, Record<string, Record<string, number>>> {
+  const styles: Record<string, Record<string, Record<string, number>>> = {};
+  for (const asset of assets) {
+    styles[asset.name] = {};
+    for (const xm of asset.xMedia) {
+      const parsed = parseSizeString(xm.size);
+      if (!parsed) continue;
+      if (!styles[asset.name][xm.device]) styles[asset.name][xm.device] = {};
+      styles[asset.name][xm.device][parsed.type] = parsed.value;
+    }
+  }
+  return styles;
+}
 
 const initialState = {
   indexPy: templateData.indexPy,
@@ -15,6 +50,7 @@ const initialState = {
   assets: templateData.assets as Array<any>,
   style: templateData.style,
   componentStyles: templateData.componentStyles as Record<string, Record<string, Record<string, number>>>,
+  apiAssets: [] as ApiAsset[],
 };
 
 const counterSlice = createSlice({
@@ -86,6 +122,11 @@ const counterSlice = createSlice({
       state.controlTarget = action.payload;
     },
 
+    setApiData: (state, action: { payload: { assets: ApiAsset[] } }) => {
+      state.apiAssets = action.payload.assets;
+      state.componentStyles = buildComponentStyles(action.payload.assets);
+    },
+
     adjustComponentStyle: (state, action) => {
       const { delta } = action.payload;
       const component = state.selectedComponent;
@@ -127,6 +168,6 @@ const counterSlice = createSlice({
 export const {
   increment, decrement, setItemEdit, setDevice, setStyle,
   setStyleGallery, setEditSize, setAnimationEnabled,
-  setSelectedComponent, setControlTarget, adjustComponentStyle,
+  setSelectedComponent, setControlTarget, adjustComponentStyle, setApiData,
 } = counterSlice.actions;
 export default counterSlice.reducer;

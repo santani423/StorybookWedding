@@ -19,6 +19,8 @@ import {
   adjustComponentStyle,
 } from "@/redux/slices/counterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useUpdateTema } from "@/services/queries";
+import { Toast, type ToastData } from "@/components/ui/Toast";
 
 const Massage = dynamic(() => import("./nav/Message"), { ssr: false });
 const InfoSection = dynamic(() => import("./nav/InfoSection"), { ssr: false });
@@ -45,10 +47,38 @@ const TARGETS = [
 export default function NavBar() {
   const dispatch = useAppDispatch();
 
-  const { device, selectedComponent, controlTarget } = useAppSelector(
+  const { device, selectedComponent, controlTarget, apiAssets } = useAppSelector(
     (state) => state.counter,
   );
   const { tamu } = useAppSelector((state) => state.order);
+
+  const [toast, setToast] = useState<ToastData>(null);
+
+  const { mutate: updateTema } = useUpdateTema("TEMA1");
+
+  function handleAdjust(plesMinus: "+" | "-") {
+    if (!selectedComponent || !device || !controlTarget) return;
+
+    dispatch(adjustComponentStyle({ delta: plesMinus === "+" ? 1 : -1 }));
+
+    const asset = apiAssets.find((a) => a.name === selectedComponent);
+    if (!asset) return;
+
+    updateTema(
+      { asset_id: asset.id, breakpoint: device, plesMinus, type: controlTarget },
+      {
+        onSuccess: (data) => {
+          setToast({
+            message: data?.message ?? (data?.status ? "Berhasil diupdate" : "Gagal update"),
+            type: data?.status === true ? "success" : "error",
+          });
+        },
+        onError: () => {
+          setToast({ message: "Gagal terhubung ke server", type: "error" });
+        },
+      }
+    );
+  }
 
   const [musicStatus, setMusicStatus] = useState(true);
   const [powerStatus, setPowerStatus] = useState(true);
@@ -119,6 +149,7 @@ export default function NavBar() {
   const isDragged = dragPos !== null;
 
   return (
+    <>
     <div
       ref={navRef}
       onPointerMove={onPointerMove}
@@ -233,7 +264,7 @@ export default function NavBar() {
         type="button"
         disabled={!selectedComponent}
         className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
-        onClick={() => dispatch(adjustComponentStyle({ delta: 1 }))}
+        onClick={() => handleAdjust("+")}
       >
         <Plus className="h-5 w-5 text-white" />
       </button>
@@ -241,10 +272,19 @@ export default function NavBar() {
         type="button"
         disabled={!selectedComponent}
         className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
-        onClick={() => dispatch(adjustComponentStyle({ delta: -1 }))}
+        onClick={() => handleAdjust("-")}
       >
         <Minus className="h-5 w-5 text-white" />
       </button>
     </div>
+
+    {toast && (
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast(null)}
+      />
+    )}
+    </>
   );
 }

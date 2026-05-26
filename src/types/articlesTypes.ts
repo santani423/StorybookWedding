@@ -56,3 +56,4 @@ export type Articles = {
   updated_at?: string;
   author?: Author;
 };
+

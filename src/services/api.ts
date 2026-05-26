@@ -30,10 +30,21 @@ export const getBrackPoin = async () => {
   return res.json();
 };
 
+export const getTemaDetail = async (code: string) => {
+  const res = await fetch(`https://bancendundesia.undesia.com/api/tema/${code}`);
+
+  if (!res.ok) {
+    throw new Error("Gagal memuat detail tema");
+  }
+
+  return res.json();
+};
+
 type UpdateTemaPayload = {
   asset_id: number;
   breakpoint: string;
   plesMinus: string;
+  type: string;
 };
 
 export const updateTema = async (payload: UpdateTemaPayload) => {

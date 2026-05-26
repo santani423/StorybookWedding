@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Album, Cerita } from "@/types/orderTypes";
 import Image from "next/image";
 import { MapPin, CalendarDays, Clock } from "lucide-react";
@@ -51,8 +51,25 @@ export default function Addres({
 }) {
   const { key, mempelai, posisiMempelai, acara, additionalData } =
     useAppSelector((state) => state.order);
-  const { animationEnabled } = useAppSelector((state) => state.counter);
+  const { animationEnabled,apiAssets } = useAppSelector((state) => state.counter);
   const mapsUrl = extractMapsUrl(additionalData?.maps);
+  const [src, setSrc] = useState("");
+ 
+
+  useEffect(() => {
+    console.log("Order State:", { key, mempelai, posisiMempelai, acara, additionalData });
+    console.log("API Assets:", apiAssets);
+    console.log("API Assets:", apiAssets.find((asset) => asset.name === "addres")?.src);
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+    apiAssets?.forEach(asset => {
+      
+      setSrc(API_BASE + asset.src);
+    });
+  }, [key, mempelai, posisiMempelai, acara, additionalData, apiAssets]);
+
+  useEffect(() => {
+    console.log("Src for addres:", src);
+  }, [src]);
   return (
     <>
       {/* BUTTON OPEN */}
@@ -68,7 +85,7 @@ export default function Addres({
             onClick={onSelect}
           >
             <Image
-              src="/assets/alamat.webp"
+              src={src}
               alt="Alamat"
               width={0}
               height={0}
