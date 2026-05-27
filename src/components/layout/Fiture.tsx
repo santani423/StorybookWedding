@@ -45,7 +45,7 @@ export default function Fiture() {
 
   return (
     <div
-      className="p-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center"
+      className="p-4 pt-20 md:pt-4 rounded-lg shadow-md relative w-full h-full flex items-center justify-center"
       onClick={(e) => {
         if (e.target === e.currentTarget) dispatch(setSelectedComponent(null));
       }}

@@ -69,7 +69,7 @@ export default function Addres({
       </button>
 
       <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-[#FCDDA6] shadow-2xl">
-        <DialogHeader className="px-6 pt-6 pb-5 border-b bg-[#9F6326] text-center">
+        <DialogHeader className="px-6 pr-10 pt-6 pb-5 border-b bg-[#9F6326] text-center">
           <DialogTitle className="text-2xl font-serif text-white">Informasi Acara</DialogTitle>
         </DialogHeader>
 

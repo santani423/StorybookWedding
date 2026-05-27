@@ -123,7 +123,7 @@ export default function Gift({
         {/* HEADER */}
         <DialogHeader
           className="
-            px-6
+            px-6 pr-10
             pt-6
             pb-5
             bg-[#9F6326]
@@ -138,7 +138,7 @@ export default function Gift({
             </DialogTitle>
           </div>
 
-          <p
+          {/* <p
             className="
               text-sm
               md:text-base
@@ -151,7 +151,7 @@ export default function Gift({
             Kehadiran dan doa restu Anda sudah menjadi hadiah terbaik bagi kami.
             Namun jika ingin memberikan tanda kasih, dapat melalui informasi
             berikut.
-          </p>
+          </p> */}
         </DialogHeader>
 
         {/* CONTENT */}

@@ -83,7 +83,7 @@ export default function Rsvp({
       </button>
 
       <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-[#FCDDA6] backdrop-blur-md p-0 overflow-hidden">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-[#9F6326] text-center">
+        <DialogHeader className="px-6 pr-10 pt-6 pb-4 border-b bg-[#9F6326] text-center">
           <DialogTitle className="text-2xl font-serif text-white">RSVP Wedding</DialogTitle>
         </DialogHeader>
 
