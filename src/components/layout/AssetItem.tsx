@@ -19,12 +19,12 @@ export type AssetItemProps = {
 };
 
 const COMPONENT_REGISTRY: Record<string, ComponentType<AssetItemProps>> = {
-  clothesRack: ClothesRack,
+  "clothes-rack": ClothesRack,
   gallery: Gallery,
-  addres: Addres,
+  address: Addres,
   rsvp: Rsvp,
   couple: Couple,
-  loveStory: LoveStory,
+  "love-story": LoveStory,
   gift: Gift,
 };
 
@@ -32,15 +32,12 @@ const HOVER_ANIMATION =
   "transition-all duration-500 hover:scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.7)] hover:drop-shadow-[0_0_40px_rgba(255,255,255,1)]";
 
 const STYLE_MAP: Record<string, { style: string; styleImg: string }> = {
-  clothesRack: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  gallery: {
-    style: "absolute",
-    styleImg: `h-auto ${HOVER_ANIMATION}`,
-  },
-  addres: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
+  "clothes-rack": { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
+  gallery: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
+  address: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
   rsvp: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
   couple: { style: "", styleImg: `h-auto max-w-none ${HOVER_ANIMATION}` },
-  loveStory: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
+  "love-story": { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
   gift: { style: "absolute z-12", styleImg: `h-auto ${HOVER_ANIMATION}` },
 };
 

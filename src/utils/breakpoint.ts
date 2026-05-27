@@ -62,10 +62,10 @@ const tw = (n: number) => `${n * 0.25}rem`;
 
 export function toPositionCss(style: BpStyle): CSSProperties {
   const css: CSSProperties = { position: "absolute" };
-  if (style.top !== undefined) css.top = tw(style.top);
-  if (style.bottom !== undefined) css.bottom = tw(style.bottom);
-  if (style.left !== undefined) css.left = tw(style.left);
-  if (style.right !== undefined) css.right = tw(style.right);
+  if (style.top !== undefined && style.top !== 0) css.top = tw(style.top);
+  if (style.bottom !== undefined && style.bottom !== 0) css.bottom = tw(style.bottom);
+  if (style.left !== undefined && style.left !== 0) css.left = tw(style.left);
+  if (style.right !== undefined && style.right !== 0) css.right = tw(style.right);
   return css;
 }
 

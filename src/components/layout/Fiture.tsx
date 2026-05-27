@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import AssetItem from "@/components/layout/AssetItem";
 
 const ROLUS_GUARD: Record<string, (rolus: any) => boolean> = {
-  addres: (rolus) => !!rolus?.lokasi,
+  address: (rolus) => !!rolus?.lokasi,
   rsvp: (rolus) => !!rolus?.komen,
   gift: (rolus) => rolus?.hadiah === 1,
 };
