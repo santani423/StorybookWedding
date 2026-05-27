@@ -46,7 +46,6 @@ export default function GalleryDialog({
  
   const [src, setSrc] = React.useState("");
 
-  console.log("album gallery", album);
   useEffect(() => {
     if (album && Array.isArray(album)) {
       setGalleryImages(

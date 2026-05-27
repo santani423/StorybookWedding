@@ -56,45 +56,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {/* INFO RESOLUSI */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function () {
-                function showResolution() {
-                  const width = window.innerWidth;
-                  const height = window.innerHeight;
-
-                  let info = document.getElementById("screen-info");
-
-                  if (!info) {
-                    info = document.createElement("div");
-                    info.id = "screen-info";
-
-                    info.style.position = "fixed";
-                    info.style.bottom = "10px";
-                    info.style.right = "10px";
-                    info.style.zIndex = "9999";
-                    info.style.background = "rgba(0,0,0,0.7)";
-                    info.style.color = "#fff";
-                    info.style.padding = "8px 12px";
-                    info.style.borderRadius = "8px";
-                    info.style.fontSize = "14px";
-                    info.style.fontFamily = "Arial";
-
-                    document.body.appendChild(info);
-                  }
-
-                  info.innerText = width + " x " + height;
-                }
-
-                window.addEventListener("resize", showResolution);
-                window.addEventListener("load", showResolution);
-              })();
-            `,
-          }}
-        />
-
         <QueryProvider>
           <ReduxProvider>{children}</ReduxProvider>
         </QueryProvider>

@@ -36,8 +36,7 @@ export default function Couple({
   const { key, mempelai, posisiMempelai } = useAppSelector((state) => state.order);
   const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
-  const assetBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
+  const { API_URL: baseUrl, API_BASE_URL: assetBaseUrl } = require("@/lib/constants");
 
   const groomSrc = key ? `${baseUrl}/assets/users/${key}/groom.png` : "";
   const brideSrc = key ? `${baseUrl}/assets/users/${key}/bride.png` : "";

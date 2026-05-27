@@ -4,6 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Shirt } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
+import { API_BASE_URL } from "@/lib/constants";
 
 import {
   Dialog,
@@ -58,8 +59,7 @@ export default function ClothesRack({
 
   React.useEffect(() => {
     const asset = apiAssets.find((a) => a.name === "clothes-rack");
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
-    if (asset?.src) setSrc(`${baseUrl}${asset.src}`);
+    if (asset?.src) setSrc(`${API_BASE_URL}${asset.src}`);
   }, [apiAssets]);
 
   return (

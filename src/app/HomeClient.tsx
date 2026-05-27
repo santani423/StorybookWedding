@@ -146,11 +146,6 @@ export default function HomeClient() {
     fetchOrder();
   }, [editSize, dispatch, searchParams]);
 
-  useEffect(() => {
-    console.log("Redux key:", key);
-    console.log("Redux mempelai:", mempelai);
-    console.log("Redux tamu:", tamu);
-  }, [key, mempelai, tamu]);
 
   /* =========================================
       MAIN STYLE

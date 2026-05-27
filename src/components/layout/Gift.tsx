@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
+import { API_URL as baseUrl, API_BASE_URL } from "@/lib/constants";
 
 interface GiftProps {
   style?: string;
@@ -38,10 +39,8 @@ export default function Gift({
   const [copied, setCopied] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
-  const { rekening, key } = useAppSelector((state: any) => state.order);
-  const { animationEnabled, apiAssets } = useAppSelector(
-    (state: any) => state.counter,
-  );
+  const { rekening, key } = useAppSelector((state) => state.order);
+  const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
   const [src, setSrc] = useState("");
   const copyToClipboard = async (text: string) => {
     try {
@@ -57,17 +56,9 @@ export default function Gift({
     }
   };
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
-
   useEffect(() => {
-    const giftAsset = apiAssets.find((asset: any) => asset.name === "gift");
-    const baseUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL ||
-      "https://bancendundesia.undesia.com";
-    if (giftAsset && giftAsset.src) {
-      setSrc(`${baseUrl}${giftAsset.src}`);
-    }
+    const giftAsset = apiAssets.find((asset) => asset.name === "gift");
+    if (giftAsset?.src) setSrc(`${API_BASE_URL}${giftAsset.src}`);
   }, [apiAssets]);
 
   return (

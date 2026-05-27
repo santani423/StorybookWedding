@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
+import { API_BASE_URL } from "@/lib/constants";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { MapPin, CalendarDays } from "lucide-react";
@@ -37,8 +38,7 @@ export default function Addres({
 
   useEffect(() => {
     const asset = apiAssets.find((a) => a.name === "address");
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
-    if (asset?.src) setSrc(`${baseUrl}${asset.src}`);
+    if (asset?.src) setSrc(`${API_BASE_URL}${asset.src}`);
   }, [apiAssets]);
 
   return (

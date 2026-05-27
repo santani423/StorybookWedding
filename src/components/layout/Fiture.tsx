@@ -3,7 +3,6 @@
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { setSelectedComponent } from "@/redux/slices/counterSlice";
 import { resolveStyle, toPositionCss, toImgCss } from "@/utils/breakpoint";
-import { useEffect } from "react";
 import AssetItem from "@/components/layout/AssetItem";
 
 const ROLUS_GUARD: Record<string, (rolus: any) => boolean> = {
@@ -38,10 +37,6 @@ export default function Fiture() {
     return () => dispatch(setSelectedComponent(selectedComponent === key ? null : key));
   }
 
-  useEffect(() => {
-    console.log("rolus", rolus);
-    console.log("apiAssets", apiAssets);
-  }, [rolus,apiAssets]);
 
   return (
     <div

@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
+import { API_BASE_URL } from "@/lib/constants";
 
 import type { CSSProperties } from "react";
 
@@ -42,7 +43,6 @@ export default function Rsvp({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ name, attendance, message });
     alert("RSVP berhasil dikirim ✨");
     setName("");
     setAttendance("");
@@ -51,8 +51,7 @@ export default function Rsvp({
 
   React.useEffect(() => {
     const asset = apiAssets.find((a) => a.name === "rsvp");
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
-    if (asset?.src) setSrc(`${baseUrl}${asset.src}`);
+    if (asset?.src) setSrc(`${API_BASE_URL}${asset.src}`);
   }, [apiAssets]);
 
   return (

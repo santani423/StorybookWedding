@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAppSelector } from "@/redux/hooks";
+import { API_BASE_URL } from "@/lib/constants";
 import { Cerita } from "@/types/orderTypes";
 
 const defaultImages = [
@@ -54,8 +55,7 @@ export default function LoveStory({
 
   React.useEffect(() => {
     const asset = apiAssets.find((a) => a.name === "love-story");
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
-    if (asset?.src) setSrc(`${baseUrl}${asset.src}`);
+    if (asset?.src) setSrc(`${API_BASE_URL}${asset.src}`);
   }, [apiAssets]);
 
   return (
