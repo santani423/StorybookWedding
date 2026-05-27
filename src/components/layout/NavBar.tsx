@@ -68,9 +68,14 @@ export default function NavBar() {
       { asset_id: asset.id, breakpoint: device, plesMinus, type: controlTarget },
       {
         onSuccess: (data) => {
+          const oldVal = data?.old_size?.value ?? "-";
+          const newVal = data?.new_size?.value ?? "-";
+          const isOk = data?.new_size != null;
           setToast({
-            message: data?.message ?? (data?.status ? "Berhasil diupdate" : "Gagal update"),
-            type: data?.status === true ? "success" : "error",
+            message: isOk
+              ? `Berhasil: ${oldVal} → ${newVal}`
+              : (data?.message ?? "Gagal update"),
+            type: isOk ? "success" : "error",
           });
         },
         onError: () => {

@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
@@ -34,7 +33,8 @@ export default function Rsvp({
   isSelected?: boolean;
   onSelect?: () => void;
 }>) {
-  const { animationEnabled,apiAssets } = useAppSelector((state) => state.counter);
+  const [open, setOpen] = React.useState(false);
+  const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -50,108 +50,84 @@ export default function Rsvp({
   };
 
   React.useEffect(() => {
-    const rsvpAsset = apiAssets.find(asset => asset.name === "rsvp");
+    const asset = apiAssets.find((a) => a.name === "rsvp");
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
-    if (rsvpAsset && rsvpAsset.src) {
-      setSrc(`${baseUrl}${rsvpAsset.src}`);
-    }
+    if (asset?.src) setSrc(`${baseUrl}${asset.src}`);
   }, [apiAssets]);
 
   return (
-    <>
-      {/* BUTTON OPEN */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <div
-            className={`
-              ${style}
-              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-              cursor-pointer ring-2 ring-offset-2 rounded
-              ${isSelected ? "ring-white/90" : "ring-transparent ring-offset-transparent"}`}
-            style={positionStyle}
-            onClick={onSelect}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") onSelect?.();
-            }}
-            aria-pressed={isSelected}
-          >
-            {src && (
-              <div className="flex items-center justify-center w-full h-full">
-                <Image
-                  src={src}
-                  alt="RSVP"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className={styleImg}
-                  style={imgStyle}
-                />
-              </div>
-            )}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <button
+        type="button"
+        className={`${style} ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} outline-none inline-flex items-center justify-center`}
+        style={positionStyle}
+      >
+        <span
+          className={`block ring-2 ring-offset-2 rounded ${isSelected ? "ring-white/90" : "ring-transparent ring-offset-transparent"}`}
+        >
+          {src ? (
+            <Image
+              src={src}
+              alt="RSVP"
+              width={300}
+              height={300}
+              priority
+              className={`cursor-pointer ${styleImg}`}
+              style={imgStyle}
+              onClick={() => { onSelect?.(); setOpen(true); }}
+            />
+          ) : (
+            <span className={styleImg} style={{ display: "block", ...imgStyle }} />
+          )}
+        </span>
+      </button>
+
+      <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-[#FCDDA6] backdrop-blur-md p-0 overflow-hidden">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-[#9F6326] text-center">
+          <DialogTitle className="text-2xl font-serif text-white">RSVP Wedding</DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
+          <div className="space-y-2">
+            <Label className="text-neutral-700">Nama Lengkap</Label>
+            <Input
+              type="text"
+              placeholder="Masukkan nama Anda"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="h-11 rounded-xl border-neutral-200"
+              required
+            />
           </div>
-        </DialogTrigger>
 
-        {/* DIALOG */}
-        <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-[#FCDDA6] backdrop-blur-md p-0 overflow-hidden">
-          {/* HEADER */}
-          <DialogHeader className="px-6 pt-6 pb-4 border-b bg-[#9F6326] text-center">
-            <DialogTitle className="text-2xl font-serif text-white">
-              RSVP Wedding
-            </DialogTitle>
-          </DialogHeader>
-
-          {/* CONTENT */}
-          <form onSubmit={handleSubmit} className="space-y-5 p-6">
-            {/* NAME */}
-            <div className="space-y-2">
-              <Label className="text-neutral-700">Nama Lengkap</Label>
-              <Input
-                type="text"
-                placeholder="Masukkan nama Anda"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="h-11 rounded-xl border-neutral-200"
-                required
-              />
-            </div>
-
-            {/* ATTENDANCE */}
-            <div className="space-y-2">
-              <Label className="text-neutral-700">Konfirmasi Kehadiran</Label>
-              <select
-                value={attendance}
-                onChange={(e) => setAttendance(e.target.value)}
-                className="w-full h-11 rounded-xl border border-neutral-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-black"
-              >
-                <option value="">Pilih Kehadiran</option>
-                <option value="hadir">Hadir</option>
-                <option value="tidak_hadir">Tidak Hadir</option>
-              </select>
-            </div>
-
-            {/* MESSAGE */}
-            <div className="space-y-2">
-              <Label className="text-neutral-700">Ucapan &amp; Doa</Label>
-              <Textarea
-                placeholder="Tulis ucapan terbaik..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="min-h-30 rounded-2xl border-neutral-200"
-              />
-            </div>
-
-            {/* BUTTON */}
-            <Button
-              type="submit"
-              className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800"
+          <div className="space-y-2">
+            <Label className="text-neutral-700">Konfirmasi Kehadiran</Label>
+            <select
+              value={attendance}
+              onChange={(e) => setAttendance(e.target.value)}
+              className="w-full h-11 rounded-xl border border-neutral-200 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-black"
             >
-              Kirim RSVP
-            </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+              <option value="">Pilih Kehadiran</option>
+              <option value="hadir">Hadir</option>
+              <option value="tidak_hadir">Tidak Hadir</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-neutral-700">Ucapan &amp; Doa</Label>
+            <Textarea
+              placeholder="Tulis ucapan terbaik..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="min-h-30 rounded-2xl border-neutral-200"
+            />
+          </div>
+
+          <Button type="submit" className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800">
+            Kirim RSVP
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

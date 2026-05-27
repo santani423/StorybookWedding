@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
@@ -174,38 +173,34 @@ export default function GalleryDialog({
         open={open}
         onOpenChange={(value) => {
           setOpen(value);
-
-          // reset preview saat dialog close
-          if (!value) {
-            setSelectedIndex(-1);
-          }
+          if (!value) setSelectedIndex(-1);
         }}
       >
         {/* BUTTON OPEN */}
-        <DialogTrigger asChild>
-          <div
-            className={`
-              ${style}
-              cursor-pointer
-              ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""}
-              ${isSelected ? "ring-2 ring-white/90 ring-offset-2 rounded" : ""}
-            `}
-            style={positionStyle}
-            onClick={onSelect}
+        <button
+          type="button"
+          className={`${style} ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} outline-none inline-flex items-center justify-center`}
+          style={positionStyle}
+        >
+          <span
+            className={`block ring-2 ring-offset-2 rounded ${isSelected ? "ring-white/90" : "ring-transparent ring-offset-transparent"}`}
           >
-            {src && (
+            {src ? (
               <Image
                 src={src}
                 alt="Gallery"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className={styleImg}
+                width={300}
+                height={300}
+                priority
+                className={`cursor-pointer ${styleImg}`}
                 style={imgStyle}
+                onClick={() => { onSelect?.(); setOpen(true); }}
               />
+            ) : (
+              <span className={styleImg} style={{ display: "block", ...imgStyle }} />
             )}
-          </div>
-        </DialogTrigger>
+          </span>
+        </button>
 
         {/* CONTENT */}
         <DialogContent
