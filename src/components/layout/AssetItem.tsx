@@ -41,6 +41,8 @@ const STYLE_MAP: Record<string, { style: string; styleImg: string }> = {
   gift: { style: "absolute z-12", styleImg: `h-auto ${HOVER_ANIMATION}` },
 };
 
+const EDIT_MODE = process.env.NEXT_PUBLIC_EDIT_MODE === "true";
+
 export default function AssetItem({
   name,
   positionStyle,
@@ -65,7 +67,7 @@ export default function AssetItem({
       styleImg={styleImg}
       positionStyle={positionStyle}
       imgStyle={imgStyle}
-      isSelected={isSelected}
+      isSelected={EDIT_MODE ? isSelected : false}
       onSelect={onSelect}
     />
   );

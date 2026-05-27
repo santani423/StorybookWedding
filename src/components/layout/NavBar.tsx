@@ -45,6 +45,8 @@ const TARGETS = [
   { key: "w",      label: "W" },
 ] as const;
 
+const EDIT_MODE = process.env.NEXT_PUBLIC_EDIT_MODE === "true";
+
 export default function NavBar() {
   const dispatch = useAppDispatch();
 
@@ -152,7 +154,7 @@ export default function NavBar() {
   `;
 
   const isDragged = dragPos !== null;
-  const isActive = !!selectedComponent;
+  const isActive = EDIT_MODE && !!selectedComponent;
 
   // Tentukan inline style posisi
   const navStyle: React.CSSProperties = isDragged
@@ -178,8 +180,8 @@ export default function NavBar() {
       style={navStyle}
       className={navClass}
     >
-      {/* ── CONTROL PANEL: info + target selector (saat ada komponen terpilih) ── */}
-      {selectedComponent && (
+      {/* ── CONTROL PANEL: hanya tampil jika EDIT_MODE aktif ── */}
+      {EDIT_MODE && selectedComponent && (
         <div className="flex flex-col items-center gap-1 bg-black/50 rounded-xl p-2 border border-white/20 w-full">
           {/* Handle drag */}
           <div
@@ -284,23 +286,27 @@ export default function NavBar() {
         )}
       </button>
 
-      {/* + / - selalu tampil; aktif saat ada komponen terpilih */}
-      <button
-        type="button"
-        disabled={!selectedComponent}
-        className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
-        onClick={() => handleAdjust("+")}
-      >
-        <Plus className="h-5 w-5 text-white" />
-      </button>
-      <button
-        type="button"
-        disabled={!selectedComponent}
-        className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
-        onClick={() => handleAdjust("-")}
-      >
-        <Minus className="h-5 w-5 text-white" />
-      </button>
+      {/* + / - hanya tampil jika EDIT_MODE aktif */}
+      {EDIT_MODE && (
+        <>
+          <button
+            type="button"
+            disabled={!selectedComponent}
+            className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
+            onClick={() => handleAdjust("+")}
+          >
+            <Plus className="h-5 w-5 text-white" />
+          </button>
+          <button
+            type="button"
+            disabled={!selectedComponent}
+            className={`${iconClass} ${selectedComponent ? "opacity-100" : "opacity-30 cursor-not-allowed"}`}
+            onClick={() => handleAdjust("-")}
+          >
+            <Minus className="h-5 w-5 text-white" />
+          </button>
+        </>
+      )}
     </div>
 
     {toast && (
