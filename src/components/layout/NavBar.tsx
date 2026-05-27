@@ -18,6 +18,7 @@ import {
   setControlTarget,
   adjustComponentStyle,
 } from "@/redux/slices/counterSlice";
+import { resolveStyle } from "@/utils/breakpoint";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useUpdateTema } from "@/services/queries";
 import { Toast, type ToastData } from "@/components/ui/Toast";
@@ -47,7 +48,7 @@ const TARGETS = [
 export default function NavBar() {
   const dispatch = useAppDispatch();
 
-  const { device, selectedComponent, controlTarget, apiAssets } = useAppSelector(
+  const { device, selectedComponent, controlTarget, apiAssets, componentStyles } = useAppSelector(
     (state) => state.counter,
   );
   const { tamu } = useAppSelector((state) => state.order);
@@ -94,10 +95,10 @@ export default function NavBar() {
   const isDragging = useRef(false);
   const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null);
 
-  // Saat control panel ditutup (selectedComponent → null), kembali ke posisi asal
+  // Reset dragPos saat komponen di-deselect atau baru dipilih
   const prevSelected = useRef(selectedComponent);
   useEffect(() => {
-    if (prevSelected.current !== null && selectedComponent === null) {
+    if (prevSelected.current !== selectedComponent) {
       setDragPos(null);
     }
     prevSelected.current = selectedComponent;
@@ -150,8 +151,23 @@ export default function NavBar() {
     backdrop-blur-md shadow-lg cursor-pointer
   `;
 
-  // Saat drag aktif: pakai inline style fixed position; hapus semua kelas posisi Tailwind
   const isDragged = dragPos !== null;
+  const isActive = !!selectedComponent;
+
+  // Tentukan inline style posisi
+  const navStyle: React.CSSProperties = isDragged
+    ? { position: "fixed", left: dragPos.x, top: dragPos.y, transform: "none" }
+    : isActive
+    ? { position: "fixed", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }
+    : {};
+
+  // Kelas posisi Tailwind hanya aktif saat idle (tidak active, tidak drag)
+  const navClass = [
+    "z-50 flex flex-row sm:flex-col md:flex-col items-center justify-center gap-2 md:gap-3 rounded-2xl border border-white/10 bg-white/10 p-2 shadow-2xl backdrop-blur-xl",
+    !isDragged && !isActive
+      ? "fixed left-1/2 bottom-5 sm:left-auto sm:-right-2 md:left-auto md:right-6 md2:right-8 lg:right-14 lg2:right-74 xl:right-94 5xl:right-200 sm:bottom-20 md:top-1/2 md:bottom-auto -translate-x-1/2 md:translate-x-0 md:-translate-y-1/2"
+      : "",
+  ].join(" ");
 
   return (
     <>
@@ -159,18 +175,8 @@ export default function NavBar() {
       ref={navRef}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
-      style={
-        isDragged
-          ? { position: "fixed", left: dragPos.x, top: dragPos.y, transform: "none" }
-          : undefined
-      }
-      className={
-        isDragged
-          ? // Saat drag: hapus posisi Tailwind, pakai inline style saja
-            "z-50 flex flex-row sm:flex-col md:flex-col items-center justify-center gap-2 md:gap-3 rounded-2xl border border-white/10 bg-white/10 p-2 shadow-2xl backdrop-blur-xl"
-          : // Posisi asal
-            "fixed left-1/2 bottom-5 sm:left-auto sm:-right-2 md:left-auto md:right-6 md2:right-8 lg:right-14 lg2:right-74 xl:right-94 5xl:right-200 sm:bottom-20 md:top-1/2 md:bottom-auto z-50 flex flex-row sm:flex-col md:flex-col items-center justify-center gap-2 md:gap-3 rounded-2xl border border-white/10 bg-white/10 p-2 shadow-2xl backdrop-blur-xl -translate-x-1/2 md:translate-x-0 md:-translate-y-1/2"
-      }
+      style={navStyle}
+      className={navClass}
     >
       {/* ── CONTROL PANEL: info + target selector (saat ada komponen terpilih) ── */}
       {selectedComponent && (
@@ -195,22 +201,36 @@ export default function NavBar() {
           </div>
 
           {/* Target selector: T B L R W */}
-          <div className="flex flex-row gap-1 flex-wrap justify-center">
-            {TARGETS.map(({ key, label }) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => dispatch(setControlTarget(key))}
-                className={`w-7 h-7 rounded text-[11px] font-bold transition-all ${
-                  controlTarget === key
-                    ? "bg-yellow-400 text-black"
-                    : "bg-white/20 text-white hover:bg-white/40"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          {(() => {
+            const allStyles = componentStyles as Record<string, Record<string, any>> | undefined;
+            const resolved = selectedComponent && device
+              ? resolveStyle(allStyles?.[selectedComponent] ?? {}, device)
+              : {};
+            return (
+              <div className="flex flex-row gap-1 flex-wrap justify-center">
+                {TARGETS.map(({ key, label }) => {
+                  const val = (resolved as any)[key];
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => dispatch(setControlTarget(key))}
+                      className={`flex flex-col items-center justify-center w-9 h-9 rounded text-[10px] font-bold transition-all ${
+                        controlTarget === key
+                          ? "bg-yellow-400 text-black"
+                          : "bg-white/20 text-white hover:bg-white/40"
+                      }`}
+                    >
+                      <span>{label}</span>
+                      <span className={`text-[9px] font-normal leading-none ${controlTarget === key ? "text-black/70" : "text-white/60"}`}>
+                        {val !== undefined ? val : "–"}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
           {/* Batal pilih */}
           <button
