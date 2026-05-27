@@ -59,6 +59,7 @@ export default function ClothesRack({
   onSelect?: () => void;
 }) {
   const { animationEnabled } = useAppSelector((state) => state.counter);
+  
   return (
     <>
       {/* BUTTON OPEN */}
@@ -71,14 +72,14 @@ export default function ClothesRack({
             onClick={onSelect}
           >
             <Image
-              src="/assets/clothes-rack.webp"
+              src="/assets/rsvp.webp"
               alt="Dress Code"
               width={0}
               height={0}
               sizes="100vw"
               className={styleImg}
               style={imgStyle}
-            />
+            />ASasASas
           </div>
         </DialogTrigger>
 
