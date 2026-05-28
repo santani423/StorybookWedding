@@ -68,8 +68,8 @@ export default function Addres({
         </span>
       </button>
 
-      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-[#FCDDA6] shadow-2xl">
-        <DialogHeader className="px-6 pr-10 pt-6 pb-5 border-b bg-[#9F6326] text-center">
+      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-panel-bg shadow-2xl">
+        <DialogHeader className="px-6 pr-10 pt-6 pb-5 border-b bg-brand-primary text-center">
           <DialogTitle className="text-2xl font-serif text-white">Informasi Acara</DialogTitle>
         </DialogHeader>
 
@@ -82,7 +82,7 @@ export default function Addres({
 
           <div className="grid gap-5 md:grid-cols-2">
             {acara?.map((item) => (
-              <div key={item.id_acara} className="rounded-3xl border border-neutral-200 p-5 bg-[#9F6326]">
+              <div key={item.id_acara} className="rounded-3xl border border-neutral-200 p-5 bg-brand-primary">
                 <h2 className="text-xl font-semibold text-white mb-4">{item.nama_acara}</h2>
                 <div className="space-y-4 text-sm text-white">
                   <div className="flex items-start gap-3">

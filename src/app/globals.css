@@ -9,6 +9,32 @@
 ========================= */
 
 @theme inline {
+  /* =========================
+     BRAND / WEDDING — FUNCTIONAL TOKENS
+  ========================= */
+
+  /* surfaces */
+  --color-panel-bg: var(--panel-bg);
+  --color-surface-warm: var(--surface-warm);
+  --color-overlay-dark: var(--overlay-dark);
+
+  /* brand */
+  --color-brand-primary: var(--brand-primary);
+  --color-cta: var(--cta);
+
+  /* text */
+  --color-heading: var(--heading);
+  --color-label: var(--label);
+  --color-body-warm: var(--body-warm);
+  --color-caption: var(--caption);
+  --color-on-dark: var(--on-dark);
+  --color-success-warm: var(--success-warm);
+
+  /* decorative */
+  --color-brand-gold: var(--brand-gold);
+  --color-icon-accent: var(--icon-accent);
+  --color-divider: var(--divider);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -171,6 +197,12 @@
   }
 }
 
+button,
+[role="button"],
+a {
+  cursor: pointer;
+}
+
 .float-button {
   animation: floatButton 3s ease-in-out infinite;
   will-change: transform;
@@ -197,6 +229,31 @@
 ========================= */
 
 :root {
+  /* --- Brand / Wedding — Functional Tokens --- */
+
+  /* surfaces */
+  --panel-bg: #FCDDA6;        /* dialog / panel background */
+  --surface-warm: #f8f1e7;    /* toast / QR card / warm surface */
+  --overlay-dark: #3b1a0a;    /* offline alert overlay */
+
+  /* brand actions */
+  --brand-primary: #9F6326;   /* dialog headers, action buttons */
+  --cta: #8b4513;             /* primary CTA button (welcome screen) */
+
+  /* text hierarchy */
+  --heading: #4a2d16;         /* primary headings / couple names */
+  --label: #b07a3f;           /* guest name / prominent label */
+  --body-warm: #5a4330;       /* supporting body text */
+  --caption: #8b6b3f;         /* small captions / access labels */
+  --on-dark: #f8d9b0;         /* text on dark (offline alert) */
+  --success-warm: #7a4a1a;    /* success toast text */
+
+  /* decorative */
+  --brand-gold: #c79b57;      /* gold accent — stars, separators */
+  --icon-accent: #c87941;     /* icon highlight */
+  --divider: #d8b98d;         /* divider lines and subtle borders */
+
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 

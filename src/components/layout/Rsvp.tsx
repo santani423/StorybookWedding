@@ -107,8 +107,8 @@ export default function Rsvp({
         </span>
       </button>
 
-      <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-[#FCDDA6] backdrop-blur-md p-0 overflow-hidden">
-        <DialogHeader className="px-6 pr-10 pt-6 pb-4 border-b bg-[#9F6326] text-center">
+      <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-panel-bg backdrop-blur-md p-0 overflow-hidden">
+        <DialogHeader className="px-6 pr-10 pt-6 pb-4 border-b bg-brand-primary text-center">
           <DialogTitle className="text-2xl font-serif text-white">RSVP Wedding</DialogTitle>
         </DialogHeader>
 
@@ -152,14 +152,14 @@ export default function Rsvp({
           {toast && (
             <div className={`w-full rounded-xl px-4 py-3 text-sm text-center font-medium ${
               toast.type === "success"
-                ? "bg-[#9F6326]/15 text-[#7a4a1a] border border-[#9F6326]/30"
+                ? "bg-brand-primary/15 text-success-warm border border-brand-primary/30"
                 : "bg-red-50 text-red-700 border border-red-200"
             }`}>
               {toast.msg}
             </div>
           )}
 
-          <Button type="submit" disabled={submitting} className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800 disabled:opacity-60">
+          <Button type="submit" disabled={submitting} className="w-full h-11 rounded-xl bg-brand-primary text-white hover:brightness-90 disabled:opacity-60">
             {submitting ? "Mengirim..." : "Kirim RSVP"}
           </Button>
         </form>

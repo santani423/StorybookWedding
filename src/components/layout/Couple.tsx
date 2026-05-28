@@ -73,7 +73,7 @@ export default function Couple({
         </span>
       </button>
 
-      <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-[#FCDDA6] backdrop-blur-md">
+      <DialogContent className="sm:max-w-md rounded-3xl border-0 bg-panel-bg backdrop-blur-md">
         <DialogHeader className="text-center">
           <DialogTitle className="text-2xl font-serif text-neutral-800">The Bride &amp; Groom</DialogTitle>
           <VisuallyHidden.Root>
@@ -82,7 +82,7 @@ export default function Couple({
         </DialogHeader>
 
         <div className="mt-6 space-y-6">
-          <div className="rounded-3xl border border-neutral-200 bg-[#9F6326] p-5 shadow-sm">
+          <div className="rounded-3xl border border-neutral-200 bg-brand-primary p-5 shadow-sm">
             <div className="flex flex-col items-center text-center">
               {groomSrc ? (
                 <Image
@@ -107,7 +107,7 @@ export default function Couple({
             </div>
           </div>
 
-          <div className="rounded-3xl border border-neutral-200 bg-[#9F6326] p-5 shadow-sm">
+          <div className="rounded-3xl border border-neutral-200 bg-brand-primary p-5 shadow-sm">
             <div className="flex flex-col items-center text-center">
               {brideSrc ? (
                 <Image

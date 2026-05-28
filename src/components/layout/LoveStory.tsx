@@ -85,8 +85,8 @@ export default function LoveStory({
         </span>
       </button>
 
-      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-[#FCDDA6] shadow-2xl">
-        <DialogHeader className="px-6 pr-10 py-6 border-b bg-[#9F6326] text-center">
+      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-panel-bg shadow-2xl">
+        <DialogHeader className="px-6 pr-10 py-6 border-b bg-brand-primary text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
             <DialogTitle className="text-2xl md:text-3xl font-semibold text-white">Our Love Story</DialogTitle>

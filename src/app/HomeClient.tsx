@@ -213,21 +213,21 @@ export default function HomeClient() {
               {loading ? (
                 <Skeleton className="w-32 h-6 mb-2" />
               ) : (
-                <h1 className="text-[#4a2d16] font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
+                <h1 className="text-heading font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
                   {posisiMempelai === "0"
                     ? mempelai?.nama_pria
                     : mempelai?.nama_wanita || " "}
                 </h1>
               )}
 
-              <p className="my-1 text-[#c79b57] font-serif text-lg sm:text-xl">
+              <p className="my-1 text-brand-gold font-serif text-lg sm:text-xl">
                 &
               </p>
 
               {loading ? (
                 <Skeleton className="w-32 h-6 mb-2" />
               ) : (
-                <h1 className="text-[#4a2d16] font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
+                <h1 className="text-heading font-serif font-semibold leading-none text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
                   {posisiMempelai === "0"
                     ? mempelai?.nama_wanita
                     : mempelai?.nama_pria || " "}
@@ -235,20 +235,20 @@ export default function HomeClient() {
               )}
 
               <div className="flex items-center gap-2 mt-2">
-                <div className="w-8 h-[1px] bg-[#d8b98d]" />
-                <div className="text-[#c79b57] text-xs">♥</div>
-                <div className="w-8 h-[1px] bg-[#d8b98d]" />
+                <div className="w-8 h-[1px] bg-divider" />
+                <div className="text-brand-gold text-xs">♥</div>
+                <div className="w-8 h-[1px] bg-divider" />
               </div>
 
               {/* TAMU */}
               <div className="mt-2 text-center">
-                <p className="text-[#5a4330] text-[10px] sm:text-xs">
+                <p className="text-body-warm text-[10px] sm:text-xs">
                   Kepada Yth.
                 </p>
-                <h2 className="mt-1 text-[#b07a3f] font-serif italic text-base sm:text-lg md:text-xl">
+                <h2 className="mt-1 text-label font-serif italic text-base sm:text-lg md:text-xl">
                   {tamu?.nama_tamu || "Bapak/Ibu/Saudara/i"}
                 </h2>
-                <p className="mt-1 text-[#5a4330] text-[9px] sm:text-[10px] max-w-[220px]">
+                <p className="mt-1 text-body-warm text-[9px] sm:text-[10px] max-w-[220px]">
                   Terima kasih telah menjadi bagian dari hari bahagia kami.
                 </p>
               </div>
@@ -258,8 +258,8 @@ export default function HomeClient() {
                 <Skeleton className="w-20 h-20 mt-3" />
               ) : (
                 tamu?.qrcode ? (
-                  <div className="mt-3 bg-[#f8f1e7]/80 backdrop-blur-md border border-[#d8b98d] rounded-[1.2rem] px-3 py-2.5 shadow-lg">
-                    <p className="uppercase tracking-[0.15em] text-[#8b6b3f] text-[8px]">
+                  <div className="mt-3 bg-surface-warm/80 backdrop-blur-md border border-divider rounded-[1.2rem] px-3 py-2.5 shadow-lg">
+                    <p className="uppercase tracking-[0.15em] text-caption text-[8px]">
                       Akses Masuk
                     </p>
                     <div className="mt-2 bg-white rounded-lg p-1.5 flex justify-center">
@@ -269,7 +269,7 @@ export default function HomeClient() {
                         className="w-16 sm:w-20 md:w-24"
                       />
                     </div>
-                    <p className="mt-1.5 text-[#5a4330] text-[8px] sm:text-[9px] leading-relaxed">
+                    <p className="mt-1.5 text-body-warm text-[8px] sm:text-[9px] leading-relaxed">
                       Scan QR code <br /> untuk membuka undangan
                     </p>
                   </div>
@@ -283,7 +283,7 @@ export default function HomeClient() {
                   setShowHint(true);
                   setTimeout(() => setShowHint(false), 5000);
                 }}
-                className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#8b4513] text-white text-[10px] sm:text-xs shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                className="mt-3 flex items-center gap-1.5 px-4 py-2 rounded-full bg-cta text-white text-[10px] sm:text-xs shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
               >
                 <span className="text-xs">✉</span>
                 Buka Undangan
@@ -312,23 +312,23 @@ export default function HomeClient() {
           text-[11px] sm:text-xs whitespace-nowrap
           transition-all duration-700 ease-in-out
           ${networkAlert === "offline"
-            ? "bg-[#3b1a0a]/90 border-[#8b4513] shadow-[#8b4513]/30 text-[#f8d9b0]"
-            : "bg-[#f8f1e7]/90 border-[#d8b98d] shadow-[#c79b57]/20 text-[#5a4330]"
+            ? "bg-overlay-dark/90 border-cta shadow-cta/30 text-on-dark"
+            : "bg-surface-warm/90 border-divider shadow-brand-gold/20 text-body-warm"
           }
           ${networkAlert !== null ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
         `}
       >
         {networkAlert === "offline" ? (
           <>
-            <span className="text-[#c87941] text-sm">✦</span>
+            <span className="text-icon-accent text-sm">✦</span>
             <span>Koneksi internet terputus</span>
-            <span className="text-[#c87941] text-sm">✦</span>
+            <span className="text-icon-accent text-sm">✦</span>
           </>
         ) : (
           <>
-            <span className="text-[#c79b57] text-sm">✦</span>
+            <span className="text-brand-gold text-sm">✦</span>
             <span>Koneksi internet tersambung</span>
-            <span className="text-[#c79b57] text-sm">✦</span>
+            <span className="text-brand-gold text-sm">✦</span>
           </>
         )}
       </div>
@@ -339,20 +339,20 @@ export default function HomeClient() {
           fixed bottom-24 left-1/2 -translate-x-1/2 z-50
           flex items-center gap-2.5
           px-4 py-2.5 rounded-full
-          bg-[#f8f1e7]/90 backdrop-blur-md
-          border border-[#d8b98d]
-          shadow-lg shadow-[#c79b57]/20
-          text-[#5a4330] text-[11px] sm:text-xs
+          bg-surface-warm/90 backdrop-blur-md
+          border border-divider
+          shadow-lg shadow-brand-gold/20
+          text-body-warm text-[11px] sm:text-xs
           whitespace-nowrap
           transition-all duration-700 ease-in-out
           ${showHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}
         `}
       >
-        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">
+        <span className="text-brand-gold text-sm animate-[floatButton_2s_ease-in-out_infinite]">
           ✦
         </span>
         <span>Ketuk gambar yang bergerak untuk membukanya</span>
-        <span className="text-[#c79b57] text-sm animate-[floatButton_2s_ease-in-out_infinite]">
+        <span className="text-brand-gold text-sm animate-[floatButton_2s_ease-in-out_infinite]">
           ✦
         </span>
       </div>

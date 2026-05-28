@@ -106,7 +106,7 @@ export default function Gift({
           sm:max-w-3xl
           rounded-3xl
           border-0
-          bg-[#FCDDA6]
+          bg-panel-bg
           p-0
           overflow-hidden
         "
@@ -117,7 +117,7 @@ export default function Gift({
             px-6 pr-10
             pt-6
             pb-5
-            bg-[#9F6326]
+            bg-brand-primary
             text-center
           "
         >

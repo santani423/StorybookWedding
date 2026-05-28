@@ -220,12 +220,12 @@ export default function GalleryDialog({
             border-none
             rounded-3xl
 
-            bg-[#FCDDA6]
+            bg-panel-bg
             shadow-2xl
           "
         >
           {/* HEADER */}
-          <DialogHeader className="px-6 pr-10 pt-6 pb-4 border-b bg-[#9F6326] text-center">
+          <DialogHeader className="px-6 pr-10 pt-6 pb-4 border-b bg-brand-primary text-center">
             <DialogTitle className="text-2xl font-bold text-white">
               Wedding Gallery
             </DialogTitle>
