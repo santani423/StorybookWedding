@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
+import { API_BASE_URL } from "@/lib/constants";
 
  
 import type { CSSProperties } from "react";
@@ -151,7 +152,7 @@ export default function GalleryDialog({
   useEffect(() => {
     const galleryAsset = apiAssets.find((asset) => asset.name === "gallery");
     const baseUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
+      API_BASE_URL;
     if (galleryAsset && galleryAsset.src) {
       setSrc(`${baseUrl}${galleryAsset.src}`);
     }

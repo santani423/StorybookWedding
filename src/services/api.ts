@@ -1,42 +1,47 @@
 // services/api.ts
+import { API_BASE_URL } from "@/lib/constants";
+import { buildEncryptedApiKey } from "@/lib/crypto";
+
+async function buildAuthHeader(): Promise<Record<string, string>> {
+  const encrypted = await buildEncryptedApiKey();
+  return { "X-Api-Key": encrypted };
+}
+
+async function apiFetch(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const authHeader = await buildAuthHeader();
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...authHeader,
+      ...(options.headers as Record<string, string>),
+    },
+  });
+}
+
 export const getTemplates = async () => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/template");
-  
-  if (!res.ok) {
-    // TanStack Query butuh error dilempar agar state isError jadi true
-    throw new Error("Gagal memuat data template");
-  }
-  
+  const res = await apiFetch(`${API_BASE_URL}/api/template`);
+  if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
+
 export const getTema = async () => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/tema");
-  
-  if (!res.ok) {
-    // TanStack Query butuh error dilempar agar state isError jadi true
-    throw new Error("Gagal memuat data template");
-  }
-  
+  const res = await apiFetch(`${API_BASE_URL}/api/tema`);
+  if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
+
 export const getBrackPoin = async () => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/brackPoin");
-  
-  if (!res.ok) {
-    // TanStack Query butuh error dilempar agar state isError jadi true
-    throw new Error("Gagal memuat data template");
-  }
-  
+  const res = await apiFetch(`${API_BASE_URL}/api/brackPoin`);
+  if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
 
 export const getTemaDetail = async (code: string) => {
-  const res = await fetch(`https://bancendundesia.undesia.com/api/tema/${code}`);
-
-  if (!res.ok) {
-    throw new Error("Gagal memuat detail tema");
-  }
-
+  const res = await apiFetch(`${API_BASE_URL}/api/tema/${code}`);
+  if (!res.ok) throw new Error("Gagal memuat detail tema");
   return res.json();
 };
 
@@ -48,31 +53,20 @@ type UpdateTemaPayload = {
 };
 
 export const updateTema = async (payload: UpdateTemaPayload) => {
-  const res = await fetch(
-    "https://bancendundesia.undesia.com/api/tema",
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Gagal mengupdate data template");
-  }
-
+  const res = await apiFetch(`${API_BASE_URL}/api/tema`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error("Gagal mengupdate data template");
   return res.json();
 };
 
 export const getKomentar = async (id_user: number) => {
-  const res = await fetch(`https://bancendundesia.undesia.com/api/komentar?id_user=${id_user}`);
-
-  if (!res.ok) {
-    throw new Error("Gagal memuat data komentar");
-  }
-
+  const res = await apiFetch(
+    `${API_BASE_URL}/api/komentar?id_user=${id_user}`
+  );
+  if (!res.ok) throw new Error("Gagal memuat data komentar");
   return res.json();
 };
 
@@ -83,16 +77,12 @@ type PostKomentarPayload = {
 };
 
 export const postKomentar = async (payload: PostKomentarPayload) => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/komentar", {
+  const res = await apiFetch(`${API_BASE_URL}/api/komentar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-
-  if (!res.ok) {
-    throw new Error("Gagal mengirim komentar");
-  }
-
+  if (!res.ok) throw new Error("Gagal mengirim komentar");
   return res.json();
 };
 
@@ -105,26 +95,19 @@ type SubmitRsvpPayload = {
 };
 
 export const submitRsvp = async (payload: SubmitRsvpPayload) => {
-  const res = await fetch("https://bancendundesia.undesia.com/api/tamu", {
+  const res = await apiFetch(`${API_BASE_URL}/api/tamu`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-
-  if (!res.ok) {
-    throw new Error("Gagal mengirim RSVP");
-  }
-
+  if (!res.ok) throw new Error("Gagal mengirim RSVP");
   return res.json();
 };
 
 export const getOrder = async (name: string, slug?: string) => {
-  const res = await fetch(`https://bancendundesia.undesia.com/api/domains/${name}${slug ? `?slug=${slug}` : ''}`);
-  
-  if (!res.ok) {
-    // TanStack Query butuh error dilempar agar state isError jadi true
-    throw new Error("Gagal memuat data template");
-  }
-  
+  const res = await apiFetch(
+    `${API_BASE_URL}/api/domains/${name}${slug ? `?slug=${slug}` : ""}`
+  );
+  if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };

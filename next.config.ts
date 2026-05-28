@@ -1,9 +1,8 @@
 // next.config.ts
 import type { NextConfig } from "next";
 
-// Ambil URL dari env, jika tidak ada gunakan fallback agar tidak error saat build
-const envUrl = process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
-const domainHostname = new URL(envUrl).hostname;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://undangan.undesia.com";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://bancendundesia.undesia.com";
 
 const nextConfig: NextConfig = {
   images: {
@@ -14,12 +13,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: domainHostname, // Mengambil otomatis 'undangan.undesia.com' dari .env
+        hostname: new URL(apiUrl).hostname,
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "bancendundesia.undesia.com",
+        hostname: new URL(apiBaseUrl).hostname,
         pathname: "/**",
       },
     ],

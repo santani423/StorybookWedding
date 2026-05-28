@@ -8,6 +8,7 @@ import Navbar from "@/components/layout/NavBar";
 import Fiture from "@/components/layout/Fiture";
 
 import { getOrder } from "@/services/api";
+import { API_BASE_URL } from "@/lib/constants";
 import { useTemaDetail } from "@/services/queries";
 import { setEditSize, setDevice, setApiData } from "@/redux/slices/counterSlice";
 import { getCurrentBreakpoint } from "@/utils/breakpoint";
@@ -34,7 +35,10 @@ import QRCodeWithLogo from "@/components/ui/QRCodeWithLogo";
 export default function HomeClient() {
   const dispatch = useAppDispatch();
 
-  const { data: temaData } = useTemaDetail("TEMA1");
+  const searchParams = useSearchParams();
+  const tema = searchParams.get("tema") ?? "TEMA1";
+
+  const { data: temaData } = useTemaDetail(tema);
 
   const [showWelcome, setShowWelcome] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -44,8 +48,6 @@ export default function HomeClient() {
     typeof navigator !== "undefined" ? navigator.onLine : true,
   );
   const [networkAlert, setNetworkAlert] = useState<"offline" | "online" | null>(null);
-
-  const searchParams = useSearchParams();
 
   const { editSize, animationEnabled } = useAppSelector(
     (state) => state.counter,
@@ -102,6 +104,18 @@ export default function HomeClient() {
   }, [temaData, dispatch]);
 
   /* =========================================
+      THEME COLORS → CSS VARIABLES
+  ========================================= */
+  useEffect(() => {
+    const colors = temaData?.data?.themeColors;
+    if (!colors?.length) return;
+    const root = document.documentElement;
+    for (const { key, value } of colors) {
+      root.style.setProperty(`--${key.replace(/_/g, "-")}`, value);
+    }
+  }, [temaData]);
+
+  /* =========================================
       FETCH ORDER DATA
   ========================================= */
   useEffect(() => {
@@ -148,6 +162,19 @@ export default function HomeClient() {
 
 
   /* =========================================
+      ASSET HELPERS
+  ========================================= */
+  const getAssetSrc = (type: string): string => {
+    const asset = temaData?.data?.assets?.find((a: { type: string; src: string }) => a.type === type);
+    if (!asset) return "";
+    return `${API_BASE_URL}${asset.src}`;
+  };
+
+  const backgroundSrc = getAssetSrc("background");
+  const bgWelcomeSrc = getAssetSrc("bg-welcome");
+  const welcomeSrc = getAssetSrc("welcome");
+
+  /* =========================================
       MAIN STYLE
   ========================================= */
   const style = `
@@ -168,7 +195,7 @@ export default function HomeClient() {
       <div
         className={style}
         style={{
-          backgroundImage: `url(/background.webp)`,
+          backgroundImage: backgroundSrc ? `url(${backgroundSrc})` : undefined,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -185,7 +212,7 @@ export default function HomeClient() {
             ${showWelcome ? "opacity-100 visible scale-100" : "opacity-0 invisible scale-110"}
           `}
           style={{
-            backgroundImage: `url(/welcome2.webp)`,
+            backgroundImage: bgWelcomeSrc ? `url(${bgWelcomeSrc})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -197,7 +224,7 @@ export default function HomeClient() {
             className={`absolute top-0 left-1/2 -translate-x-1/2 flex justify-center ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} z-20`}
           >
             <Image
-              src="/assets/welcome.webp"
+              src={welcomeSrc || "/assets/welcome.webp"}
               alt="Welcome"
               width={0}
               height={0}

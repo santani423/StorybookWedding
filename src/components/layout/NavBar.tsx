@@ -137,9 +137,13 @@ export default function NavBar() {
     : { touchAction: "none" };
 
   const navClass = [
-    "z-50 flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-black/40 p-2 shadow-2xl backdrop-blur-xl",
+    "z-50 flex items-center gap-2 border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl",
+    // mobile: horizontal pill di bawah tengah
+    "flex-row rounded-full px-3 py-2",
+    // md+: vertikal pill di kanan tengah
+    "md:flex-col md:rounded-2xl md:px-2 md:py-2",
     !isDragged
-      ? "fixed right-3 bottom-20 md:right-6 md:top-1/2 md:bottom-auto md:-translate-y-1/2"
+      ? "fixed bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-6 md:bottom-auto md:top-1/2 md:-translate-y-1/2"
       : "",
   ].join(" ");
 
@@ -158,17 +162,17 @@ export default function NavBar() {
         style={navStyle}
         className={navClass}
       >
-        {/* ── DRAG HANDLE — selalu tampil, mudah digenggam di mobile ── */}
+        {/* ── DRAG HANDLE — hanya di md+, di mobile nav sudah fixed bottom center ── */}
         <div
           onPointerDown={onDragHandlePointerDown}
-          className="w-full flex items-center justify-center gap-1 py-1 cursor-grab active:cursor-grabbing text-white/50 hover:text-white/90 transition-colors select-none rounded-lg hover:bg-white/10"
+          className="hidden md:flex w-full items-center justify-center gap-1 py-1 cursor-grab active:cursor-grabbing text-white/50 hover:text-white/90 transition-colors select-none rounded-lg hover:bg-white/10"
         >
           <GripVertical className="w-5 h-5" />
         </div>
 
         {/* ── EDIT MODE CONTROL PANEL ── */}
         {EDIT_MODE && (
-          <div className="flex flex-col items-center gap-1.5 bg-black/50 rounded-xl p-2 border border-white/20 w-full">
+          <div className="flex flex-col items-center gap-1.5 bg-black/50 rounded-xl p-2 border border-white/20 md:w-full">
 
             {/* Select item */}
             <select
