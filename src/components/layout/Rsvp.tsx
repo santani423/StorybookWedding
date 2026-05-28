@@ -36,10 +36,15 @@ export default function Rsvp({
 }>) {
   const [open, setOpen] = React.useState(false);
   const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
+  const { tamu } = useAppSelector((state) => state.order);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [src, setSrc] = React.useState("");
+
+  React.useEffect(() => {
+    if (tamu?.nama_tamu) setName(tamu.nama_tamu);
+  }, [tamu]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,8 +98,9 @@ export default function Rsvp({
               type="text"
               placeholder="Masukkan nama Anda"
               value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="h-11 rounded-xl border-neutral-200"
+              onChange={(e) => !tamu?.nama_tamu && setName(e.target.value)}
+              readOnly={!!tamu?.nama_tamu}
+              className={`h-11 rounded-xl border-neutral-200 ${tamu?.nama_tamu ? "bg-neutral-100 cursor-not-allowed" : ""}`}
               required
             />
           </div>
