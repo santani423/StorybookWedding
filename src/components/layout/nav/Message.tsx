@@ -12,6 +12,7 @@ import { MessageSquareText, Send, User, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getKomentar, postKomentar } from "@/services/api";
+import { useAppSelector } from "@/redux/hooks";
 
 function formatWaktu(created_at: string): string {
   const now = new Date();
@@ -45,16 +46,19 @@ interface Komentar {
 }
 
 export default function Massage() {
+  const tamu = useAppSelector((state) => state.order.tamu);
+  const namaTamu = tamu?.nama_tamu ?? "";
+
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [comments, setComments] = useState<Komentar[]>([]);
   const [sending, setSending] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
-  const showName = message.length > 0;
+  const showName = !namaTamu && message.length > 0;
 
   const fetchComments = () => {
     getKomentar(ID_USER)
-      .then((json) => setComments(json.data ?? []))
+      .then((json) => setComments([...(json.data ?? [])].reverse()))
       .catch(() => {});
   };
 
@@ -66,14 +70,15 @@ export default function Massage() {
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!name.trim() || !message.trim()) return;
+    const resolvedName = namaTamu || name;
+    if (!resolvedName.trim() || !message.trim()) return;
     setSending(true);
     try {
-      const json = await postKomentar({ id_user: ID_USER, nama: name, komen: message });
+      const json = await postKomentar({ id_user: ID_USER, nama: resolvedName, komen: message });
       if (json.data) {
-        setComments((prev) => [...prev, json.data]);
+        setComments((prev) => [json.data, ...prev]);
         setTimeout(() => {
-          listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+          listRef.current?.scrollTo({ top: 0, behavior: "smooth" });
         }, 50);
       }
       setName("");
