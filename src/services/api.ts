@@ -96,6 +96,28 @@ export const postKomentar = async (payload: PostKomentarPayload) => {
   return res.json();
 };
 
+type SubmitRsvpPayload = {
+  id_user?: number;
+  slug?: string;
+  nama: string;
+  massage: string;
+  kehadiran: string;
+};
+
+export const submitRsvp = async (payload: SubmitRsvpPayload) => {
+  const res = await fetch("https://bancendundesia.undesia.com/api/tamu", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Gagal mengirim RSVP");
+  }
+
+  return res.json();
+};
+
 export const getOrder = async (name: string, slug?: string) => {
   const res = await fetch(`https://bancendundesia.undesia.com/api/domains/${name}${slug ? `?slug=${slug}` : ''}`);
   

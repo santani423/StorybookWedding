@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks";
 import { API_BASE_URL } from "@/lib/constants";
+import { submitRsvp } from "@/services/api";
 
 import type { CSSProperties } from "react";
 
@@ -36,22 +37,42 @@ export default function Rsvp({
 }>) {
   const [open, setOpen] = React.useState(false);
   const { animationEnabled, apiAssets } = useAppSelector((state) => state.counter);
-  const { tamu } = useAppSelector((state) => state.order);
+  const { tamu, additionalData } = useAppSelector((state) => state.order);
   const [name, setName] = React.useState("");
   const [attendance, setAttendance] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [src, setSrc] = React.useState("");
+  const [submitting, setSubmitting] = React.useState(false);
+  const [toast, setToast] = React.useState<{ type: "success" | "error"; msg: string } | null>(null);
 
   React.useEffect(() => {
     if (tamu?.nama_tamu) setName(tamu.nama_tamu);
+    if (tamu?.status) setAttendance(tamu.status.toLowerCase().replace(" ", "_"));
+    if (tamu?.rsvp?.massage) setMessage(tamu.rsvp.massage);
   }, [tamu]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("RSVP berhasil dikirim ✨");
-    setName("");
-    setAttendance("");
-    setMessage("");
+
+    if (!message.trim()) return;
+    if (!attendance) return;
+
+    try {
+      setSubmitting(true);
+      await submitRsvp({
+        id_user: tamu?.id_user ?? additionalData?.id_user ?? 0,
+        ...(tamu?.nama_slug ? { slug: tamu.nama_slug } : {}),
+        nama: name,
+        massage: message,
+        kehadiran: attendance === "tidak_hadir" ? "Tidak Hadir" : "Hadir",
+      });
+      setToast({ type: "success", msg: "RSVP berhasil dikirim, terima kasih!" });
+      setTimeout(() => { setToast(null); setOpen(false); }, 2500);
+    } catch {
+      setToast({ type: "error", msg: "Gagal mengirim RSVP, coba lagi." });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   React.useEffect(() => {
@@ -128,8 +149,18 @@ export default function Rsvp({
             />
           </div>
 
-          <Button type="submit" className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800">
-            Kirim RSVP
+          {toast && (
+            <div className={`w-full rounded-xl px-4 py-3 text-sm text-center font-medium ${
+              toast.type === "success"
+                ? "bg-[#9F6326]/15 text-[#7a4a1a] border border-[#9F6326]/30"
+                : "bg-red-50 text-red-700 border border-red-200"
+            }`}>
+              {toast.msg}
+            </div>
+          )}
+
+          <Button type="submit" disabled={submitting} className="w-full h-11 rounded-xl bg-[#9F6326] text-white hover:bg-[#9F6326]-800 disabled:opacity-60">
+            {submitting ? "Mengirim..." : "Kirim RSVP"}
           </Button>
         </form>
       </DialogContent>

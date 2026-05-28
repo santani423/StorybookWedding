@@ -171,6 +171,14 @@ export interface Rolus {
   updated_at: string;
 }
 
+export interface TamuRsvp {
+  id: number;
+  tamu_id: number;
+  massage: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Tamu {
   id_tamu: number;
   nama_tamu: string;
@@ -184,6 +192,7 @@ export interface Tamu {
   status_kirim: string;
   status: string | null;
   waktu_hadir: string | null;
+  rsvp?: TamuRsvp | null;
 }
 
 /**
