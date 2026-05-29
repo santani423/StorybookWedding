@@ -118,6 +118,7 @@ export interface User {
   acara: Acara[];
   rekening: Rekening[];
   rules: Rolus;
+  dress_code?: DressCode;
 }
 
 /**
@@ -167,8 +168,46 @@ export interface Rolus {
   qrcode: number;
   hadiah: number;
   quote: number;
+  dress_code: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface DressCodeItem {
+  id: number;
+  dress_code_id: number;
+  title: string;
+  description: string;
+  image: string | null;
+  type: string;
+  sort_order: number;
+  is_active: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DressCodePalette {
+  id: number;
+  dress_code_id: number;
+  color_hex: string;
+  color_name: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DressCode {
+  id: number;
+  order_id: number;
+  title: string;
+  description: string;
+  background_color: string;
+  text_color: string;
+  is_active: number;
+  created_at: string;
+  updated_at: string;
+  code_item: DressCodeItem[];
+  code_palette: DressCodePalette[];
 }
 
 export interface TamuRsvp {

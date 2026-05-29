@@ -6,9 +6,12 @@ import { resolveStyle, toPositionCss, toImgCss } from "@/utils/breakpoint";
 import AssetItem from "@/components/layout/AssetItem";
 
 const ROLUS_GUARD: Record<string, (rolus: any) => boolean> = {
-  address: (rolus) => !!rolus?.lokasi,
-  rsvp: (rolus) => !!rolus?.komen,
+  address: (rolus) => rolus?.lokasi === 1,
+  rsvp: (rolus) => rolus?.komen === 1,
   gift: (rolus) => rolus?.hadiah === 1,
+  gallery: (rolus) => rolus?.gallery === 1,
+  couple: (rolus) => rolus?.mempelai === 1,
+  "clothes-rack": (rolus) => rolus?.dress_code === 1,
 };
 
 export default function Fiture() {

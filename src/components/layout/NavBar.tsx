@@ -53,7 +53,7 @@ export default function NavBar() {
   const { device, selectedComponent, controlTarget, apiAssets, componentStyles } = useAppSelector(
     (state) => state.counter,
   );
-  const { tamu } = useAppSelector((state) => state.order);
+  const { tamu, rolus } = useAppSelector((state) => state.order);
 
   const [toast, setToast] = useState<ToastData>(null);
   const { mutate: updateTema } = useUpdateTema("TEMA1");
@@ -256,10 +256,10 @@ export default function NavBar() {
         <InfoSection />
 
         {/* Message */}
-        <Massage />
+        {rolus?.komen === 1 && <Massage />}
 
         {/* QR */}
-        <div className={`${tamu?.qrcode ? "block" : "hidden"} ${iconClass}`}>
+        <div className={`${tamu?.qrcode && rolus?.qrcode === 1 ? "block" : "hidden"} ${iconClass}`}>
           <QrCode />
         </div>
 

@@ -25,6 +25,7 @@ import {
   clearRekening,
   setRolus,
   setTamu,
+  setDressCode,
 } from "@/redux/slices/orderSlice";
 import { DomainDetailsResponse } from "@/types/orderTypes";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -52,7 +53,7 @@ export default function HomeClient() {
   const { editSize, animationEnabled } = useAppSelector(
     (state) => state.counter,
   );
-  const { key, mempelai, posisiMempelai, tamu } = useAppSelector(
+  const { key, mempelai, posisiMempelai, tamu, rolus, additionalData } = useAppSelector(
     (state) => state.order,
   );
 
@@ -147,6 +148,9 @@ export default function HomeClient() {
           dispatch(setRekening(order.data.user.rekening || []));
           dispatch(setRolus(order.data.user.rules || []));
           dispatch(setTamu(order.tamu || ({} as any)));
+          if (order.data.user.dress_code) {
+            dispatch(setDressCode(order.data.user.dress_code));
+          }
         }
 
         dispatch(setEditSize(false));
@@ -236,7 +240,7 @@ export default function HomeClient() {
 
           {/* CONTENT */}
           <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4">
-            <div className="flex flex-col items-center text-center mt-28 sm:mt-32 md:mt-36 px-3">
+            <div className="flex flex-col items-center text-center mt-20 sm:mt-24 md:mt-28 px-3">
               {loading ? (
                 <Skeleton className="w-32 h-6 mb-2" />
               ) : (
@@ -267,6 +271,13 @@ export default function HomeClient() {
                 <div className="w-8 h-[1px] bg-divider" />
               </div>
 
+              {/* SALAM PEMBUKA */}
+              {additionalData?.salam_pembuka && (
+                <p className="mt-3 text-body-warm text-[9px] sm:text-[10px] max-w-60 text-center leading-relaxed whitespace-pre-line">
+                  {additionalData.salam_pembuka}
+                </p>
+              )}
+
               {/* TAMU */}
               <div className="mt-2 text-center">
                 <p className="text-body-warm text-[10px] sm:text-xs">
@@ -284,7 +295,7 @@ export default function HomeClient() {
               {loading ? (
                 <Skeleton className="w-20 h-20 mt-3" />
               ) : (
-                tamu?.qrcode ? (
+                tamu?.qrcode && rolus?.qrcode === 1 ? (
                   <div className="mt-3 bg-surface-warm/80 backdrop-blur-md border border-divider rounded-[1.2rem] px-3 py-2.5 shadow-lg">
                     <p className="uppercase tracking-[0.15em] text-caption text-[8px]">
                       Akses Masuk
