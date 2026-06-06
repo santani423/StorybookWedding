@@ -30,22 +30,22 @@ export default function QrCodeItem() {
           overflow-hidden
           border-none
           rounded-3xl
-          bg-[#FCDDA6]
+          bg-panel-bg
           shadow-2xl
         "
       >
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#9F6326]/30 bg-[#9F6326]">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-brand-primary/30 bg-brand-primary">
           <DialogTitle className="text-lg font-serif text-white text-center">
             Scan QR Code
           </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col items-center gap-4 py-6 px-4">
-          <div className="rounded-2xl border-2 border-[#9F6326]/30 bg-white p-4 shadow-md">
+          <div className="rounded-2xl border-2 border-brand-primary/30 bg-white p-4 shadow-md">
             <QRCodeWithLogo text="https://undesia.com" />
           </div>
 
-          <p className="text-center text-sm text-[#9F6326]/80 leading-relaxed">
+          <p className="text-center text-sm text-brand-primary/80 leading-relaxed">
             Scan QR code untuk check-in, RSVP, atau membuka informasi acara.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function QrCodeItem() {
           <DialogClose asChild>
             <Button
               variant="outline"
-              className="w-full rounded-xl border-[#9F6326]/40 text-[#9F6326] bg-white/70 hover:bg-[#9F6326] hover:text-white transition-colors duration-200"
+              className="w-full rounded-xl border-brand-primary/40 text-brand-primary bg-white/70 hover:bg-brand-primary hover:text-white transition-colors duration-200"
             >
               Tutup
             </Button>

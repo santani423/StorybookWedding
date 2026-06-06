@@ -118,12 +118,12 @@ export default function Massage() {
           overflow-hidden
           border-none
           rounded-3xl
-          bg-[#FCDDA6]
+          bg-panel-bg
           shadow-2xl
         "
       >
         {/* Header */}
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#9F6326]/30 bg-[#9F6326]">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-brand-primary/30 bg-brand-primary">
           <DialogTitle className="text-lg font-serif text-white">
             Ucapan & Doa
           </DialogTitle>
@@ -137,13 +137,13 @@ export default function Massage() {
           {comments.map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-3 rounded-2xl bg-[#9F6326] p-3"
+              className="flex items-start gap-3 rounded-2xl bg-brand-primary p-3"
             >
-              <div className="w-8 h-8 rounded-full bg-[#FCDDA6] flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-[#9F6326]" />
+              <div className="w-8 h-8 rounded-full bg-panel-bg flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-brand-primary" />
               </div>
               <div className="space-y-0.5">
-                <p className="text-sm font-semibold text-[#FCDDA6]">{item.nama_komentar}</p>
+                <p className="text-sm font-semibold text-panel-bg">{item.nama_komentar}</p>
                 <p className="text-xs text-white/80 leading-relaxed">{item.isi_komentar}</p>
                 <p className="text-[10px] text-white/50 mt-0.5">{formatWaktu(item.created_at)}</p>
               </div>
@@ -154,7 +154,7 @@ export default function Massage() {
         {/* Form kirim pesan */}
         <form
           onSubmit={handleSubmit}
-          className="px-4 pb-5 pt-3 border-t border-[#9F6326]/30 space-y-3 bg-[#FCDDA6]"
+          className="px-4 pb-5 pt-3 border-t border-brand-primary/30 space-y-3 bg-panel-bg"
         >
           <div
             className={`overflow-hidden transition-all duration-500 ease-in-out ${
@@ -162,7 +162,7 @@ export default function Massage() {
             }`}
           >
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9F6326]" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-primary" />
               <Input
                 id="msg-name"
                 name="name"
@@ -170,7 +170,7 @@ export default function Massage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required={showName}
-                className="pl-9 rounded-xl border-[#9F6326]/40 bg-white/70 focus:border-[#9F6326] focus:ring-[#9F6326] text-sm"
+                className="pl-9 rounded-xl border-brand-primary/40 bg-white/70 focus:border-brand-primary focus:ring-brand-primary text-sm"
               />
             </div>
           </div>
@@ -184,7 +184,7 @@ export default function Massage() {
               onChange={(e) => setMessage(e.target.value)}
               required
               rows={2}
-              className="resize-none rounded-xl border-[#9F6326]/40 bg-white/70 focus:border-[#9F6326] focus:ring-[#9F6326] text-sm flex-1"
+              className="resize-none rounded-xl border-brand-primary/40 bg-white/70 focus:border-brand-primary focus:ring-brand-primary text-sm flex-1"
             />
             <button
               type="submit"
@@ -192,8 +192,8 @@ export default function Massage() {
                 w-10 h-10 shrink-0
                 flex items-center justify-center
                 rounded-full
-                bg-[#9F6326]
-                hover:bg-[#8a5420]
+                bg-brand-primary
+                hover:bg-brand-primary/80
                 active:scale-95
                 transition-all duration-200
                 shadow-md

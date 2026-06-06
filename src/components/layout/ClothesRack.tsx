@@ -72,8 +72,8 @@ export default function ClothesRack({
         </span>
       </button>
 
-      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-[#FCDDA6] shadow-2xl">
-        <DialogHeader className="px-6 pr-10 pt-6 pb-5 border-b bg-[#9F6326] text-center">
+      <DialogContent className="w-[95vw] sm:max-w-3xl p-0 overflow-hidden border-none rounded-3xl bg-panel-bg shadow-2xl">
+        <DialogHeader className="px-6 pr-10 pt-6 pb-5 border-b bg-brand-primary text-center">
           <div className="flex items-center gap-3">
             <div className="bg-black text-white p-3 rounded-2xl">
               <Shirt className="w-5 h-5" />
@@ -112,7 +112,7 @@ export default function ClothesRack({
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="group overflow-hidden rounded-3xl border bg-[#9F6326] shadow-sm hover:shadow-xl transition-all duration-500"
+                  className="group overflow-hidden rounded-3xl border bg-brand-primary shadow-sm hover:shadow-xl transition-all duration-500"
                 >
                   {item.image && (
                     <div className="relative overflow-hidden">

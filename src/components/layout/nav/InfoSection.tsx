@@ -62,12 +62,12 @@ function Content() {
           className="
             flex items-start gap-4
             rounded-2xl
-            bg-[#9F6326]
+            bg-brand-primary
             p-3
             shadow-sm
           "
         >
-          <div className="relative w-14 h-14 shrink-0 bg-[#FCDDA6] rounded-xl p-1">
+          <div className="relative w-14 h-14 shrink-0 bg-panel-bg rounded-xl p-1">
             <Image
               src={item.img}
               alt={item.title}
@@ -77,7 +77,7 @@ function Content() {
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-[#FCDDA6]">
+            <h3 className="text-sm font-semibold text-panel-bg">
               {item.title}
             </h3>
 
@@ -122,11 +122,11 @@ export default function InfoSection() {
           overflow-hidden
           border-none
           rounded-3xl
-          bg-[#FCDDA6]
+          bg-panel-bg
           shadow-2xl
         "
       >
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#9F6326]/30 bg-[#9F6326]">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-brand-primary/30 bg-brand-primary">
           <DialogTitle className="text-lg font-serif text-white">
             Informasi Undangan
           </DialogTitle>
