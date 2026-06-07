@@ -1,13 +1,14 @@
 "use client";
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useSearchParams } from "next/navigation";
 import { setSelectedComponent } from "@/redux/slices/counterSlice";
 import { resolveStyle, toPositionCss, toImgCss } from "@/utils/breakpoint";
 import AssetItem from "@/components/layout/AssetItem";
 
-const ROLUS_GUARD: Record<string, (rolus: any) => boolean> = {
+const ROLUS_GUARD: Record<string, (rolus: any, hasSlug: boolean) => boolean> = {
   address: (rolus) => rolus?.lokasi === 1,
-  rsvp: (rolus) => rolus?.komen === 1,
+  rsvp: (rolus, hasSlug) => rolus?.komen === 1 || hasSlug,
   gift: (rolus) => rolus?.hadiah === 1,
   gallery: (rolus) => rolus?.gallery === 1,
   couple: (rolus) => rolus?.mempelai === 1,
@@ -16,10 +17,12 @@ const ROLUS_GUARD: Record<string, (rolus: any) => boolean> = {
 
 export default function Fiture() {
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
   const { device, selectedComponent, componentStyles, apiAssets } = useAppSelector(
     (state) => state.counter,
   );
   const { rolus } = useAppSelector((state) => state.order);
+  const hasSlug = !!searchParams.get("slug");
 
   const bp = device ?? "default";
   const allStyles = componentStyles as Record<string, Record<string, any>> | undefined;
@@ -50,7 +53,7 @@ export default function Fiture() {
     >
       {apiAssets.map((asset) => {
         const guard = ROLUS_GUARD[asset.name];
-        if (guard && !guard(rolus)) return null; 
+        if (guard && !guard(rolus, hasSlug)) return null;
         return (
           <AssetItem
             key={asset.name}
