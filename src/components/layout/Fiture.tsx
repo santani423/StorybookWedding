@@ -22,7 +22,7 @@ export default function Fiture() {
     (state) => state.counter,
   );
   const { rolus } = useAppSelector((state) => state.order);
-  const hasSlug = !!searchParams.get("slug");
+  const hasSlug = !!searchParams.get("tamu");
 
   const bp = device ?? "default";
   const allStyles = componentStyles as Record<string, Record<string, any>> | undefined;

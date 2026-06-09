@@ -3,17 +3,17 @@ import { Suspense } from "react";
 import HomeClient from "./HomeClient";
 
 type Props = {
-  searchParams: Promise<{ name?: string; slug?: string }>;
+  searchParams: Promise<{ name?: string; tamu?: string }>;
 };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { name, slug } = await searchParams;
+  const { name = "FarhanNadia", tamu } = await searchParams;
 
   let ogImage = process.env.NEXT_PUBLIC_API_URL + "/assets/default/kita.png";
 
   if (name) {
     try {
-      const query = slug ? "?slug=" + slug : "";
+      const query = tamu ? "?slug=" + tamu : "";
       const url = `${process.env.NEXT_PUBLIC_API_URL}/api/domains/${name}${query}`;
       const res = await fetch(url, { next: { revalidate: 60 } });
       if (res.ok) {

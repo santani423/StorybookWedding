@@ -37,7 +37,7 @@ export default function HomeClient() {
   const dispatch = useAppDispatch();
 
   const searchParams = useSearchParams();
-  const tema = searchParams.get("tema") ?? "TEMA1";
+  const tema = searchParams.get("tema") ?? "TEMA2";
 
   const { data: temaData } = useTemaDetail(tema);
 
@@ -125,15 +125,10 @@ export default function HomeClient() {
     const fetchOrder = async () => {
       try {
         setLoading(true);
-        const name = searchParams.get("name");
+        const name = searchParams.get("name") ?? "FarhanNadia";
+        const tamuParam = searchParams.get("tamu");
 
-        if (!name) {
-          setLoading(false);
-          return;
-        }
-
-        const slug = searchParams.get("slug");
-        const order = (await getOrder(name, slug ? slug : undefined)) as
+        const order = (await getOrder(name, tamuParam ?? undefined)) as
           | DomainDetailsResponse
           | undefined;
 
@@ -147,7 +142,12 @@ export default function HomeClient() {
           dispatch(setAcara(order.data.user.acara || []));
           dispatch(setRekening(order.data.user.rekening || []));
           dispatch(setRolus(order.data.user.rules || []));
-          dispatch(setTamu(order.tamu || ({} as any)));
+          const tamuData = order.tamu && order.tamu.nama_tamu
+            ? order.tamu
+            : tamuParam
+              ? ({ nama_tamu: tamuParam } as any)
+              : ({} as any);
+          dispatch(setTamu(tamuData));
           if (order.data.user.dress_code) {
             dispatch(setDressCode(order.data.user.dress_code));
           }
