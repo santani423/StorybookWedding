@@ -31,14 +31,23 @@ const COMPONENT_REGISTRY: Record<string, ComponentType<AssetItemProps>> = {
 const HOVER_ANIMATION =
   "transition-all duration-500 hover:scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.7)] hover:drop-shadow-[0_0_40px_rgba(255,255,255,1)]";
 
+/*
+  Posisi tiap komponen ditentukan oleh grid di Fiture.tsx.
+  style    → className pada elemen button (mengisi sel grid sepenuhnya)
+  styleImg → className pada <Image>; w-full h-full object-contain
+             menjaga rasio gambar tanpa distorsi
+*/
+const GRID_CELL = "relative w-full h-full flex items-center justify-center";
+const IMG_FIT   = `w-full h-full object-contain ${HOVER_ANIMATION}`;
+
 const STYLE_MAP: Record<string, { style: string; styleImg: string }> = {
-  "clothes-rack": { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  gallery: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  address: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  rsvp: { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  couple: { style: "", styleImg: `h-auto max-w-none ${HOVER_ANIMATION}` },
-  "love-story": { style: "absolute", styleImg: `h-auto ${HOVER_ANIMATION}` },
-  gift: { style: "absolute z-12", styleImg: `h-auto ${HOVER_ANIMATION}` },
+  "clothes-rack": { style: GRID_CELL,           styleImg: IMG_FIT },
+  gallery:        { style: GRID_CELL,           styleImg: IMG_FIT },
+  address:        { style: GRID_CELL,           styleImg: IMG_FIT },
+  rsvp:           { style: GRID_CELL,           styleImg: IMG_FIT },
+  couple:         { style: GRID_CELL,           styleImg: `max-w-none ${IMG_FIT}` },
+  "love-story":   { style: GRID_CELL,           styleImg: IMG_FIT },
+  gift:           { style: `${GRID_CELL} z-12`, styleImg: IMG_FIT },
 };
 
 const EDIT_MODE = process.env.NEXT_PUBLIC_EDIT_MODE === "true";

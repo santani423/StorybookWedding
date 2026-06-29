@@ -50,7 +50,7 @@ export default function Couple({
     <Dialog open={open} onOpenChange={setOpen}>
       <button
         type="button"
-        className={`absolute ${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} outline-none inline-flex items-center justify-center`}
+        className={`${style} z-10 ${animationEnabled ? "animate-[floatButton_3s_ease-in-out_infinite]" : ""} outline-none`}
         style={positionStyle}
       >
         <span

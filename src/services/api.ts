@@ -1,5 +1,5 @@
 // services/api.ts
-import { API_BASE_URL } from "@/lib/constants";
+import { API_PROXY_BASE } from "@/lib/constants";
 import { buildEncryptedApiKey } from "@/lib/crypto";
 
 async function buildAuthHeader(): Promise<Record<string, string>> {
@@ -22,25 +22,25 @@ async function apiFetch(
 }
 
 export const getTemplates = async () => {
-  const res = await apiFetch(`${API_BASE_URL}/api/template`);
+  const res = await apiFetch(`${API_PROXY_BASE}/template`);
   if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
 
 export const getTema = async () => {
-  const res = await apiFetch(`${API_BASE_URL}/api/tema`);
+  const res = await apiFetch(`${API_PROXY_BASE}/tema`);
   if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
 
 export const getBrackPoin = async () => {
-  const res = await apiFetch(`${API_BASE_URL}/api/brackPoin`);
+  const res = await apiFetch(`${API_PROXY_BASE}/brackPoin`);
   if (!res.ok) throw new Error("Gagal memuat data template");
   return res.json();
 };
 
 export const getTemaDetail = async (code: string) => {
-  const res = await apiFetch(`${API_BASE_URL}/api/tema/${code}`);
+  const res = await apiFetch(`${API_PROXY_BASE}/tema/${code}`);
   if (!res.ok) throw new Error("Gagal memuat detail tema");
   return res.json();
 };
@@ -53,7 +53,7 @@ type UpdateTemaPayload = {
 };
 
 export const updateTema = async (payload: UpdateTemaPayload) => {
-  const res = await apiFetch(`${API_BASE_URL}/api/tema`, {
+  const res = await apiFetch(`${API_PROXY_BASE}/tema`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -64,7 +64,7 @@ export const updateTema = async (payload: UpdateTemaPayload) => {
 
 export const getKomentar = async (id_user: number) => {
   const res = await apiFetch(
-    `${API_BASE_URL}/api/komentar?id_user=${id_user}`
+    `${API_PROXY_BASE}/komentar?id_user=${id_user}`
   );
   if (!res.ok) throw new Error("Gagal memuat data komentar");
   return res.json();
@@ -77,8 +77,8 @@ type PostKomentarPayload = {
 };
 
 export const postKomentar = async (payload: PostKomentarPayload) => {
-  const res = await apiFetch(`${API_BASE_URL}/api/komentar`, {
-    method: "POST",
+  const res = await apiFetch(`${API_PROXY_BASE}/komentar`, {
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
@@ -95,7 +95,7 @@ type SubmitRsvpPayload = {
 };
 
 export const submitRsvp = async (payload: SubmitRsvpPayload) => {
-  const res = await apiFetch(`${API_BASE_URL}/api/tamu`, {
+  const res = await apiFetch(`${API_PROXY_BASE}/tamu`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -106,8 +106,8 @@ export const submitRsvp = async (payload: SubmitRsvpPayload) => {
 
 export const getOrder = async (name: string, slug?: string) => {
   const res = await apiFetch(
-    `${API_BASE_URL}/api/domains/${name}${slug ? `?slug=${slug}` : ""}`
+    `${API_PROXY_BASE}/domains/${name}${slug ? `?slug=${slug}` : ""}`
   );
-  if (!res.ok) throw new Error("Gagal memuat data template");
+  if (!res.ok) throw new Error("Gagal memuat data order");
   return res.json();
 };
